@@ -1,7 +1,11 @@
 *.pdf
 *.xlsx
+*.xlsm
+*.XLSM
 *.csv
 *.docx
 *.pptx
 Archive/
 .claude/
+_dossier.json
+_raw_extractions.json

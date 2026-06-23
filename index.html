@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Millicom (TIGO US) — Interactive Research Dashboard</title>
+<title>Millicom (TIGO) — First-Principles Interactive Research Dashboard</title>
+<meta name="description" content="A hedge-fund-quality, first-principles research dashboard on Millicom International Cellular (Tigo, NASDAQ: TIGO) — built entirely from primary sources.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -19,274 +20,284 @@
   --border:#1e293b;--border-hover:#334155;
   --text-primary:#f1f5f9;--text-secondary:#94a3b8;--text-muted:#64748b;
   --accent-blue:#3b82f6;--accent-cyan:#06b6d4;--accent-green:#10b981;
-  --accent-red:#ef4444;--accent-amber:#f59e0b;--accent-purple:#8b5cf6;
+  --accent-red:#ef4444;--accent-amber:#f59e0b;--accent-purple:#8b5cf6;--accent-pink:#ec4899;
+  --tigo:#00aeef;
   --font-body:'Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',monospace;
 }
 html{scroll-behavior:smooth;font-size:16px}
 body{background:var(--bg-primary);color:var(--text-secondary);font-family:var(--font-body);line-height:1.6;overflow-x:hidden}
-h1,h2,h3,h4{color:var(--text-primary);font-weight:700;line-height:1.2}
+h1,h2,h3,h4,h5{color:var(--text-primary);font-weight:700;line-height:1.2}
 a{color:var(--accent-cyan);text-decoration:none}
 img{max-width:100%}
+::selection{background:rgba(0,174,239,.3)}
 
 /* ========== UTILITIES ========== */
 .container{max-width:1320px;margin:0 auto;padding:0 24px}
-.section{padding:80px 0}
+.section{padding:72px 0}
 .section-label{text-transform:uppercase;font-size:12px;font-weight:600;letter-spacing:3px;color:var(--accent-cyan);margin-bottom:8px}
-.section-title{font-size:36px;margin-bottom:16px}
-.section-subtitle{color:var(--text-muted);font-size:16px;max-width:700px;margin-bottom:48px}
+.section-title{font-size:34px;margin-bottom:16px;letter-spacing:-.5px}
+.section-subtitle{color:var(--text-muted);font-size:16px;max-width:820px;margin-bottom:40px}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
 .card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:24px;transition:all .3s ease}
-.card:hover{border-color:rgba(59,130,246,.3);transform:translateY(-2px)}
+.card:hover{border-color:rgba(0,174,239,.35);transform:translateY(-2px)}
 .mono{font-family:var(--font-mono)}
-.text-green{color:var(--accent-green)}.text-red{color:var(--accent-red)}.text-cyan{color:var(--accent-cyan)}.text-amber{color:var(--accent-amber)}.text-blue{color:var(--accent-blue)}.text-purple{color:var(--accent-purple)}
+.text-green{color:var(--accent-green)}.text-red{color:var(--accent-red)}.text-cyan{color:var(--accent-cyan)}.text-amber{color:var(--accent-amber)}.text-blue{color:var(--accent-blue)}.text-purple{color:var(--accent-purple)}.text-tigo{color:var(--tigo)}.text-muted{color:var(--text-muted)}
+.eli5{background:linear-gradient(135deg,rgba(6,182,212,.08),rgba(59,130,246,.05));border:1px solid rgba(6,182,212,.25);border-left:3px solid var(--accent-cyan);border-radius:10px;padding:16px 20px;font-size:14.5px;color:var(--text-secondary);margin:8px 0 28px}
+.eli5 b{color:var(--accent-cyan)}
+.eli5 .tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-cyan);background:rgba(6,182,212,.12);padding:2px 8px;border-radius:5px;margin-right:10px;vertical-align:middle}
+.src{font-size:11px;color:var(--text-muted);font-style:italic;margin-top:14px}
+.src i{margin-right:5px}
 
 /* Animations */
 .animate-on-scroll{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
 .animate-on-scroll.visible{opacity:1;transform:translateY(0)}
-
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
 /* ========== NAV ========== */
-#navbar{position:sticky;top:0;z-index:1000;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(10,14,26,.88);border-bottom:1px solid var(--border);padding:0 24px;transition:all .3s ease}
-.nav-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
-.nav-logo{font-weight:900;font-size:18px;color:var(--text-primary);letter-spacing:2px}
-.nav-logo span{color:var(--accent-cyan)}
-.nav-links{display:flex;gap:4px}
-.nav-links a{padding:8px 14px;font-size:13px;font-weight:500;color:var(--text-muted);border-radius:6px;transition:all .2s}
+#navbar{position:sticky;top:0;z-index:1000;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(10,14,26,.9);border-bottom:1px solid var(--border);padding:0 24px;transition:all .3s ease}
+.nav-inner{max-width:1500px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px;gap:16px}
+.nav-logo{font-weight:900;font-size:18px;color:var(--text-primary);letter-spacing:1px;white-space:nowrap}
+.nav-logo span{color:var(--tigo)}
+.nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{padding:7px 11px;font-size:12.5px;font-weight:500;color:var(--text-muted);border-radius:6px;transition:all .2s;white-space:nowrap}
 .nav-links a:hover,.nav-links a.active{color:var(--text-primary);background:var(--bg-tertiary)}
-.nav-price{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--text-primary);background:var(--bg-tertiary);padding:6px 14px;border-radius:8px;border:1px solid var(--border)}
+.nav-price{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--text-primary);background:var(--bg-tertiary);padding:6px 12px;border-radius:8px;border:1px solid var(--border);white-space:nowrap}
 .nav-price .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-green);animation:pulse 2s infinite}
 
 /* ========== HERO ========== */
-#hero{min-height:90vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:40px 0}
-#hero::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(59,130,246,.08),transparent 70%);pointer-events:none}
-#hero::after{content:'';position:absolute;bottom:-200px;left:-200px;width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,.05),transparent 70%);pointer-events:none}
-.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;color:var(--accent-blue);margin-bottom:20px}
-.hero-title{font-size:64px;font-weight:900;letter-spacing:2px;margin-bottom:8px;background:linear-gradient(135deg,#f1f5f9,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-tagline{font-size:22px;color:var(--text-secondary);margin-bottom:32px;font-weight:300}
-.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
-.hero-stat{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:center}
+#hero{min-height:88vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:48px 0}
+#hero::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,174,239,.1),transparent 70%);pointer-events:none}
+#hero::after{content:'';position:absolute;bottom:-200px;left:-200px;width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,.06),transparent 70%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,174,239,.1);border:1px solid rgba(0,174,239,.3);padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;color:var(--tigo);margin-bottom:20px}
+.hero-title{font-size:62px;font-weight:900;letter-spacing:1px;margin-bottom:6px;background:linear-gradient(135deg,#f1f5f9,#7dd3fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-tagline{font-size:21px;color:var(--text-secondary);margin-bottom:28px;font-weight:300;line-height:1.4}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:26px}
+.hero-stat{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:14px 14px;text-align:center}
 .hero-stat .val{font-family:var(--font-mono);font-size:20px;font-weight:700;color:var(--text-primary)}
-.hero-stat .lbl{font-size:11px;color:var(--text-muted);margin-top:2px}
-.analyst-row{display:flex;gap:8px;align-items:center;margin-top:16px}
-.analyst-pill{padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;color:#fff}
-.analyst-pill.buy{background:rgba(16,185,129,.2);color:var(--accent-green);border:1px solid rgba(16,185,129,.3)}
-.analyst-pill.hold{background:rgba(245,158,11,.2);color:var(--accent-amber);border:1px solid rgba(245,158,11,.3)}
-.tv-container{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;overflow:hidden;height:480px}
+.hero-stat .lbl{font-size:10.5px;color:var(--text-muted);margin-top:3px;line-height:1.3}
+.analyst-row{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.analyst-pill{padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600}
+.analyst-pill.buy{background:rgba(16,185,129,.18);color:var(--accent-green);border:1px solid rgba(16,185,129,.3)}
+.analyst-pill.hold{background:rgba(245,158,11,.18);color:var(--accent-amber);border:1px solid rgba(245,158,11,.3)}
+.tv-container{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;overflow:hidden;height:500px}
 .tv-container .tradingview-widget-container,.tv-container .tradingview-widget-container__widget,.tv-container iframe{width:100%!important;height:100%!important}
 
-/* ========== OVERVIEW / COUNTERS ========== */
-.counter-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:48px}
-.counter-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:28px;text-align:center;position:relative;overflow:hidden}
+/* ========== COUNTERS ========== */
+.counter-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:40px}
+.counter-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:26px;text-align:center;position:relative;overflow:hidden}
 .counter-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0}
 .counter-card:nth-child(1)::before{background:var(--accent-blue)}
 .counter-card:nth-child(2)::before{background:var(--accent-green)}
-.counter-card:nth-child(3)::before{background:var(--accent-cyan)}
+.counter-card:nth-child(3)::before{background:var(--tigo)}
 .counter-card:nth-child(4)::before{background:var(--accent-purple)}
 .counter-card:nth-child(5)::before{background:var(--accent-amber)}
-.counter-card:nth-child(6)::before{background:var(--accent-red)}
-.counter-icon{font-size:28px;margin-bottom:12px;opacity:.8}
-.counter-value{font-family:var(--font-mono);font-size:48px;font-weight:700;color:var(--text-primary);line-height:1}
-.counter-label{font-size:14px;color:var(--text-muted);margin-top:8px}
+.counter-card:nth-child(6)::before{background:var(--accent-pink)}
+.counter-icon{font-size:26px;margin-bottom:12px;opacity:.85}
+.counter-value{font-family:var(--font-mono);font-size:42px;font-weight:700;color:var(--text-primary);line-height:1}
+.counter-label{font-size:14px;color:var(--text-secondary);margin-top:8px;font-weight:500}
 .counter-sub{font-size:12px;margin-top:4px}
 
 /* Thesis + Glance */
-.thesis-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.thesis-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:24px}
 .thesis-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:28px}
-.thesis-card h4{font-size:18px;margin-bottom:16px}
+.thesis-card h4{font-size:18px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .thesis-card ul{list-style:none;padding:0}
-.thesis-card li{padding:8px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;align-items:start;gap:10px}
+.thesis-card li{padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;align-items:start;gap:10px}
 .thesis-card li:last-child{border:none}
-.thesis-card li i{color:var(--accent-cyan);margin-top:3px;font-size:12px}
+.thesis-card li i{color:var(--accent-cyan);margin-top:4px;font-size:11px}
+.thesis-card li b{color:var(--text-primary)}
 .glance-table{width:100%;border-collapse:collapse;font-size:14px}
-.glance-table th{text-align:left;padding:10px 12px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)}
-.glance-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-family:var(--font-mono);font-size:13px}
-.glance-table td:nth-child(2),.glance-table td:nth-child(3){text-align:right}
-.arrow-up{color:var(--accent-green)}.arrow-down{color:var(--accent-red)}
+.glance-table th{text-align:left;padding:9px 10px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border);font-size:12px}
+.glance-table td{padding:9px 10px;border-bottom:1px solid var(--border);font-family:var(--font-mono);font-size:13px}
+.glance-table td:first-child{font-family:var(--font-body);color:var(--text-secondary)}
+.glance-table td:nth-child(2),.glance-table td:nth-child(3),.glance-table th:nth-child(2),.glance-table th:nth-child(3){text-align:right}
+.glance-table tr:last-child td{border:none}
 
 /* ========== BUSINESS MODEL ========== */
-.bm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:32px}
-.bm-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;transition:all .3s}
-.bm-card:hover{transform:translateY(-4px);border-color:rgba(59,130,246,.3)}
-.bm-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px}
-.bm-card:nth-child(1) .bm-icon{background:rgba(59,130,246,.15);color:var(--accent-blue)}
+.bm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:28px}
+.bm-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:22px;text-align:center;transition:all .3s}
+.bm-card:hover{transform:translateY(-4px);border-color:rgba(0,174,239,.35)}
+.bm-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:22px}
+.bm-card:nth-child(1) .bm-icon{background:rgba(0,174,239,.15);color:var(--tigo)}
 .bm-card:nth-child(2) .bm-icon{background:rgba(6,182,212,.15);color:var(--accent-cyan)}
 .bm-card:nth-child(3) .bm-icon{background:rgba(139,92,246,.15);color:var(--accent-purple)}
 .bm-card:nth-child(4) .bm-icon{background:rgba(245,158,11,.15);color:var(--accent-amber)}
-.bm-pct{font-family:var(--font-mono);font-size:28px;font-weight:700;color:var(--text-primary);margin-bottom:4px}
+.bm-card:nth-child(5) .bm-icon{background:rgba(236,72,153,.15);color:var(--accent-pink)}
+.bm-pct{font-family:var(--font-mono);font-size:26px;font-weight:700;color:var(--text-primary);margin-bottom:2px}
 .bm-name{font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:8px}
-.bm-desc{font-size:13px;color:var(--text-muted);line-height:1.5}
+.bm-desc{font-size:12.5px;color:var(--text-muted);line-height:1.5}
+.bm-flow{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:24px}
+.chart-box{position:relative;height:320px}
+.chart-box.tall{height:380px}
+
+/* ========== DRIVERS ========== */
+.driver-col h4{font-size:18px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.driver-item{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:12px;transition:all .25s;border-left:3px solid var(--border)}
+.driver-item.rev{border-left-color:var(--accent-green)}
+.driver-item.cost{border-left-color:var(--accent-red)}
+.driver-item:hover{transform:translateX(4px);border-color:var(--border-hover)}
+.driver-item .dh{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:5px}
+.driver-item .dn{font-size:14.5px;font-weight:600;color:var(--text-primary)}
+.driver-item .dm{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap}
+.driver-item .dd{font-size:12.5px;color:var(--text-muted);line-height:1.5}
 
 /* ========== MAP ========== */
-.map-grid{display:grid;grid-template-columns:1.8fr 1fr;gap:24px}
-#map-container{height:520px;border-radius:12px;border:1px solid var(--border);overflow:hidden;z-index:1}
-.map-detail{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:24px}
-.map-detail h3{font-size:22px;margin-bottom:4px}
-.map-detail .country-status{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;margin-bottom:16px}
-.map-detail .big-metric{font-family:var(--font-mono);font-size:42px;font-weight:700;line-height:1}
-.map-detail .metric-label{font-size:12px;color:var(--text-muted);margin-bottom:16px}
-.map-metric-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
-.map-metric-row:last-child{border:none}
-.map-metric-row .label{font-size:13px;color:var(--text-muted)}
-.map-metric-row .value{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--text-primary)}
-.map-note{font-size:13px;color:var(--text-muted);font-style:italic;margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
-.map-legend{display:flex;gap:20px;margin-top:16px;padding:12px 0}
-.map-legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)}
-.map-legend-dot{width:10px;height:10px;border-radius:50%}
+.map-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:24px}
+#map-container{height:540px;border-radius:12px;border:1px solid var(--border);background:var(--bg-secondary);z-index:1}
+.leaflet-popup-content-wrapper{background:var(--bg-tertiary);color:var(--text-primary);border-radius:8px;border:1px solid var(--border-hover)}
+.leaflet-popup-tip{background:var(--bg-tertiary)}
+.leaflet-popup-content{margin:12px 14px;font-family:var(--font-body)}
+.lp-name{font-weight:700;font-size:14px;color:#fff;margin-bottom:4px}
+.lp-row{font-size:12px;color:var(--text-secondary);font-family:var(--font-mono)}
+.map-detail{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:24px;display:flex;flex-direction:column}
+.country-status{display:inline-block;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;margin-bottom:14px}
+.big-metric{font-family:var(--font-mono);font-size:46px;font-weight:700;line-height:1}
+.metric-label{font-size:12px;color:var(--text-muted);margin-bottom:18px}
+.map-metric-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
+.map-metric-row .label{color:var(--text-muted)}
+.map-metric-row .value{font-family:var(--font-mono);font-weight:600;color:var(--text-primary)}
+.map-note{margin-top:14px;font-size:12.5px;color:var(--text-secondary);background:var(--bg-tertiary);padding:12px 14px;border-radius:8px;line-height:1.5}
+.map-legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:18px;font-size:12px;color:var(--text-muted);align-items:center}
+.map-legend-item{display:flex;align-items:center;gap:7px}
+.map-legend-dot{width:11px;height:11px;border-radius:50%}
+
+/* ========== COUNTRY TABLE ========== */
+.ctable-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px}
+.ctable{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
+.ctable th{background:var(--bg-tertiary);text-align:left;padding:12px 14px;color:var(--text-secondary);font-weight:600;font-size:12px;position:sticky;top:0;cursor:pointer;white-space:nowrap}
+.ctable th:hover{color:#fff}
+.ctable td{padding:11px 14px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12.5px}
+.ctable td:first-child{font-family:var(--font-body);color:var(--text-primary);font-weight:600}
+.ctable tr:hover td{background:rgba(255,255,255,.02)}
+.pill{display:inline-block;padding:2px 9px;border-radius:5px;font-size:11px;font-weight:600;font-family:var(--font-body)}
 
 /* ========== M&A TIMELINE ========== */
-.timeline-wrapper{overflow-x:auto;padding:20px 0 40px;-webkit-overflow-scrolling:touch}
-.timeline-wrapper::-webkit-scrollbar{height:6px}
-.timeline-wrapper::-webkit-scrollbar-thumb{background:var(--accent-blue);border-radius:3px}
-.timeline-wrapper::-webkit-scrollbar-track{background:var(--bg-tertiary)}
-.timeline{display:flex;position:relative;min-width:max-content;padding:60px 40px;align-items:center}
-.timeline::before{content:'';position:absolute;top:50%;left:0;right:0;height:2px;background:var(--border)}
-.timeline-item{position:relative;width:240px;flex-shrink:0}
-.timeline-item:nth-child(odd) .timeline-card{transform:translateY(-100%);top:-20px;position:relative}
-.timeline-item:nth-child(even) .timeline-card{top:20px;position:relative}
-.timeline-dot{width:14px;height:14px;border-radius:50%;border:3px solid var(--bg-primary);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2}
-.timeline-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:16px;width:210px;margin:0 auto}
-.timeline-card .date{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.timeline-card .deal-name{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:4px}
-.timeline-card .deal-price{font-family:var(--font-mono);font-size:20px;font-weight:700;margin-bottom:6px}
-.timeline-card .deal-desc{font-size:12px;color:var(--text-muted);line-height:1.4}
-.timeline-card .status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px}
-.timeline-card .status{font-size:11px;font-weight:600;margin-top:8px}
-.ma-summary{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:20px 28px;display:flex;justify-content:center;gap:40px;margin-top:24px;text-align:center}
-.ma-summary .val{font-family:var(--font-mono);font-size:24px;font-weight:700;color:var(--text-primary)}
-.ma-summary .lbl{font-size:12px;color:var(--text-muted)}
+.timeline{position:relative;padding-left:8px}
+.timeline::before{content:'';position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--accent-cyan),var(--accent-purple))}
+.tl-item{position:relative;padding-left:42px;padding-bottom:22px}
+.tl-dot{position:absolute;left:6px;top:3px;width:18px;height:18px;border-radius:50%;border:3px solid var(--bg-primary);box-shadow:0 0 0 2px currentColor}
+.tl-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+.tl-date{font-family:var(--font-mono);font-size:12px;color:var(--text-muted)}
+.tl-name{font-size:15px;font-weight:700;color:var(--text-primary)}
+.tl-price{font-family:var(--font-mono);font-size:12px;font-weight:600;padding:2px 9px;border-radius:5px;background:var(--bg-tertiary)}
+.tl-status{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:2px 8px;border-radius:5px}
+.tl-desc{font-size:13px;color:var(--text-muted);line-height:1.5}
+.ma-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:30px}
+.ma-summary>div{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center}
+.ma-summary .val{font-family:var(--font-mono);font-size:26px;font-weight:700}
+.ma-summary .lbl{font-size:12px;color:var(--text-muted);margin-top:4px}
+
+/* Chile spotlight */
+.spotlight{background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(0,174,239,.05));border:1px solid rgba(139,92,246,.25);border-radius:14px;padding:28px;margin-top:28px}
+.spotlight h4{font-size:19px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.spot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:18px 0}
+.spot-metric{text-align:center}
+.spot-metric .v{font-family:var(--font-mono);font-size:22px;font-weight:700;color:var(--text-primary)}
+.spot-metric .l{font-size:11px;color:var(--text-muted);margin-top:3px}
+.views{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.view-card{background:var(--bg-tertiary);border-radius:10px;padding:16px;font-size:12.5px}
+.view-card .vh{font-weight:700;font-size:13px;margin-bottom:6px}
 
 /* ========== MOAT ========== */
-.moat-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:32px;align-items:start}
-.moat-chart-container{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:24px;height:400px}
-.moat-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.moat-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:18px}
-.moat-card .moat-card-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px}
+.moat-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;align-items:center}
+.moat-chart-container{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:20px;height:420px}
+.moat-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.moat-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:16px}
+.moat-card-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:10px}
 .moat-card h4{font-size:14px;margin-bottom:6px}
 .moat-card p{font-size:12px;color:var(--text-muted);line-height:1.5}
-.strength-bar{height:4px;background:var(--bg-tertiary);border-radius:2px;margin-top:10px;overflow:hidden}
-.strength-bar-fill{height:100%;border-radius:2px;transition:width 1s ease}
+.strength-bar{height:5px;background:var(--bg-tertiary);border-radius:3px;margin-top:10px;overflow:hidden}
+.strength-bar-fill{height:100%;border-radius:3px;width:0;transition:width 1.2s ease}
 
-/* ========== FINANCIALS ========== */
-.tab-bar{display:flex;gap:4px;margin-bottom:24px;flex-wrap:wrap}
-.tab-btn{padding:10px 20px;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-size:13px;font-weight:500;border-radius:8px;cursor:pointer;transition:all .2s;font-family:var(--font-body)}
-.tab-btn:hover{color:var(--text-secondary);border-color:var(--border-hover)}
-.tab-btn.active{background:var(--accent-blue);border-color:var(--accent-blue);color:#fff}
-.tab-content{display:none}
-.tab-content.active{display:block}
-.chart-container{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:24px;height:420px;position:relative}
+/* ========== CASH FLOW STORY ========== */
+.cf-drivers{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
+.cf-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:20px;position:relative}
+.cf-num{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--accent-green);background:rgba(16,185,129,.12);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.cf-card h4{font-size:14.5px;margin-bottom:8px}
+.cf-card p{font-size:12.5px;color:var(--text-muted);line-height:1.5}
 
-/* ========== COUNTRY ANALYSIS ========== */
-.controls-bar{display:flex;gap:12px;align-items:center;margin-bottom:24px;flex-wrap:wrap}
-.controls-bar select{background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);padding:8px 14px;border-radius:8px;font-size:13px;font-family:var(--font-body);cursor:pointer}
-.filter-pills{display:flex;gap:6px}
-.filter-pill{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;transition:all .2s;font-family:var(--font-body)}
-.filter-pill:hover,.filter-pill.active{background:var(--accent-blue);border-color:var(--accent-blue);color:#fff}
-.country-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px}
-.country-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:20px;transition:all .3s}
-.country-card:hover{border-color:rgba(59,130,246,.3)}
-.country-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.country-name{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--text-primary)}
-.country-flag{font-size:20px}
-.country-badge{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
-.country-margin{font-family:var(--font-mono);font-size:32px;font-weight:700;margin-bottom:12px}
-.country-metric{margin-bottom:8px}
-.country-metric .metric-head{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
-.country-metric .metric-head span:first-child{color:var(--text-muted)}
-.country-metric .metric-head span:last-child{font-family:var(--font-mono);font-weight:600}
-.metric-bar{height:4px;background:var(--bg-tertiary);border-radius:2px;overflow:hidden}
-.metric-bar-fill{height:100%;border-radius:2px;transition:width .8s ease}
-.country-footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted)}
+/* ========== CONTROL ========== */
+.control-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.niel-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:24px}
+.niel-card h4{font-size:17px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.cap-stack{display:flex;flex-direction:column;gap:10px}
+.cap-row{display:flex;align-items:center;gap:14px;background:var(--bg-tertiary);border-radius:10px;padding:14px 16px}
+.cap-row .ci{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cap-row .ct{font-size:14px;font-weight:600;color:var(--text-primary)}
+.cap-row .cd{font-size:12px;color:var(--text-muted)}
 
 /* ========== VALUATION ========== */
-.val-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.val-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-top:24px}
-.dcf-table{width:100%;border-collapse:collapse;font-size:13px;font-family:var(--font-mono)}
-.dcf-table th{padding:10px 8px;background:var(--bg-tertiary);color:var(--text-muted);font-weight:600;text-align:center;border:1px solid var(--border);font-size:11px}
-.dcf-table td{padding:10px 8px;text-align:center;border:1px solid var(--border);font-weight:500}
-.dcf-table td.above{color:var(--accent-green);background:rgba(16,185,129,.05)}
-.dcf-table td.below{color:var(--accent-red);background:rgba(239,68,68,.05)}
-.dcf-table td.base{background:rgba(59,130,246,.1);color:var(--accent-blue);font-weight:700;border:2px solid var(--accent-blue)}
-.multiples-table{width:100%;border-collapse:collapse;font-size:13px}
-.multiples-table th{padding:10px 12px;text-align:left;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border)}
-.multiples-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-family:var(--font-mono);font-size:13px}
+.scenario-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:28px}
+.scenario-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:24px;border-top:3px solid var(--border)}
+.scenario-card.bull{border-top-color:var(--accent-green)}
+.scenario-card.base{border-top-color:var(--accent-blue)}
+.scenario-card.bear{border-top-color:var(--accent-red)}
+.scenario-card .sc-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.scenario-card .sc-pt{font-family:var(--font-mono);font-size:34px;font-weight:700;color:var(--text-primary)}
+.scenario-card .sc-up{font-size:13px;font-weight:600;margin:6px 0 14px}
+.scenario-card .sc-method{font-size:12px;color:var(--text-secondary);line-height:1.5;margin-bottom:12px}
+.scenario-card .sc-assum{font-size:11.5px;color:var(--text-muted);line-height:1.5;border-top:1px solid var(--border);padding-top:12px}
+.val-detail{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:24px;font-size:13.5px;line-height:1.7;color:var(--text-secondary)}
+.val-detail b{color:var(--text-primary)}
+.dcf-bridge{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:18px}
+.dcf-step{background:var(--bg-tertiary);border-radius:8px;padding:12px;text-align:center}
+.dcf-step .dv{font-family:var(--font-mono);font-size:16px;font-weight:700;color:var(--text-primary)}
+.dcf-step .dl{font-size:10.5px;color:var(--text-muted);margin-top:3px}
 
 /* ========== BULL / BEAR ========== */
-.bb-grid{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;align-items:start}
-.bb-col{border-radius:12px;padding:28px}
-.bb-col.bull{background:rgba(16,185,129,.03);border:1px solid rgba(16,185,129,.15);border-left:4px solid var(--accent-green)}
-.bb-col.bear{background:rgba(239,68,68,.03);border:1px solid rgba(239,68,68,.15);border-right:4px solid var(--accent-red)}
-.bb-header{font-size:20px;font-weight:800;margin-bottom:4px}
-.bb-target{font-size:13px;margin-bottom:20px}
-.bb-item{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.bb-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.bb-col{border-radius:12px;padding:24px;border:1px solid var(--border)}
+.bb-col.bull{background:linear-gradient(160deg,rgba(16,185,129,.07),transparent);border-color:rgba(16,185,129,.25)}
+.bb-col.bear{background:linear-gradient(160deg,rgba(239,68,68,.07),transparent);border-color:rgba(239,68,68,.25)}
+.bb-col h3{font-size:20px;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.bb-item{padding:13px 0;border-bottom:1px solid var(--border)}
 .bb-item:last-child{border:none}
-.bb-item .bb-text{font-size:13px;color:var(--text-secondary);margin-bottom:6px}
-.bb-item .bb-bar{height:4px;background:var(--bg-tertiary);border-radius:2px;overflow:hidden}
-.bb-item .bb-bar-fill{height:100%;border-radius:2px}
-.bb-item .bb-score{font-size:11px;font-family:var(--font-mono);font-weight:600;margin-top:4px}
-.bb-divider{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding-top:40px}
-.bb-net{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:16px;font-weight:700;border:2px solid var(--accent-green);color:var(--accent-green)}
-.bb-vs{font-size:12px;color:var(--text-muted);font-weight:600;writing-mode:vertical-lr}
+.bb-item .bt{font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:4px;display:flex;gap:8px;align-items:start}
+.bb-item .bd{font-size:12.5px;color:var(--text-muted);line-height:1.5;padding-left:22px}
+.bb-item .bs{font-size:10.5px;color:var(--text-muted);font-style:italic;padding-left:22px;margin-top:3px}
 
 /* ========== RISKS ========== */
-.risk-chart-container{background:var(--bg-secondary);border:1px solid var(--border);border-radius:12px;padding:24px;height:380px;margin-bottom:24px}
-.risk-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.risk-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:18px}
-.risk-card h4{font-size:14px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-.risk-card p{font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:8px}
-.risk-card .mitigation{font-size:11px;color:var(--text-muted);font-style:italic;padding-top:8px;border-top:1px solid var(--border)}
-.severity-badge{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
-.sev-high{background:rgba(239,68,68,.15);color:var(--accent-red)}
-.sev-med{background:rgba(245,158,11,.15);color:var(--accent-amber)}
-.sev-low{background:rgba(16,185,129,.15);color:var(--accent-green)}
+.risk-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:24px;align-items:start}
+.risk-list{display:flex;flex-direction:column;gap:10px}
+.risk-item{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:15px 18px;border-left:3px solid var(--accent-amber)}
+.risk-item.high{border-left-color:var(--accent-red)}
+.risk-item.med{border-left-color:var(--accent-amber)}
+.risk-item.low{border-left-color:var(--accent-green)}
+.risk-item .rh{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;gap:10px}
+.risk-item .rn{font-size:14px;font-weight:600;color:var(--text-primary)}
+.risk-item .rsev{font-size:10px;font-weight:700;text-transform:uppercase;padding:2px 8px;border-radius:5px;white-space:nowrap}
+.risk-item .rd{font-size:12.5px;color:var(--text-muted);line-height:1.5}
 
-/* ========== CATALYSTS ========== */
-.catalyst-timeline{position:relative;padding-left:32px;margin-left:16px}
-.catalyst-timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--border)}
-.catalyst-item{position:relative;padding:0 0 32px 32px}
-.catalyst-item:last-child{padding-bottom:0}
-.catalyst-dot{position:absolute;left:-38px;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid var(--bg-primary)}
-.catalyst-date{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.catalyst-text{font-size:14px;color:var(--text-secondary)}
-.catalyst-tag{display:inline-block;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:600;margin-top:6px}
-
-/* ========== PRIMER ========== */
-.primer-accordion details{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden}
-.primer-accordion summary{padding:18px 24px;font-size:15px;font-weight:600;color:var(--text-primary);cursor:pointer;display:flex;align-items:center;gap:12px;list-style:none;transition:background .2s}
-.primer-accordion summary::-webkit-details-marker{display:none}
-.primer-accordion summary:hover{background:var(--bg-tertiary)}
-.primer-accordion summary .chevron{transition:transform .3s;font-size:12px;color:var(--text-muted);margin-left:auto}
-.primer-accordion details[open] summary .chevron{transform:rotate(90deg)}
-.primer-accordion .primer-body{padding:0 24px 20px;font-size:14px;color:var(--text-secondary);line-height:1.7}
+/* ========== GLOSSARY ========== */
+.gloss-search{width:100%;max-width:420px;padding:11px 16px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;color:var(--text-primary);font-size:14px;font-family:var(--font-body);margin-bottom:24px}
+.gloss-search:focus{outline:none;border-color:var(--accent-cyan)}
+.gloss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.gloss-card{background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
+.gloss-card .gt{font-size:14px;font-weight:700;color:var(--accent-cyan);margin-bottom:5px}
+.gloss-card .gd{font-size:12.5px;color:var(--text-muted);line-height:1.55}
 
 /* ========== FOOTER ========== */
-.footer{border-top:1px solid var(--border);padding:40px 0;text-align:center;font-size:12px;color:var(--text-muted)}
-.footer p{margin-bottom:8px}
+footer{border-top:1px solid var(--border);padding:36px 0;text-align:center;color:var(--text-muted);font-size:12.5px;line-height:1.7}
+.disclaimer{max-width:900px;margin:0 auto 16px;font-size:11.5px;color:#475569}
+.src-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:16px auto;max-width:1000px}
+.src-tag{font-size:10.5px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:5px;padding:3px 8px;color:var(--text-muted)}
 
 /* ========== RESPONSIVE ========== */
-@media(max-width:1024px){
-  .hero-grid,.map-grid,.moat-grid,.bb-grid{grid-template-columns:1fr}
-  .hero-stats{grid-template-columns:repeat(2,1fr)}
-  .counter-grid,.country-grid,.grid-3{grid-template-columns:repeat(2,1fr)}
-  .bm-grid,.grid-4{grid-template-columns:repeat(2,1fr)}
-  .val-grid-3{grid-template-columns:1fr}
-  .nav-links{display:none}
-  .bb-grid{grid-template-columns:1fr;gap:16px}
-  .bb-divider{flex-direction:row;padding:0;writing-mode:initial}
-  .bb-vs{writing-mode:initial}
-}
-@media(max-width:640px){
-  .counter-grid,.country-grid,.grid-2,.risk-grid,.moat-cards{grid-template-columns:1fr}
-  .bm-grid{grid-template-columns:1fr}
-  .hero-title{font-size:40px}
+@media(max-width:980px){
+  .hero-grid,.moat-grid,.map-grid,.control-grid,.thesis-grid,.bb-grid,.risk-grid,.grid-2{grid-template-columns:1fr}
+  .grid-3,.grid-4,.bm-grid,.cf-drivers,.scenario-grid,.spot-grid,.ma-summary,.gloss-grid,.moat-cards{grid-template-columns:1fr 1fr}
+  .hero-title{font-size:46px}.section-title{font-size:28px}
   .hero-stats{grid-template-columns:1fr 1fr}
-  .section{padding:48px 0}
-  .section-title{font-size:28px}
-  .counter-value{font-size:36px}
+  .views{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .grid-3,.grid-4,.bm-grid,.cf-drivers,.scenario-grid,.spot-grid,.ma-summary,.counter-grid,.gloss-grid,.moat-cards{grid-template-columns:1fr}
+  .hero-title{font-size:38px}.nav-price{display:none}
 }
 </style>
 </head>
@@ -295,21 +306,24 @@ img{max-width:100%}
 <!-- ========== NAV ========== -->
 <nav id="navbar">
   <div class="nav-inner">
-    <div class="nav-logo">TIGO<span>.</span>US</div>
+    <div class="nav-logo">TIGO<span>·</span>RESEARCH</div>
     <div class="nav-links">
       <a href="#overview">Overview</a>
-      <a href="#business-model">Model</a>
-      <a href="#geography">Geography</a>
-      <a href="#ma-timeline">M&A</a>
-      <a href="#moat">Moat</a>
-      <a href="#financials">Financials</a>
-      <a href="#country-analysis">Countries</a>
-      <a href="#valuation">Valuation</a>
-      <a href="#bull-bear">Bull/Bear</a>
-      <a href="#risks">Risks</a>
       <a href="#primer">Primer</a>
+      <a href="#business">Business</a>
+      <a href="#drivers">Drivers</a>
+      <a href="#map">Footprint</a>
+      <a href="#financials">Financials</a>
+      <a href="#cashflow">Cash Flow</a>
+      <a href="#manda">M&amp;A</a>
+      <a href="#moat">Moat</a>
+      <a href="#control">Control</a>
+      <a href="#valuation">Valuation</a>
+      <a href="#bullbear">Bull/Bear</a>
+      <a href="#risks">Risks</a>
+      <a href="#glossary">Glossary</a>
     </div>
-    <div class="nav-price"><span class="dot"></span> $74.94</div>
+    <div class="nav-price"><span class="dot"></span> NASDAQ:TIGO <span id="nav-px" class="text-tigo">live</span></div>
   </div>
 </nav>
 
@@ -318,26 +332,29 @@ img{max-width:100%}
   <div class="container">
     <div class="hero-grid">
       <div>
-        <div class="hero-badge"><i class="fas fa-satellite-dish"></i> NASDAQ: TIGO</div>
+        <div class="hero-badge"><i class="fas fa-satellite-dish"></i> NASDAQ: TIGO &bull; Millicom International Cellular S.A.</div>
         <h1 class="hero-title">MILLICOM</h1>
-        <p class="hero-tagline">Latin America's Digital Gateway &mdash; Connecting 52M+ across 11 markets</p>
+        <p class="hero-tagline">Latin America's <b style="color:var(--tigo)">"Tigo"</b> — a mobile, home-broadband &amp; B2B operator across 11 countries, mid-way through an M&amp;A roll-up and a cash-flow inflection.</p>
         <div class="hero-stats">
-          <div class="hero-stat"><div class="val">$74.94</div><div class="lbl">Share Price</div></div>
-          <div class="hero-stat"><div class="val">$12.5B</div><div class="lbl">Market Cap</div></div>
-          <div class="hero-stat"><div class="val">4.0%</div><div class="lbl">Div Yield (27E)</div></div>
-          <div class="hero-stat"><div class="val">10.6%</div><div class="lbl">FCF Yield (27E)</div></div>
+          <div class="hero-stat"><div class="val">~$13.5B</div><div class="lbl">Market Cap (May-26)</div></div>
+          <div class="hero-stat"><div class="val">6.6x</div><div class="lbl">EV/EBITDA (NTM)</div></div>
+          <div class="hero-stat"><div class="val">~13.5%</div><div class="lbl">FCF Yield</div></div>
+          <div class="hero-stat"><div class="val">~3.8%</div><div class="lbl">Div Yield ($3.00 DPS)</div></div>
         </div>
-        <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px">Analyst Consensus</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px">Sell-side ratings (latest)</div>
         <div class="analyst-row">
-          <span class="analyst-pill buy">3 Buy</span>
-          <span class="analyst-pill hold">1 Hold</span>
-          <span class="analyst-pill hold">1 EW</span>
+          <span class="analyst-pill buy">HSBC Buy $89</span>
+          <span class="analyst-pill hold">UBS Neutral $90</span>
+          <span class="analyst-pill hold">MS Equal-wt $73</span>
+          <span class="analyst-pill hold">DNB Hold $75</span>
         </div>
-        <div style="margin-top:12px;font-size:12px;color:var(--text-muted)">PT range: $40 &ndash; $89 &bull; Median: $75</div>
+        <div style="margin-top:12px;font-size:12px;color:var(--text-muted)">PT range: $40 (Kepler) &ndash; $90 (UBS) &bull; ~+50% YTD rally has pulled in the debate</div>
       </div>
       <div>
         <div class="tv-container" id="tv-widget-container">
-          <div id="tradingview-widget"></div>
+          <div class="tradingview-widget-container">
+            <div id="tradingview-widget"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -348,1079 +365,1031 @@ img{max-width:100%}
 <section id="overview" class="section">
   <div class="container">
     <div class="section-label animate-on-scroll">Executive Summary</div>
-    <h2 class="section-title animate-on-scroll">The LatAm Telco Consolidator</h2>
-    <p class="section-subtitle animate-on-scroll">Millicom is aggressively consolidating Latin American telecom, acquiring Telefonica's exiting assets across 4 countries while driving industry-leading cost efficiencies via Project Everest.</p>
+    <h2 class="section-title animate-on-scroll">The LatAm Telecom Consolidator, Inflecting on Cash</h2>
+    <p class="section-subtitle animate-on-scroll">Millicom owns the physical networks — cell towers, fiber and coax — that carry mobile, home-internet and business connectivity to ~57m mobile customers across Latin America. The 2025&ndash;26 story is a wave of cheap M&amp;A (capturing Telefónica's regional exit) plus a hard cost-cutting playbook, together inflecting equity free cash flow toward a double-digit yield. Every figure below is drawn from the Q1-2026 earnings set and the UBS / Morgan Stanley / HSBC / AlphaSense research in this folder.</p>
 
-    <div class="counter-grid">
-      <div class="counter-card animate-on-scroll">
+    <div class="counter-grid animate-on-scroll">
+      <div class="counter-card">
         <div class="counter-icon text-blue"><i class="fas fa-chart-line"></i></div>
-        <div class="counter-value" data-counter="8.4" data-prefix="$" data-suffix="B" data-decimals="1">$0</div>
-        <div class="counter-label">2026E Revenue</div>
-        <div class="counter-sub text-green">+53% jump from M&A consolidation</div>
+        <div class="counter-value" data-counter="5.82" data-prefix="$" data-suffix="B" data-decimals="2">$0</div>
+        <div class="counter-label">FY25A Revenue</div>
+        <div class="counter-sub text-green">~$8.4B 2026E as M&amp;A consolidates</div>
       </div>
-      <div class="counter-card animate-on-scroll">
-        <div class="counter-icon text-green"><i class="fas fa-arrow-trend-up"></i></div>
-        <div class="counter-value" data-counter="45.0" data-suffix="%" data-decimals="1">0%</div>
-        <div class="counter-label">EBITDA Margin (2026E)</div>
-        <div class="counter-sub text-green">From 37% in 2024 &rarr; 48%+ by 2028E</div>
+      <div class="counter-card">
+        <div class="counter-icon text-green"><i class="fas fa-money-bill-trend-up"></i></div>
+        <div class="counter-value" data-counter="916" data-prefix="$" data-suffix="M" data-decimals="0">$0</div>
+        <div class="counter-label">FY25A Equity Free Cash Flow</div>
+        <div class="counter-sub text-green">Record; beat $750M target &bull; ≥$900M 2026E</div>
       </div>
-      <div class="counter-card animate-on-scroll">
-        <div class="counter-icon text-cyan"><i class="fas fa-mobile-screen"></i></div>
-        <div class="counter-value" data-counter="52" data-suffix="M+" data-decimals="0">0</div>
-        <div class="counter-label">Mobile Customers</div>
-        <div class="counter-sub text-cyan">Across 11 LatAm markets</div>
+      <div class="counter-card">
+        <div class="counter-icon text-tigo"><i class="fas fa-mobile-screen"></i></div>
+        <div class="counter-value" data-counter="57.3" data-suffix="M" data-decimals="1">0</div>
+        <div class="counter-label">Mobile Customers (Q1-26)</div>
+        <div class="counter-sub text-cyan">48.6M ex-Coltel &bull; +37.8% reported</div>
       </div>
-      <div class="counter-card animate-on-scroll">
+      <div class="counter-card">
         <div class="counter-icon text-purple"><i class="fas fa-globe-americas"></i></div>
         <div class="counter-value" data-counter="11" data-decimals="0">0</div>
-        <div class="counter-label">Countries</div>
-        <div class="counter-sub text-purple">Guatemala to Chile</div>
+        <div class="counter-label">Operating Markets</div>
+        <div class="counter-sub text-purple">Guatemala to Uruguay (+Chile JV)</div>
       </div>
-      <div class="counter-card animate-on-scroll">
-        <div class="counter-icon text-amber"><i class="fas fa-network-wired"></i></div>
-        <div class="counter-value" data-counter="200" data-suffix="K+" data-decimals="0">0</div>
-        <div class="counter-label">Fiber Network (km)</div>
-        <div class="counter-sub text-amber">12 Tier III data centers</div>
+      <div class="counter-card">
+        <div class="counter-icon text-amber"><i class="fas fa-percent"></i></div>
+        <div class="counter-value" data-counter="47.9" data-suffix="%" data-decimals="1">0%</div>
+        <div class="counter-label">Adj. EBITDA Margin (Q1-26, ex-Coltel)</div>
+        <div class="counter-sub text-amber">43.2% reported &bull; record organic level</div>
       </div>
-      <div class="counter-card animate-on-scroll">
-        <div class="counter-icon text-red"><i class="fas fa-wallet"></i></div>
-        <div class="counter-value" data-counter="3.7" data-suffix="M" data-decimals="1">0</div>
-        <div class="counter-label">Tigo Money Users</div>
-        <div class="counter-sub text-red">Financial inclusion in LatAm</div>
+      <div class="counter-card">
+        <div class="counter-icon text-pink"><i class="fas fa-scale-balanced"></i></div>
+        <div class="counter-value" data-counter="2.76" data-suffix="x" data-decimals="2">0x</div>
+        <div class="counter-label">Net Leverage (Q1-26)</div>
+        <div class="counter-sub text-amber">Targeting ~2.5x by YE26 &rarr; ~1.2x by 2030E</div>
       </div>
     </div>
 
     <div class="thesis-grid animate-on-scroll">
       <div class="thesis-card">
-        <h4><i class="fas fa-lightbulb text-amber"></i> Investment Thesis</h4>
+        <h4><i class="fas fa-lightbulb text-amber"></i> The Investment Thesis in Six Lines</h4>
         <ul>
-          <li><i class="fas fa-chevron-right"></i> Consolidating Telefonica's LatAm exit &mdash; acquired Ecuador, Uruguay, Colombia (ColTel), and Chile assets in 12 months</li>
-          <li><i class="fas fa-chevron-right"></i> Proven operational playbook: Project Everest delivering $250M savings, 27% headcount cuts, record 48.9% margins</li>
-          <li><i class="fas fa-chevron-right"></i> FCF inflection: $916M in 2025 &rarr; $1.3B+ by 2027E, supporting growing dividends</li>
-          <li><i class="fas fa-chevron-right"></i> Colombia consolidation (4&rarr;3 players) is the primary value driver: $330M incremental EFCF potential from ColTel alone</li>
-          <li><i class="fas fa-chevron-right"></i> Tower-light model after $975M SBA sale funds M&A without leverage bloat</li>
+          <li><i class="fas fa-chevron-right"></i> <span><b>Cash-flow inflection.</b> EFCF went from ~$1m in a Q1 two years ago to <b>$225m in Q1-26</b> (record) and <b>$916m FY25A</b>; guidance ≥$900m FY26E, UBS/HSBC see ~$1.2bn by 2027.</span></li>
+          <li><i class="fas fa-chevron-right"></i> <span><b>Cheap M&amp;A roll-up.</b> Bought Telefónica's exit — Colombia (Coltel), Ecuador (~2.4x), Uruguay, Chile JV — at low multiples; combined Colombia &lt;2.0x EBITDA pre-synergies.</span></li>
+          <li><i class="fas fa-chevron-right"></i> <span><b>Colombia 4&rarr;3 consolidation.</b> The Tigo-Movistar merger can lift margins up to 7pp; HSBC sees Colombia EBITDA $1.0bn&rarr;$1.6bn by 2030.</span></li>
+          <li><i class="fas fa-chevron-right"></i> <span><b>Proven cost playbook ("Project Everest").</b> ~27% headcount cuts drove a record ~48&ndash;49% organic margin <i>before</i> synergies.</span></li>
+          <li><i class="fas fa-chevron-right"></i> <span><b>Niel/Atlas control.</b> Xavier Niel's ~40&ndash;44% stake drives the discipline — and is also the key governance risk.</span></li>
+          <li><i class="fas fa-chevron-right"></i> <span><b>The catch:</b> after a ~50% rally to ~6.6x (peers ~5x), UBS &amp; DNB say the upside is now largely <i>priced in</i>.</span></li>
         </ul>
       </div>
       <div class="thesis-card">
-        <h4><i class="fas fa-chart-bar text-cyan"></i> At a Glance</h4>
+        <h4><i class="fas fa-table-cells text-cyan"></i> At a Glance</h4>
         <table class="glance-table">
-          <thead><tr><th>Metric</th><th>2024A</th><th>2028E</th><th></th></tr></thead>
+          <thead><tr><th>Metric</th><th>FY25A</th><th>2028E</th></tr></thead>
           <tbody>
-            <tr><td>Revenue</td><td>$5.8B</td><td>$8.9B</td><td class="arrow-up"><i class="fas fa-arrow-up"></i> +53%</td></tr>
-            <tr><td>EBITDA Margin</td><td>37.2%</td><td>48.3%</td><td class="arrow-up"><i class="fas fa-arrow-up"></i> +11pp</td></tr>
-            <tr><td>Net Debt</td><td>$6.0B</td><td>$7.7B</td><td class="arrow-down"><i class="fas fa-arrow-up"></i></td></tr>
-            <tr><td>Leverage</td><td>2.4x</td><td>1.8x</td><td class="arrow-up"><i class="fas fa-arrow-down"></i> Delevering</td></tr>
-            <tr><td>EPS</td><td>$1.49</td><td>$7.16</td><td class="arrow-up"><i class="fas fa-arrow-up"></i> +380%</td></tr>
-            <tr><td>FCF</td><td>&mdash;</td><td>$1.45B</td><td class="arrow-up"><i class="fas fa-arrow-up"></i></td></tr>
-            <tr><td>DPS</td><td>$0</td><td>$3.00</td><td class="arrow-up"><i class="fas fa-arrow-up"></i> New</td></tr>
+            <tr><td>Revenue</td><td>$5.82B</td><td>~$8.9B</td></tr>
+            <tr><td>Adj. EBITDA</td><td>~$2.75B</td><td>~$4.3B</td></tr>
+            <tr><td>EBITDA margin</td><td>~47%</td><td>~48%</td></tr>
+            <tr><td>Equity FCF</td><td>$916M</td><td>~$1.4B</td></tr>
+            <tr><td>Net leverage</td><td>2.31x</td><td>~1.9x</td></tr>
+            <tr><td>Capex / sales</td><td>~15%</td><td>~13%</td></tr>
+            <tr><td>Dividend / share</td><td>$3.00<span class="text-muted" style="font-size:11px"> (+$2.50 sp.)</span></td><td>$3.00</td></tr>
           </tbody>
         </table>
+        <div class="src"><i class="fas fa-circle-info"></i> FY25A = company actuals; 2028E = UBS/MS model estimates. Leverage shown on company after-leases basis.</div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ========== PRIMER ========== -->
+<section id="primer" class="section" style="background:var(--bg-secondary)">
+  <div class="container">
+    <div class="section-label animate-on-scroll">Start Here — Assume You Know Nothing</div>
+    <h2 class="section-title animate-on-scroll">A Latin-American Telecom in 5 Minutes</h2>
+    <p class="section-subtitle animate-on-scroll">Before any numbers, here is the mental model. Read this and the rest of the dashboard will click into place. (Every italicised term is defined in the <a href="#glossary">Glossary</a>.)</p>
+
+    <div class="grid-3 animate-on-scroll">
+      <div class="card">
+        <h4 style="font-size:16px;margin-bottom:10px"><i class="fas fa-tower-cell text-tigo"></i> &nbsp;What a telco actually is</h4>
+        <p style="font-size:13.5px;line-height:1.65">A telecom company owns expensive <b>physical infrastructure</b> — cell towers, radio <i>spectrum</i> licensed from governments, and fiber/coax cables into homes — and rents access to it. Customers pay a <b>recurring monthly fee</b>. That makes revenue sticky and predictable, but the business is <b>capital-intensive</b> (you must keep spending <i>capex</i> on the network) and often <b>debt-heavy</b>.</p>
+      </div>
+      <div class="card">
+        <h4 style="font-size:16px;margin-bottom:10px"><i class="fas fa-sack-dollar text-green"></i> &nbsp;How Tigo earns</h4>
+        <p style="font-size:13.5px;line-height:1.65">Four products: <b>Mobile</b> (~61% of service revenue — <i>prepaid</i> SIMs vs higher-value <i>postpaid</i> contracts), <b>Home</b> (broadband + TV over its own cables), <b>B2B</b> (connectivity/cloud/cyber for companies &amp; governments), and <b>Tigo Money</b> (a mobile wallet). The profit engine is moving cheap prepaid users onto postpaid — postpaid <i>ARPU</i> is ~50% higher.</p>
+      </div>
+      <div class="card">
+        <h4 style="font-size:16px;margin-bottom:10px"><i class="fas fa-magnifying-glass-chart text-amber"></i> &nbsp;The 3 numbers that matter</h4>
+        <p style="font-size:13.5px;line-height:1.65"><b>(1) Adjusted EBITDA</b> &amp; its margin — core operating profit. <b>(2) Equity Free Cash Flow (EFCF)</b> — the cash left for shareholders after capex, interest, leases &amp; tax; Tigo's headline metric. <b>(3) Net debt / EBITDA ("leverage")</b> — balance-sheet health. The whole bull case is EFCF rising while leverage falls.</p>
+      </div>
+    </div>
+
+    <div class="eli5 animate-on-scroll" style="margin-top:24px">
+      <span class="tag">Why this is confusing right now</span> Tigo bought Colombia's <b>Coltel</b> (Movistar Colombia) in early 2026 and switched it "on" in its accounts mid-quarter. That makes every <b>reported</b> Q1-26 number jump (revenue +45%!) even though the <b>organic</b> business grew only ~5%. Throughout this dashboard you'll see "reported" vs "ex-Coltel / organic" — the organic figures show the real underlying business; the reported ones show the bigger, more-levered company you actually own.
+    </div>
+    <div class="src animate-on-scroll"><i class="fas fa-file-lines"></i> Sources: Millicom Q1-2026 earnings presentation &amp; release (12-May-2026); AlphaSense company primer (4-Apr-2026).</div>
   </div>
 </section>
 
 <!-- ========== BUSINESS MODEL ========== -->
-<section id="business-model" class="section" style="background:var(--bg-secondary)">
+<section id="business" class="section">
   <div class="container">
     <div class="section-label animate-on-scroll">How Millicom Makes Money</div>
-    <h2 class="section-title animate-on-scroll">Business Model</h2>
-    <p class="section-subtitle animate-on-scroll">A vertically integrated telecom providing mobile, fixed broadband, B2B services, and fintech across Latin America. Revenue is earned from monthly subscriptions, data usage, enterprise contracts, and financial services.</p>
+    <h2 class="section-title animate-on-scroll">Business Model &amp; Segments</h2>
+    <p class="section-subtitle animate-on-scroll">Five revenue lines, all recurring connectivity. Mobile is the engine, B2B is the fastest grower, Home is the soft spot. Figures are Q1-26 group service revenue (reported, incl. two months of Coltel).</p>
 
     <div class="bm-grid animate-on-scroll">
       <div class="bm-card">
         <div class="bm-icon"><i class="fas fa-signal"></i></div>
-        <div class="bm-pct">~60%</div>
+        <div class="bm-pct">~61%</div>
         <div class="bm-name">Mobile</div>
-        <div class="bm-desc">52M+ subscribers. Prepaid dominant, postpaid growing. ARPU expansion via data monetization and prepaid-to-postpaid migration.</div>
+        <div class="bm-desc">$1,133m. +7.0% organic. Prepaid &rarr; postpaid migration (conversion 67%); ARPU $6.7/mo (+13%).</div>
       </div>
       <div class="bm-card">
         <div class="bm-icon"><i class="fas fa-wifi"></i></div>
-        <div class="bm-pct">~25%</div>
-        <div class="bm-name">Fixed / Broadband</div>
-        <div class="bm-desc">14M+ home passes via HFC, FTTH, and copper. Fixed-mobile convergence triple-play bundles driving higher ARPU and lower churn.</div>
+        <div class="bm-pct">~24%</div>
+        <div class="bm-name">Home / Fixed</div>
+        <div class="bm-desc">$453m. Broadband + pay-TV over HFC/FTTH. +0.0% organic — flat; ARPU $26.1/mo.</div>
       </div>
       <div class="bm-card">
         <div class="bm-icon"><i class="fas fa-building"></i></div>
-        <div class="bm-pct">~10%</div>
+        <div class="bm-pct">~20%</div>
         <div class="bm-name">B2B / Enterprise</div>
-        <div class="bm-desc">12 Tier III data centers. Managed services, SD-WAN, cybersecurity, cloud. Digital B2B revenue growing 16-18% YoY.</div>
+        <div class="bm-desc">$367m. +18.9% organic — fastest line. Government &amp; corporate contracts, esp. Colombia/Panama.</div>
+      </div>
+      <div class="bm-card">
+        <div class="bm-icon"><i class="fas fa-shield-halved"></i></div>
+        <div class="bm-pct">~6%</div>
+        <div class="bm-name">Digital</div>
+        <div class="bm-desc">$104m. +5.3% organic. Cloud &amp; cybersecurity each &gt;20% YoY. Overlaps B2B reporting.</div>
       </div>
       <div class="bm-card">
         <div class="bm-icon"><i class="fas fa-wallet"></i></div>
-        <div class="bm-pct">~5%</div>
-        <div class="bm-name">Fintech (Tigo Money)</div>
-        <div class="bm-desc">3.7M active users. P2P transfers, merchant payments, micro-loans, remittances. Financial inclusion play across underbanked LatAm.</div>
+        <div class="bm-pct">3.7M</div>
+        <div class="bm-name">Tigo Money</div>
+        <div class="bm-desc">Fintech wallet users. Lifts ARPU &amp; cuts churn; under strategic review (partnership/divestiture).</div>
       </div>
     </div>
-    <div class="card animate-on-scroll" style="height:120px;padding:16px">
-      <canvas id="chart-bm-breakdown"></canvas>
+
+    <div class="grid-2 animate-on-scroll" style="margin-top:8px">
+      <div class="bm-flow">
+        <h4 style="font-size:15px;margin-bottom:6px">Service revenue mix (Q1-26)</h4>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Mobile dominates; B2B+Digital is the growth tilt.</div>
+        <div class="chart-box"><canvas id="chart-segments"></canvas></div>
+      </div>
+      <div class="bm-flow">
+        <h4 style="font-size:15px;margin-bottom:6px">Organic growth by segment (Q1-26, YoY %)</h4>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">B2B leads; Home is flat — the key debate inside the business.</div>
+        <div class="chart-box"><canvas id="chart-seg-growth"></canvas></div>
+      </div>
     </div>
+    <div class="eli5 animate-on-scroll" style="margin-top:24px">
+      <span class="tag">Read this</span> Two segments are <b>not consolidated</b> into group revenue/EBITDA because Tigo doesn't control them: <b>Honduras</b> (an equity-accounted JV, $150m Q1-26 service revenue, 51.6% margin — it only contributes via cash dividends, +$34m in Q1-26) and <b>Chile</b> (a 49% JV with Niel's NJJ vehicle). Watch for these being excluded from group totals.
+    </div>
+    <div class="src animate-on-scroll"><i class="fas fa-file-lines"></i> Source: Millicom Q1-2026 earnings presentation &amp; release.</div>
+  </div>
+</section>
+
+<!-- ========== REVENUE & COST DRIVERS ========== -->
+<section id="drivers" class="section" style="background:var(--bg-secondary)">
+  <div class="container">
+    <div class="section-label animate-on-scroll">What Moves the P&amp;L</div>
+    <h2 class="section-title animate-on-scroll">Revenue Drivers &amp; Cost Drivers</h2>
+    <p class="section-subtitle animate-on-scroll">If you want to know <i>what to watch each quarter</i>, watch these. On the left, what pushes revenue up; on the right, where the money goes. Net interest and the cost playbook are the two swing factors for cash flow.</p>
+
+    <div class="grid-2 animate-on-scroll">
+      <div class="driver-col">
+        <h4><i class="fas fa-arrow-trend-up text-green"></i> Revenue Drivers</h4>
+        <div id="rev-drivers"></div>
+      </div>
+      <div class="driver-col">
+        <h4><i class="fas fa-arrow-trend-down text-red"></i> Cost Drivers</h4>
+        <div id="cost-drivers"></div>
+      </div>
+    </div>
+
+    <div class="grid-2 animate-on-scroll" style="margin-top:24px">
+      <div class="bm-flow">
+        <h4 style="font-size:15px;margin-bottom:6px">From revenue to equity free cash flow (FY25A, $bn)</h4>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">The "cash bridge": EBITDA is big, but capex, interest, leases &amp; tax take most of it — leaving ~$0.9bn of EFCF.</div>
+        <div class="chart-box tall"><canvas id="chart-bridge"></canvas></div>
+      </div>
+      <div class="bm-flow">
+        <h4 style="font-size:15px;margin-bottom:6px">Capex intensity is falling (capex / sales, %)</h4>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">"Capacity-driven, not spend-driven" — from ~17% (2022) toward ~13%, a core cash lever.</div>
+        <div class="chart-box tall"><canvas id="chart-capex"></canvas></div>
+      </div>
+    </div>
+    <div class="src animate-on-scroll"><i class="fas fa-file-lines"></i> Sources: Q1-2026 release; UBS "A Cash Flow Story Coming Together" (1-Apr-2026); UBS DCF model.</div>
   </div>
 </section>
 
 <!-- ========== GEOGRAPHY MAP ========== -->
-<section id="geography" class="section">
+<section id="map" class="section">
   <div class="container">
     <div class="section-label animate-on-scroll">Geographic Footprint</div>
-    <h2 class="section-title animate-on-scroll">11-Country LatAm Presence</h2>
-    <p class="section-subtitle animate-on-scroll">Click any country on the map to see detailed operational metrics. Circle size reflects EBITDA contribution; color indicates margin tier.</p>
+    <h2 class="section-title animate-on-scroll">Where Tigo Operates — Interactive Map</h2>
+    <p class="section-subtitle animate-on-scroll">Click any market for its economics. Circle <b>size</b> = Q1-26 EBITDA contribution; circle <b>color</b> = EBITDA margin tier. Guatemala is the cash cow; Colombia is the biggest revenue market and the value-creation play; Honduras &amp; Chile are JVs (dashed, not in group EBITDA).</p>
 
     <div class="map-grid animate-on-scroll">
       <div id="map-container"></div>
       <div class="map-detail" id="country-detail">
-        <div id="detail-content">
-          <h3 id="detail-name">Guatemala</h3>
-          <span class="country-status" id="detail-status" style="background:rgba(16,185,129,.15);color:var(--accent-green)">Core Market</span>
-          <div class="big-metric text-green" id="detail-margin">55.8%</div>
-          <div class="metric-label">EBITDA Margin (Q4 2025)</div>
-          <div id="detail-metrics">
-            <div class="map-metric-row"><span class="label">Revenue Growth</span><span class="value text-green" id="detail-rev">+5% YoY</span></div>
-            <div class="map-metric-row"><span class="label">EBITDA Growth</span><span class="value text-green" id="detail-ebitda">+11% YoY</span></div>
-            <div class="map-metric-row"><span class="label">% of Group EBITDA</span><span class="value" id="detail-pct">~30%</span></div>
-            <div class="map-metric-row"><span class="label">Market Structure</span><span class="value" id="detail-structure">2-player oligopoly</span></div>
-          </div>
-          <div class="map-note" id="detail-note">Crown jewel market. Highest margins in portfolio. Rational 2-player structure with stable, predictable pricing.</div>
-        </div>
+        <div id="detail-content"><!-- populated by JS --></div>
       </div>
     </div>
-    <div class="map-legend">
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--accent-green)"></div> >50% margin</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--accent-cyan)"></div> 40-50% margin</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--accent-amber)"></div> 30-40% margin</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--accent-red)"></div> <30% margin</div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== M&A TIMELINE ========== -->
-<section id="ma-timeline" class="section" style="background:var(--bg-secondary)">
-  <div class="container">
-    <div class="section-label animate-on-scroll">Acquisition Spree</div>
-    <h2 class="section-title animate-on-scroll">M&A Timeline</h2>
-    <p class="section-subtitle animate-on-scroll">Millicom seized a once-in-a-generation opportunity as Telefonica exited LatAm, deploying ~$1.84B in acquisitions while monetizing $975M in tower assets.</p>
-
-    <div class="timeline-wrapper animate-on-scroll">
-      <div class="timeline" id="ma-timeline-inner"></div>
+    <div class="map-legend animate-on-scroll">
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--accent-green)"></div> &gt;52% margin</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--accent-cyan)"></div> 45&ndash;52%</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--accent-amber)"></div> 30&ndash;45%</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--accent-red)"></div> &lt;30%</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:var(--text-muted);border:2px dashed #fff"></div> JV (not consolidated)</div>
     </div>
 
-    <div class="ma-summary animate-on-scroll">
-      <div><div class="val text-cyan">$1.84B</div><div class="lbl">Total M&A Deployed</div></div>
-      <div><div class="val text-green">$975M</div><div class="lbl">Tower Sale Proceeds</div></div>
-      <div><div class="val text-amber">$866M</div><div class="lbl">Net Capital Deployed</div></div>
-      <div><div class="val text-purple">4</div><div class="lbl">New Markets Added</div></div>
+    <h3 style="font-size:20px;margin:40px 0 8px" class="animate-on-scroll">Country-by-Country Table</h3>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:18px" class="animate-on-scroll">Q1-2026 figures. Click a column header to sort.</p>
+    <div class="ctable-wrap animate-on-scroll">
+      <table class="ctable" id="country-table">
+        <thead><tr>
+          <th data-k="name">Market</th>
+          <th data-k="rev">Svc Rev ($m)</th>
+          <th data-k="ebitda">EBITDA ($m)</th>
+          <th data-k="margin">Margin %</th>
+          <th data-k="ownership">Ownership</th>
+          <th data-k="structure">Market Structure</th>
+        </tr></thead>
+        <tbody id="country-tbody"></tbody>
+      </table>
     </div>
-  </div>
-</section>
-
-<!-- ========== COMPETITIVE MOAT ========== -->
-<section id="moat" class="section">
-  <div class="container">
-    <div class="section-label animate-on-scroll">Competitive Advantages</div>
-    <h2 class="section-title animate-on-scroll">The Millicom Moat</h2>
-    <p class="section-subtitle animate-on-scroll">A combination of scale, market structure, operational efficiency, and physical infrastructure creates durable competitive advantages across LatAm.</p>
-
-    <div class="moat-grid animate-on-scroll">
-      <div class="moat-chart-container">
-        <canvas id="chart-moat-radar"></canvas>
-      </div>
-      <div class="moat-cards">
-        <div class="moat-card">
-          <div class="moat-card-icon" style="background:rgba(16,185,129,.15);color:var(--accent-green)"><i class="fas fa-shield-halved"></i></div>
-          <h4>Guatemala Oligopoly</h4>
-          <p>2-player market with 56% EBITDA margins. Rational pricing, minimal disruption risk. Accounts for ~30% of group EBITDA.</p>
-          <div class="strength-bar"><div class="strength-bar-fill" style="width:90%;background:var(--accent-green)" data-width="90"></div></div>
-        </div>
-        <div class="moat-card">
-          <div class="moat-card-icon" style="background:rgba(6,182,212,.15);color:var(--accent-cyan)"><i class="fas fa-compress"></i></div>
-          <h4>Colombia Consolidation</h4>
-          <p>Market moving from 4 to 3 players. ColTel acquisition creates #2 position. $330M incremental EFCF potential.</p>
-          <div class="strength-bar"><div class="strength-bar-fill" style="width:85%;background:var(--accent-cyan)" data-width="85"></div></div>
-        </div>
-        <div class="moat-card">
-          <div class="moat-card-icon" style="background:rgba(139,92,246,.15);color:var(--accent-purple)"><i class="fas fa-mountain"></i></div>
-          <h4>Project Everest</h4>
-          <p>$250M cost savings. 27% headcount reduction. 21% programming cost savings. EBITDA margin from 37% to 48.9%.</p>
-          <div class="strength-bar"><div class="strength-bar-fill" style="width:88%;background:var(--accent-purple)" data-width="88"></div></div>
-        </div>
-        <div class="moat-card">
-          <div class="moat-card-icon" style="background:rgba(245,158,11,.15);color:var(--accent-amber)"><i class="fas fa-tower-cell"></i></div>
-          <h4>Tower-Light Model</h4>
-          <p>7,000+ towers sold to SBA for $975M. Reduced CapEx burden from 17% to 12% of sales. Asset-light operating model.</p>
-          <div class="strength-bar"><div class="strength-bar-fill" style="width:75%;background:var(--accent-amber)" data-width="75"></div></div>
-        </div>
-        <div class="moat-card">
-          <div class="moat-card-icon" style="background:rgba(59,130,246,.15);color:var(--accent-blue)"><i class="fas fa-database"></i></div>
-          <h4>Fiber + Data Centers</h4>
-          <p>200,000+ km fiber. 12 Tier III data centers. Physical infrastructure moat that takes years and billions to replicate.</p>
-          <div class="strength-bar"><div class="strength-bar-fill" style="width:80%;background:var(--accent-blue)" data-width="80"></div></div>
-        </div>
-        <div class="moat-card">
-          <div class="moat-card-icon" style="background:rgba(239,68,68,.15);color:var(--accent-red)"><i class="fas fa-futbol"></i></div>
-          <h4>Content + Fintech</h4>
-          <p>Tigo Sports exclusive broadcast rights. Tigo Money with 3.7M users. Digital ecosystem drives loyalty and reduces churn.</p>
-          <div class="strength-bar"><div class="strength-bar-fill" style="width:65%;background:var(--accent-red)" data-width="65"></div></div>
-        </div>
-      </div>
-    </div>
+    <div class="src animate-on-scroll"><i class="fas fa-file-lines"></i> Source: Q1-2026 presentation country tables. Honduras &amp; Chile are equity-method JVs (revenue/EBITDA shown for context but excluded from group totals). "Others" (El Salvador, Nicaragua, Costa Rica, Uruguay) partly grouped in company reporting.</div>
   </div>
 </section>
 
 <!-- ========== FINANCIALS ========== -->
 <section id="financials" class="section" style="background:var(--bg-secondary)">
   <div class="container">
-    <div class="section-label animate-on-scroll">Financial Deep Dive</div>
-    <h2 class="section-title animate-on-scroll">The Numbers</h2>
-    <p class="section-subtitle animate-on-scroll">Data sourced from UBS and Morgan Stanley research. Estimates reflect post-M&A consolidation starting 2026E.</p>
+    <div class="section-label animate-on-scroll">The Numbers</div>
+    <h2 class="section-title animate-on-scroll">Financials — History &amp; Estimates</h2>
+    <p class="section-subtitle animate-on-scroll">The ~+45% revenue step in 2026E is M&amp;A being switched on (Coltel + Ecuador + Uruguay), not organic growth (~3% underlying). Watch the shape: EBITDA &amp; cash flow rising, leverage falling after the 2026 M&amp;A peak. Bars to 2025 are actuals; faded bars are UBS/MS estimates.</p>
 
-    <div class="tab-bar animate-on-scroll">
-      <button class="tab-btn active" data-tab="revenue">Revenue & Margins</button>
-      <button class="tab-btn" data-tab="ebit">EBIT Trajectory</button>
-      <button class="tab-btn" data-tab="leverage">Leverage & Debt</button>
-      <button class="tab-btn" data-tab="fcf">FCF & Returns</button>
-      <button class="tab-btn" data-tab="eps">EPS Trajectory</button>
+    <div class="grid-2 animate-on-scroll">
+      <div class="bm-flow"><h4 style="font-size:15px;margin-bottom:12px">Revenue &amp; Adj. EBITDA margin</h4><div class="chart-box"><canvas id="chart-revenue"></canvas></div></div>
+      <div class="bm-flow"><h4 style="font-size:15px;margin-bottom:12px">Adjusted EBITDA ($m)</h4><div class="chart-box"><canvas id="chart-ebitda"></canvas></div></div>
     </div>
-
-    <div class="tab-content active" id="tab-revenue">
-      <div class="chart-container"><canvas id="chart-revenue"></canvas></div>
+    <div class="grid-2 animate-on-scroll" style="margin-top:24px">
+      <div class="bm-flow"><h4 style="font-size:15px;margin-bottom:12px">Equity Free Cash Flow ($m) &amp; FCF yield</h4><div class="chart-box"><canvas id="chart-fcf"></canvas></div></div>
+      <div class="bm-flow"><h4 style="font-size:15px;margin-bottom:12px">Net debt ($m) &amp; leverage (x)</h4><div class="chart-box"><canvas id="chart-leverage"></canvas></div></div>
     </div>
-    <div class="tab-content" id="tab-ebit">
-      <div class="chart-container"><canvas id="chart-ebit"></canvas></div>
+    <div class="eli5 animate-on-scroll" style="margin-top:24px">
+      <span class="tag">Don't be fooled by EPS</span> FY25A reported EPS of <b>$7.88</b> was inflated by one-off gains (mostly the tower sale). Underlying/adjusted EPS is far lower (UBS models ~$3.82 for 2026E), depressed by heavy depreciation and ~$650&ndash;815m/yr of interest. For this company, <b>cash flow (EFCF), not EPS,</b> is the metric that matters.
     </div>
-    <div class="tab-content" id="tab-leverage">
-      <div class="chart-container"><canvas id="chart-leverage"></canvas></div>
-    </div>
-    <div class="tab-content" id="tab-fcf">
-      <div class="chart-container"><canvas id="chart-fcf"></canvas></div>
-    </div>
-    <div class="tab-content" id="tab-eps">
-      <div class="chart-container"><canvas id="chart-eps"></canvas></div>
-    </div>
+    <div class="src animate-on-scroll"><i class="fas fa-file-lines"></i> Sources: Millicom FY25/Q1-26 results; UBS DCF model (31-Mar-2026); Morgan Stanley models. Net debt 2026E+ rises on Coltel/La Nación consolidation then de-levers.</div>
   </div>
 </section>
 
-<!-- ========== COUNTRY ANALYSIS ========== -->
-<section id="country-analysis" class="section">
+<!-- ========== CASH FLOW STORY ========== -->
+<section id="cashflow" class="section">
   <div class="container">
-    <div class="section-label animate-on-scroll">Country-by-Country</div>
-    <h2 class="section-title animate-on-scroll">Market Analysis</h2>
-    <p class="section-subtitle animate-on-scroll">Q4 2025 operational metrics for each market. Sort by margin or growth to identify outperformers and turnaround candidates.</p>
+    <div class="section-label animate-on-scroll">The Core Thesis</div>
+    <h2 class="section-title animate-on-scroll">The Equity Free-Cash-Flow Inflection</h2>
+    <p class="section-subtitle animate-on-scroll">This is what the UBS and Morgan Stanley notes orbit: Tigo turning from a barely-cash-generative, over-levered telco into a double-digit-FCF-yield compounder. "A Q1 two years ago was just +$1m," the CFO noted — Q1-26 was <b>+$225m</b>. Four drivers power it.</p>
 
-    <div class="controls-bar animate-on-scroll">
-      <select id="sort-select" onchange="sortCountryCards(this.value)">
-        <option value="margin">Sort by: EBITDA Margin</option>
-        <option value="ebitdaGrowth">Sort by: EBITDA Growth</option>
-        <option value="revGrowth">Sort by: Revenue Growth</option>
-      </select>
-      <div class="filter-pills">
-        <button class="filter-pill active" onclick="filterCountryCards('all',this)">All</button>
-        <button class="filter-pill" onclick="filterCountryCards('Core',this)">Core</button>
-        <button class="filter-pill" onclick="filterCountryCards('New',this)">New Acquisition</button>
-        <button class="filter-pill" onclick="filterCountryCards('Turnaround',this)">Turnaround</button>
+    <div class="cf-drivers animate-on-scroll">
+      <div class="cf-card"><div class="cf-num">1</div><h4>The cost playbook</h4><p>"Project Everest": zero-based cost reset, ~27% headcount cuts, 21% lower programming &amp; 18% lower IT costs &rarr; record ~48&ndash;49% organic margin <i>before</i> any M&amp;A synergies.</p></div>
+      <div class="cf-card"><div class="cf-num">2</div><h4>Accretive cheap M&amp;A</h4><p>Telefónica's exit let Tigo buy Colombia, Ecuador, Uruguay &amp; Chile at low multiples (combined Colombia &lt;2.0x EBITDA). Coltel adds ~$2.2bn revenue &rarr; ~$330m potential EFCF.</p></div>
+      <div class="cf-card"><div class="cf-num">3</div><h4>Capital discipline</h4><p>Capex/sales cut from 17% (2022) toward ~13% ("capacity-driven"), plus an asset-light tower sale (&gt;7,000 towers, ~$975m) that funds M&amp;A and cuts leverage.</p></div>
+      <div class="cf-card"><div class="cf-num">4</div><h4>Deleverage + return</h4><p>Leverage 2.76x &rarr; ~2.5x (YE26) &rarr; ~1.2x (2030E), with a maintained $3.00 dividend, a $2.50 special, and buyback optionality.</p></div>
+    </div>
+
+    <div class="grid-2 animate-on-scroll" style="margin-top:28px">
+      <div class="bm-flow"><h4 style="font-size:15px;margin-bottom:12px">EFCF trajectory ($m): the inflection</h4><div class="chart-box"><canvas id="chart-efcf-traj"></canvas></div></div>
+      <div class="card" style="display:flex;flex-direction:column;justify-content:center">
+        <h4 style="font-size:16px;margin-bottom:12px"><i class="fas fa-scale-unbalanced text-amber"></i> The debate</h4>
+        <p style="font-size:13.5px;line-height:1.7;color:var(--text-secondary)">UBS calls the ≥$900m guidance <b>conservative</b> (sees up to $1.1bn) — but in May-2026 <b>downgraded to Neutral</b>, arguing the upside is now priced in: consensus (~$1bn) already sits above guidance, and the stock trades ~6.6x vs peers ~5x after a ~50% rally.</p>
+        <p style="font-size:13.5px;line-height:1.7;color:var(--text-secondary);margin-top:10px">The swing factor is <b>Colombia/Coltel</b>: whether the consolidated margin reaches the guided ~42% (UBS models 37&ndash;40%) and whether organic growth accelerates to the guided ~8% (Coltel grew only ~2% in Q1-26).</p>
       </div>
     </div>
-
-    <div class="country-grid" id="country-grid"></div>
-
-    <div class="card animate-on-scroll" style="height:320px;padding:16px;margin-top:8px">
-      <canvas id="chart-country-bars"></canvas>
-    </div>
+    <div class="src animate-on-scroll"><i class="fas fa-file-lines"></i> Sources: UBS (1-Apr &amp; 24-May-2026); HSBC (5-Mar-2026); Q1-2026 earnings call.</div>
   </div>
 </section>
 
-<!-- ========== VALUATION ========== -->
-<section id="valuation" class="section" style="background:var(--bg-secondary)">
+<!-- ========== M&A ========== -->
+<section id="manda" class="section" style="background:var(--bg-secondary)">
   <div class="container">
-    <div class="section-label animate-on-scroll">What Is It Worth?</div>
-    <h2 class="section-title animate-on-scroll">Valuation</h2>
-    <p class="section-subtitle animate-on-scroll">Analyst price targets range from $40 to $89 &mdash; reflecting debate between M&A execution upside and integration/macro risks.</p>
+    <div class="section-label animate-on-scroll">The Roll-Up</div>
+    <h2 class="section-title animate-on-scroll">M&amp;A Timeline &amp; the Chile Wildcard</h2>
+    <p class="section-subtitle animate-on-scroll">In ~12 months Tigo seized Telefónica's Latin-American exit, took 100% of Colombia, and entered Chile via a ring-fenced JV — funding much of it with a $975m tower sale. One deal (Costa Rica) was blocked by regulators.</p>
 
-    <div class="val-grid animate-on-scroll">
-      <div class="card" style="height:360px;padding:20px">
-        <h4 style="margin-bottom:16px;font-size:15px">Analyst Price Targets vs Current ($74.94)</h4>
-        <div style="height:280px"><canvas id="chart-analyst-pt"></canvas></div>
-      </div>
-      <div class="card" style="padding:20px">
-        <h4 style="margin-bottom:16px;font-size:15px">Valuation Multiples</h4>
-        <table class="multiples-table">
-          <thead><tr><th>Metric</th><th>2025E</th><th>2026E</th><th>2027E</th><th>2028E</th></tr></thead>
-          <tbody>
-            <tr><td>EV/EBITDA</td><td>5.3x</td><td>5.4x</td><td>5.0x</td><td>4.9x</td></tr>
-            <tr><td>P/E</td><td>5.0x</td><td>15.4x</td><td>12.5x</td><td>10.5x</td></tr>
-            <tr><td>FCF Yield</td><td>20.7%</td><td>8.2%</td><td>10.6%</td><td>11.5%</td></tr>
-            <tr><td>Div Yield</td><td>13.8%</td><td>5.7%</td><td>4.0%</td><td>4.0%</td></tr>
-            <tr><td>EV/EBIT</td><td>8.5x</td><td>9.7x</td><td>8.5x</td><td>7.8x</td></tr>
-            <tr><td>ROIC</td><td>16.7%</td><td>17.9%</td><td>19.2%</td><td>21.1%</td></tr>
-          </tbody>
-        </table>
-        <div style="margin-top:16px;padding:12px;background:var(--bg-tertiary);border-radius:8px;font-size:12px;color:var(--text-muted)">
-          <strong style="color:var(--text-primary)">UBS methodology:</strong> 5.6x 2027E EV/EBITDA = $87.50 PT. Implies LTM premium to LatAm peers, justified by superior FCF growth.
+    <div class="grid-2 animate-on-scroll" style="align-items:start">
+      <div class="card"><div class="timeline" id="ma-timeline"></div></div>
+      <div>
+        <div class="ma-summary" style="grid-template-columns:1fr 1fr;margin-top:0">
+          <div><div class="val text-cyan">$1.4&ndash;1.8B</div><div class="lbl">M&amp;A deployed (Ecuador, Uruguay, Colombia, Chile)</div></div>
+          <div><div class="val text-green">$975M</div><div class="lbl">Tower sale proceeds (SBA, &gt;7,000 towers)</div></div>
+          <div><div class="val text-purple">4</div><div class="lbl">Markets added / consolidated</div></div>
+          <div><div class="val text-amber">100%</div><div class="lbl">Colombia ownership achieved (2026)</div></div>
+        </div>
+        <div class="eli5" style="margin-top:18px">
+          <span class="tag">The Colombia prize</span> Colombia is now Tigo's <b>largest revenue market</b>. By buying EPM's half of Tigo-UNE (~$571m, 2.18x) <i>and</i> Telefónica's Coltel/Movistar, Tigo turns a destructive <b>4-player</b> mobile market into a rational <b>3-player</b> one (the #4, WOM, is bankrupt). HSBC models Colombia EBITDA rising from ~$1.0bn to <b>$1.6bn by 2030</b>. The risk: Coltel's standalone margin is only ~12% vs legacy Tigo Colombia's ~41%, so the entire 2026 step-change hinges on integration.
         </div>
       </div>
     </div>
 
-    <div style="margin-top:24px" class="card animate-on-scroll" style="padding:20px">
-      <h4 style="margin-bottom:16px;font-size:15px;padding:20px 20px 0">DCF Sensitivity Analysis (Implied Share Price)</h4>
-      <div style="padding:0 20px 20px;overflow-x:auto">
-        <table class="dcf-table" style="margin-top:12px">
-          <thead>
-            <tr><th>WACC \ Terminal Growth</th><th>1.0%</th><th>1.5%</th><th>2.0%</th><th>2.5%</th><th>3.0%</th></tr>
-          </thead>
-          <tbody>
-            <tr><td style="font-weight:600;text-align:left;background:var(--bg-tertiary)">9.0%</td><td class="above">$72</td><td class="above">$78</td><td class="above">$85</td><td class="above">$94</td><td class="above">$105</td></tr>
-            <tr><td style="font-weight:600;text-align:left;background:var(--bg-tertiary)">9.5%</td><td class="below">$65</td><td class="below">$70</td><td class="above">$76</td><td class="above">$83</td><td class="above">$92</td></tr>
-            <tr><td style="font-weight:600;text-align:left;background:var(--bg-tertiary)">10.0%</td><td class="below">$58</td><td class="below">$63</td><td class="below">$68</td><td class="below">$74</td><td class="above">$81</td></tr>
-            <tr><td style="font-weight:600;text-align:left;background:var(--bg-tertiary)">10.6%</td><td class="below">$51</td><td class="below">$53</td><td class="base">$55</td><td class="below">$60</td><td class="below">$65</td></tr>
-            <tr><td style="font-weight:600;text-align:left;background:var(--bg-tertiary)">11.0%</td><td class="below">$47</td><td class="below">$49</td><td class="below">$52</td><td class="below">$55</td><td class="below">$59</td></tr>
-            <tr><td style="font-weight:600;text-align:left;background:var(--bg-tertiary)">11.5%</td><td class="below">$43</td><td class="below">$45</td><td class="below">$48</td><td class="below">$51</td><td class="below">$54</td></tr>
-          </tbody>
-        </table>
-        <div style="margin-top:10px;font-size:11px;color:var(--text-muted)">Highlighted cell: Morgan Stanley base case (WACC 10.6%, terminal growth 2.0%). Green = above current price ($74.94). Based on MS DCF framework.</div>
+    <div class="spotlight animate-on-scroll">
+      <h4><i class="fas fa-chess text-purple"></i> Spotlight: The Chile JV — "Acquiring an Option"</h4>
+      <p style="font-size:13.5px;line-height:1.7">On 10-Feb-2026 Tigo took a <b>49% operating stake</b> in Telefónica Chile via a JV with <b>NJJ</b> (Xavier Niel's <i>personal</i> vehicle, 51%). Crucially the asset is <b>not consolidated</b> and its debt has <b>no recourse</b> to Tigo — the parent balance sheet is ring-fenced. Tigo paid a tiny ~$50m upfront (+ up to $150m earnout); Telefónica even injects ~$92m of cash at closing, underscoring how distressed the asset is.</p>
+      <div class="spot-grid">
+        <div class="spot-metric"><div class="v">$50M</div><div class="l">Upfront (+$150M earnout)</div></div>
+        <div class="spot-metric"><div class="v">~19%</div><div class="l">EBITDA margin (½ of Tigo's)</div></div>
+        <div class="spot-metric"><div class="v">~$0.5M/day</div><div class="l">Loss rate pre-deal</div></div>
+        <div class="spot-metric"><div class="v">12&ndash;18mo</div><div class="l">Targeted turnaround</div></div>
+      </div>
+      <p style="font-size:13px;line-height:1.6;color:var(--text-secondary)">Plan: apply the Millicom Playbook (vendor renegotiation, real-estate sales, capex efficiency, rational pricing). By Q1-26 a ~30&ndash;35% headcount cut was done, $85m of debt removed, and it generated <b>positive EFCF in its first two months</b>; FY26 target is EFCF-neutral.</p>
+      <div class="views">
+        <div class="view-card"><div class="vh text-blue">Morgan Stanley</div>"Acquiring an Option" — cheap, ring-fenced optionality with put/call in shares after yrs 5&ndash;6.</div>
+        <div class="view-card"><div class="vh text-amber">HSBC</div>Double-edged — option value, but could require an unexpected equity infusion.</div>
+        <div class="view-card"><div class="vh text-red">BTG Pactual</div>A "Black Swan" — perpetuates a strained 4-player market rather than consolidating it.</div>
       </div>
     </div>
+    <div class="src animate-on-scroll" style="margin-top:18px"><i class="fas fa-file-lines"></i> Sources: Morgan Stanley "Acquiring An Option in Chile" (10-Feb-2026); AlphaSense bull/bear synthesis (HSBC, BTG, Credicorp); Q1-2026 call.</div>
+  </div>
+</section>
+
+<!-- ========== MOAT ========== -->
+<section id="moat" class="section">
+  <div class="container">
+    <div class="section-label animate-on-scroll">Durability</div>
+    <h2 class="section-title animate-on-scroll">The Competitive Moat</h2>
+    <p class="section-subtitle animate-on-scroll">Tigo's edge rests on rational market structures, owned converged infrastructure, brand/content, and an execution playbook — strongest in mobile/oligopoly markets, thinnest in fixed/home and B2B.</p>
+
+    <div class="moat-grid animate-on-scroll">
+      <div class="moat-chart-container"><canvas id="chart-moat-radar"></canvas></div>
+      <div class="moat-cards">
+        <div class="moat-card">
+          <div class="moat-card-icon" style="background:rgba(16,185,129,.15);color:var(--accent-green)"><i class="fas fa-chess-king"></i></div>
+          <h4>Guatemala duopoly</h4>
+          <p>#1 in a rational 2-player market; 55.4% margin, ~27% of group EBITDA. The "crown jewel" cash cow.</p>
+          <div class="strength-bar"><div class="strength-bar-fill" data-width="92" style="background:var(--accent-green)"></div></div>
+        </div>
+        <div class="moat-card">
+          <div class="moat-card-icon" style="background:rgba(6,182,212,.15);color:var(--accent-cyan)"><i class="fas fa-compress"></i></div>
+          <h4>Colombia 4&rarr;3</h4>
+          <p>Tigo-Movistar merger creates rational pricing; up to 7pp margin uplift, ~9% EFCF accretion (ABG).</p>
+          <div class="strength-bar"><div class="strength-bar-fill" data-width="80" style="background:var(--accent-cyan)"></div></div>
+        </div>
+        <div class="moat-card">
+          <div class="moat-card-icon" style="background:rgba(139,92,246,.15);color:var(--accent-purple)"><i class="fas fa-mountain"></i></div>
+          <h4>Cost playbook</h4>
+          <p>"Project Everest" — ~27% headcount cuts, supplier savings; a repeatable turnaround engine across 11 markets.</p>
+          <div class="strength-bar"><div class="strength-bar-fill" data-width="85" style="background:var(--accent-purple)"></div></div>
+        </div>
+        <div class="moat-card">
+          <div class="moat-card-icon" style="background:rgba(0,174,239,.15);color:var(--tigo)"><i class="fas fa-network-wired"></i></div>
+          <h4>Converged network</h4>
+          <p>Owned HFC/FTTH, 21.85m homes passed; FMC bundles cut churn ~50%. Legacy coax lags pure-fiber rivals.</p>
+          <div class="strength-bar"><div class="strength-bar-fill" data-width="72" style="background:var(--tigo)"></div></div>
+        </div>
+        <div class="moat-card">
+          <div class="moat-card-icon" style="background:rgba(245,158,11,.15);color:var(--accent-amber)"><i class="fas fa-futbol"></i></div>
+          <h4>Brand &amp; content</h4>
+          <p>Strong "Tigo" brand + Tigo Sports exclusive rights (e.g. Paraguayan soccer) differentiate vs Claro.</p>
+          <div class="strength-bar"><div class="strength-bar-fill" data-width="68" style="background:var(--accent-amber)"></div></div>
+        </div>
+        <div class="moat-card">
+          <div class="moat-card-icon" style="background:rgba(239,68,68,.15);color:var(--accent-red)"><i class="fas fa-triangle-exclamation"></i></div>
+          <h4>Concentration risk</h4>
+          <p>Outsized dependence on Guatemala; a new entrant there would materially dent the financial profile.</p>
+          <div class="strength-bar"><div class="strength-bar-fill" data-width="40" style="background:var(--accent-red)"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="src animate-on-scroll" style="margin-top:20px"><i class="fas fa-file-lines"></i> Main competitors: América Móvil / Claro (greater regional scale), Liberty Latin America (Central America). Radar scores are qualitative, synthesized from the source notes.</div>
+  </div>
+</section>
+
+<!-- ========== CONTROL / CAPITAL ALLOCATION ========== -->
+<section id="control" class="section" style="background:var(--bg-secondary)">
+  <div class="container">
+    <div class="section-label animate-on-scroll">Who's in Charge &amp; What They Do With the Cash</div>
+    <h2 class="section-title animate-on-scroll">Control &amp; Capital Allocation</h2>
+    <p class="section-subtitle animate-on-scroll">You cannot understand Tigo without understanding <b>Xavier Niel</b>. The French billionaire founder of Iliad controls ~40&ndash;44% via Atlas Investissement — he drove the cost overhaul and the M&amp;A, and is also the central governance question.</p>
+
+    <div class="control-grid animate-on-scroll">
+      <div class="niel-card">
+        <h4><i class="fas fa-user-tie text-purple"></i> The Niel / Atlas factor</h4>
+        <p style="font-size:13.5px;line-height:1.7;color:var(--text-secondary)">Niel's 2024 stake-build triggered a management overhaul: company-veteran <b>Marcelo Benítez</b> as CEO, <b>Bart Vanhaeren</b> as CFO, and the launch of "Project Everest." Atlas is credited with the cost discipline and decisive capital allocation.</p>
+        <p style="font-size:13.5px;line-height:1.7;color:var(--text-secondary);margin-top:10px"><b class="text-amber">But concentration is a risk.</b> Kepler flagged an opportunistic ~$24/share Atlas bid (Jul-2024) it advised <i>rejecting</i>; the Chile JV is a <b>related-party</b> deal with Niel's separate NJJ vehicle. UBS flags optionality from a potential Niel tender offer (not modeled).</p>
+        <div class="eli5" style="margin-top:14px;margin-bottom:0">The unresolved question (per an ex-director): as Tigo throws off ~$500m/yr of incremental cash, will it <b>distribute, deleverage, or double-down</b> on more LatAm M&amp;A?</div>
+      </div>
+      <div class="niel-card">
+        <h4><i class="fas fa-coins text-green"></i> The capital-allocation framework (leverage-gated)</h4>
+        <div class="cap-stack">
+          <div class="cap-row"><div class="ci" style="background:rgba(239,68,68,.15);color:var(--accent-red)"><i class="fas fa-scale-balanced"></i></div><div><div class="ct">1. Deleverage first</div><div class="cd">Net debt/EBITDA to ~2.5x by YE26, ~1.2x by 2030E.</div></div></div>
+          <div class="cap-row"><div class="ci" style="background:rgba(16,185,129,.15);color:var(--accent-green)"><i class="fas fa-hand-holding-dollar"></i></div><div><div class="ct">2. Stable dividend</div><div class="cd">$3.00/sh maintained until leverage hits 2.5x; ~⅔ of EFCF payout.</div></div></div>
+          <div class="cap-row"><div class="ci" style="background:rgba(139,92,246,.15);color:var(--accent-purple)"><i class="fas fa-gift"></i></div><div><div class="ct">3. Special return</div><div class="cd">$2.50/sh special dividend paid (Apr-26) from tower-sale proceeds.</div></div></div>
+          <div class="cap-row"><div class="ci" style="background:rgba(0,174,239,.15);color:var(--tigo)"><i class="fas fa-rotate"></i></div><div><div class="ct">4. Buyback optionality</div><div class="cd">Authorization up to 10% of equity; $150m completed late-24/early-25.</div></div></div>
+          <div class="cap-row"><div class="ci" style="background:rgba(245,158,11,.15);color:var(--accent-amber)"><i class="fas fa-cart-shopping"></i></div><div><div class="ct">5. Selective M&amp;A</div><div class="cd">"Menu" includes Peru, Venezuela; Mexico/Brazil/Argentina excluded.</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="src animate-on-scroll" style="margin-top:18px"><i class="fas fa-file-lines"></i> Sources: AlphaSense (Kepler, expert calls); UBS; Millicom FY2025 20-F; Q1-2026 call. Stake cited as ~40% (UBS) to ~44.1% (20-F).</div>
+  </div>
+</section>
+
+<!-- ========== VALUATION ========== -->
+<section id="valuation" class="section">
+  <div class="container">
+    <div class="section-label animate-on-scroll">What's It Worth</div>
+    <h2 class="section-title animate-on-scroll">Valuation — Bull / Base / Bear</h2>
+    <p class="section-subtitle animate-on-scroll">Two methods dominate the sell-side work: a forward <b>EV/EBITDA multiple</b> (UBS) and a <b>DCF</b> (Morgan Stanley, with a UBS cross-check). After a ~50% rally the stock sits near most base-case targets — the debate is whether the M&amp;A upside is already in the price.</p>
+
+    <div class="scenario-grid animate-on-scroll">
+      <div class="scenario-card bull">
+        <div class="sc-label text-green">Bull</div>
+        <div class="sc-pt">$89&ndash;120</div>
+        <div class="sc-up text-green">HSBC SOTP $89 &bull; UBS upside $120</div>
+        <div class="sc-method">SOTP (Guatemala 6.3x / Panama 5.8x / Colombia 2.5x) on a 6.5% target dividend yield; bull DCF 5.4x NTM EBITDA.</div>
+        <div class="sc-assum">Rev CAGR ~4%, EBITDA CAGR ~7&ndash;8%, terminal margin ~52%. Coltel runs ahead of plan; Colombia EBITDA $1.6bn by 2030; EFCF $1.2bn by 2027; FX tailwinds persist; Niel tender optionality.</div>
+      </div>
+      <div class="scenario-card base">
+        <div class="sc-label text-blue">Base</div>
+        <div class="sc-pt">$70&ndash;90</div>
+        <div class="sc-up text-blue">UBS $90 &bull; MS $73 &bull; DNB $75</div>
+        <div class="sc-method">UBS 5.6&ndash;5.8x 2027E EV/EBITDA (~9% FCF yield); MS DCF at WACC 10.0%, g 2.0%; UBS DCF EV $23.6bn &rarr; $87.5.</div>
+        <div class="sc-assum">Rev CAGR ~3%, EBITDA CAGR ~6&ndash;7%, capex/sales ~13%, WACC ~10.6%, g ~3%. FY26 EFCF ~$900&ndash;940m; leverage to ~2.5x then ~1.2x by 2030. Coltel reaches Tigo margins ex-restructuring.</div>
+      </div>
+      <div class="scenario-card bear">
+        <div class="sc-label text-red">Bear</div>
+        <div class="sc-pt">$40&ndash;70</div>
+        <div class="sc-up text-red">UBS downside $60&ndash;70 &bull; Kepler $40</div>
+        <div class="sc-method">Lower multiple on missed targets; Kepler's $40 fair value; Atlas's $24 bid as a control-discount marker.</div>
+        <div class="sc-assum">Rev CAGR ~2%, EBITDA CAGR ~3%, capex/sales ~15%. Coltel integration slips, Colombia margin stuck &lt;40%, ~8% growth missed; FX reverses (Bolivia); leverage stuck near $10bn peak; little margin of safety after re-rating.</div>
+      </div>
+    </div>
+
+    <div class="grid-2 animate-on-scroll" style="align-items:start">
+      <div class="bm-flow"><h4 style="font-size:15px;margin-bottom:12px">Analyst price targets ($)</h4><div class="chart-box"><canvas id="chart-analyst"></canvas></div></div>
+      <div class="val-detail">
+        <h4 style="font-size:16px;margin-bottom:10px">DCF &amp; multiple walk-through</h4>
+        <p><b>UBS DCF (31-Mar-26, PT $87.5):</b> FCFF-based at WACC <b>10.6%</b> (Beta 0.9, Rf 3.0%, ERP 5.94%, country risk 2.5%), terminal growth <b>g 3.0%</b>.</p>
+        <div class="dcf-bridge">
+          <div class="dcf-step"><div class="dv">$12.1B</div><div class="dl">PV of FCFF</div></div>
+          <div class="dcf-step"><div class="dv">$11.5B</div><div class="dl">+ Terminal value</div></div>
+          <div class="dcf-step"><div class="dv">$23.6B</div><div class="dl">= Enterprise value</div></div>
+          <div class="dcf-step"><div class="dv">($9.5B)</div><div class="dl">&minus; Net debt</div></div>
+          <div class="dcf-step"><div class="dv">+$0.6B</div><div class="dl">+ Honduras JV</div></div>
+          <div class="dcf-step"><div class="dv">$87.5</div><div class="dl">= Per share</div></div>
+        </div>
+        <p style="margin-top:14px"><b>Multiples now:</b> ~<b>6.6x</b> NTM EV/EBITDA vs LatAm peers ~5x (América Móvil ~5.4x, Liberty LatAm ~6.1x); ~<b>13.5%</b> FCF yield vs peers ~9.5%. The stock has re-rated &gt;1 standard deviation above its own history.</p>
+        <p style="margin-top:10px;color:var(--text-muted);font-size:12.5px">UBS PT path: $31.5 (Jan-25) &rarr; $70 (upgrade, Jan-26) &rarr; $87.5 (Apr-26) &rarr; $90 (May-26, <b>downgrade to Neutral</b> — "M&amp;A benefits priced in").</p>
+      </div>
+    </div>
+    <div class="src animate-on-scroll" style="margin-top:18px"><i class="fas fa-file-lines"></i> Sources: UBS DCF model &amp; notes; Morgan Stanley models &amp; notes; HSBC, DNB Carnegie, Kepler, ABG via AlphaSense.</div>
   </div>
 </section>
 
 <!-- ========== BULL / BEAR ========== -->
-<section id="bull-bear" class="section">
+<section id="bullbear" class="section" style="background:var(--bg-secondary)">
   <div class="container">
-    <div class="section-label animate-on-scroll">Investment Debate</div>
-    <h2 class="section-title animate-on-scroll">Bull vs Bear</h2>
-    <p class="section-subtitle animate-on-scroll">The market is debating whether Millicom's M&A-fueled transformation will deliver superior FCF or stumble on integration complexity and macro risks.</p>
-
+    <div class="section-label animate-on-scroll">The Two-Sided Debate</div>
+    <h2 class="section-title animate-on-scroll">Bull Case vs Bear Case</h2>
+    <p class="section-subtitle animate-on-scroll">The bulls own the cash-flow inflection and cheap M&amp;A; the bears own valuation, the Coltel-inflated optics, and FX/leverage. Each point is sourced.</p>
     <div class="bb-grid animate-on-scroll">
-      <div class="bb-col bull">
-        <div class="bb-header text-green"><i class="fas fa-arrow-trend-up"></i> BULL CASE</div>
-        <div class="bb-target text-green">Upside target: $85 &ndash; $89</div>
-        <div class="bb-item"><div class="bb-text">Proven FCF turnaround executed across 11 countries &mdash; not a one-off</div><div class="bb-bar"><div class="bb-bar-fill" style="width:80%;background:var(--accent-green)"></div></div><div class="bb-score text-green">Conviction: 8/10</div></div>
-        <div class="bb-item"><div class="bb-text">Ecuador &amp; Uruguay already BAU with 40%+ margins, beating expectations</div><div class="bb-bar"><div class="bb-bar-fill" style="width:80%;background:var(--accent-green)"></div></div><div class="bb-score text-green">Conviction: 8/10</div></div>
-        <div class="bb-item"><div class="bb-text">ColTel adds $2.2B ARR and $330M incremental EFCF potential</div><div class="bb-bar"><div class="bb-bar-fill" style="width:90%;background:var(--accent-green)"></div></div><div class="bb-score text-green">Conviction: 9/10</div></div>
-        <div class="bb-item"><div class="bb-text">Project Everest: $250M savings, margin expansion to 48%+</div><div class="bb-bar"><div class="bb-bar-fill" style="width:80%;background:var(--accent-green)"></div></div><div class="bb-score text-green">Conviction: 8/10</div></div>
-        <div class="bb-item"><div class="bb-text">Guatemala oligopoly = 56% margins with durable competitive moat</div><div class="bb-bar"><div class="bb-bar-fill" style="width:90%;background:var(--accent-green)"></div></div><div class="bb-score text-green">Conviction: 9/10</div></div>
-        <div class="bb-item"><div class="bb-text">Dividend initiation ($4.25 DPS in 2026E) signals management confidence</div><div class="bb-bar"><div class="bb-bar-fill" style="width:70%;background:var(--accent-green)"></div></div><div class="bb-score text-green">Conviction: 7/10</div></div>
-      </div>
-
-      <div class="bb-divider">
-        <div class="bb-vs">VS</div>
-        <div class="bb-net" title="Net bull conviction">+2.3</div>
-      </div>
-
-      <div class="bb-col bear">
-        <div class="bb-header text-red"><i class="fas fa-arrow-trend-down"></i> BEAR CASE</div>
-        <div class="bb-target text-red">Downside target: $40 &ndash; $55</div>
-        <div class="bb-item"><div class="bb-text">Multiple simultaneous integrations (4 acquisitions in 12 months)</div><div class="bb-bar"><div class="bb-bar-fill" style="width:70%;background:var(--accent-red)"></div></div><div class="bb-score text-red">Risk: 7/10</div></div>
-        <div class="bb-item"><div class="bb-text">Triple-digit ColTel restructuring costs ($100M+)</div><div class="bb-bar"><div class="bb-bar-fill" style="width:60%;background:var(--accent-red)"></div></div><div class="bb-score text-red">Risk: 6/10</div></div>
-        <div class="bb-item"><div class="bb-text">FX exposure &mdash; Bolivia 68% practical devaluation vs official peg</div><div class="bb-bar"><div class="bb-bar-fill" style="width:80%;background:var(--accent-red)"></div></div><div class="bb-score text-red">Risk: 8/10</div></div>
-        <div class="bb-item"><div class="bb-text">Guatemala concentration: ~30% of EBITDA from one 2-player market</div><div class="bb-bar"><div class="bb-bar-fill" style="width:60%;background:var(--accent-red)"></div></div><div class="bb-score text-red">Risk: 6/10</div></div>
-        <div class="bb-item"><div class="bb-text">DOJ investigation overhang ($118M provision)</div><div class="bb-bar"><div class="bb-bar-fill" style="width:50%;background:var(--accent-red)"></div></div><div class="bb-score text-red">Risk: 5/10</div></div>
-        <div class="bb-item"><div class="bb-text">Chile JV (49%) with uncertain turnaround from 19% margins</div><div class="bb-bar"><div class="bb-bar-fill" style="width:40%;background:var(--accent-red)"></div></div><div class="bb-score text-red">Risk: 4/10</div></div>
-        <div class="bb-item"><div class="bb-text">CapEx underinvestment risk: cuts from $1B to $600-700M annually</div><div class="bb-bar"><div class="bb-bar-fill" style="width:50%;background:var(--accent-red)"></div></div><div class="bb-score text-red">Risk: 5/10</div></div>
-      </div>
+      <div class="bb-col bull"><h3><i class="fas fa-arrow-trend-up text-green"></i> Bull Case</h3><div id="bull-list"></div></div>
+      <div class="bb-col bear"><h3><i class="fas fa-arrow-trend-down text-red"></i> Bear Case</h3><div id="bear-list"></div></div>
     </div>
   </div>
 </section>
 
 <!-- ========== RISKS ========== -->
-<section id="risks" class="section" style="background:var(--bg-secondary)">
+<section id="risks" class="section">
   <div class="container">
-    <div class="section-label animate-on-scroll">Risk Assessment</div>
+    <div class="section-label animate-on-scroll">What Could Go Wrong</div>
     <h2 class="section-title animate-on-scroll">Key Risks</h2>
-    <p class="section-subtitle animate-on-scroll">Probability vs impact risk matrix. Bubble size reflects overall severity.</p>
-
-    <div class="risk-chart-container animate-on-scroll">
-      <canvas id="chart-risk-bubble"></canvas>
-    </div>
-
+    <p class="section-subtitle animate-on-scroll">Bubble position = likelihood (x) × impact (y); size = severity. The three "high" risks — Colombia integration, FX (Bolivia), and leverage not falling — are the same three the bull case depends on succeeding.</p>
     <div class="risk-grid animate-on-scroll">
-      <div class="risk-card">
-        <h4><span class="severity-badge sev-high">HIGH</span> FX / Bolivia Devaluation</h4>
-        <p>Bolivia's practical exchange rate (BOB 11.59/USD) has deviated 68% from the official peg (6.91). Severe dollar shortages and depleted international reserves threaten USD-denominated cash flows.</p>
-        <div class="mitigation"><strong>Mitigation:</strong> Bolivia is ~8% of EBITDA. Ecuador acquisition adds dollarized revenue as natural hedge.</div>
-      </div>
-      <div class="risk-card">
-        <h4><span class="severity-badge sev-high">HIGH</span> Integration Execution</h4>
-        <p>Four acquisitions in 12 months (Ecuador, Uruguay, ColTel, Chile) stretch management bandwidth. ColTel restructuring costs already 3x initial estimates ($100M+ vs $30M).</p>
-        <div class="mitigation"><strong>Mitigation:</strong> Ecuador/Uruguay already in BAU mode. Proven playbook across 11 prior turnarounds.</div>
-      </div>
-      <div class="risk-card">
-        <h4><span class="severity-badge sev-med">MED</span> Guatemala Concentration</h4>
-        <p>~30% of group EBITDA from a single 2-player market. A new entrant would disrupt the oligopoly pricing dynamic and compress 56% margins.</p>
-        <div class="mitigation"><strong>Mitigation:</strong> High barriers to entry (spectrum, infrastructure). Colombia growing as diversifier post-consolidation.</div>
-      </div>
-      <div class="risk-card">
-        <h4><span class="severity-badge sev-med">MED</span> Leverage Spike</h4>
-        <p>Net debt peaks at $9.5B in 2026E (2.5x leverage) driven by EPM buyout ($571M), La Nacion stake ($220M), and restructuring. Limits financial flexibility.</p>
-        <div class="mitigation"><strong>Mitigation:</strong> Clear deleveraging path to 2.1x by 2027E and 1.8x by 2028E. FCF generation of $1.3B+ annually.</div>
-      </div>
-      <div class="risk-card">
-        <h4><span class="severity-badge sev-med">MED</span> Regulatory / DOJ</h4>
-        <p>Active DOJ investigation with $118M provision (Q3 2025). Colombia spectrum divestment requirements (~55 MHz). Costa Rica merger blocked by SUTEL.</p>
-        <div class="mitigation"><strong>Mitigation:</strong> Provision already taken. Spectrum divestment manageable. Costa Rica is small market.</div>
-      </div>
-      <div class="risk-card">
-        <h4><span class="severity-badge sev-low">LOW</span> Chile JV Turnaround</h4>
-        <p>49% stake in 4-player Chilean market with 19% margins. Off-balance sheet but could require equity infusions if turnaround fails.</p>
-        <div class="mitigation"><strong>Mitigation:</strong> Limited $50M upfront exposure. Call options in years 5-6 provide flexibility. NJJ (51%) shares risk.</div>
-      </div>
+      <div class="bm-flow"><div class="chart-box tall"><canvas id="chart-risk"></canvas></div></div>
+      <div class="risk-list" id="risk-list"></div>
     </div>
+    <div class="src animate-on-scroll" style="margin-top:18px"><i class="fas fa-file-lines"></i> Sources: UBS; Morgan Stanley; AlphaSense (DNB, Kepler, expert calls); Q1-2026 release (incl. ~$118m DOJ-related provision noted Q3-2025).</div>
   </div>
 </section>
 
-<!-- ========== CATALYSTS ========== -->
-<section id="catalysts" class="section">
+<!-- ========== GLOSSARY ========== -->
+<section id="glossary" class="section" style="background:var(--bg-secondary)">
   <div class="container">
-    <div class="section-label animate-on-scroll">Forward-Looking</div>
-    <h2 class="section-title animate-on-scroll">Key Catalysts</h2>
-    <p class="section-subtitle animate-on-scroll">Events that could drive the stock over the next 12-24 months.</p>
-
-    <div class="catalyst-timeline animate-on-scroll">
-      <div class="catalyst-item">
-        <div class="catalyst-dot" style="background:var(--accent-cyan)"></div>
-        <div class="catalyst-date text-cyan">Q1 2026</div>
-        <div class="catalyst-text">First quarterly results including ColTel consolidation &mdash; key read on integration progress and margin trajectory</div>
-        <span class="catalyst-tag" style="background:rgba(6,182,212,.15);color:var(--accent-cyan)">Earnings</span>
-      </div>
-      <div class="catalyst-item">
-        <div class="catalyst-dot" style="background:var(--accent-green)"></div>
-        <div class="catalyst-date text-green">Q2 2026</div>
-        <div class="catalyst-text">Colombia government's remaining 32.5% ColTel stake acquisition closes &mdash; unlocks full TIGO playbook implementation</div>
-        <span class="catalyst-tag" style="background:rgba(16,185,129,.15);color:var(--accent-green)">M&A</span>
-      </div>
-      <div class="catalyst-item">
-        <div class="catalyst-dot" style="background:var(--accent-amber)"></div>
-        <div class="catalyst-date text-amber">H1 2026</div>
-        <div class="catalyst-text">Chile JV operational plan and first turnaround metrics revealed &mdash; will validate or challenge the 4-pillar approach</div>
-        <span class="catalyst-tag" style="background:rgba(245,158,11,.15);color:var(--accent-amber)">Operations</span>
-      </div>
-      <div class="catalyst-item">
-        <div class="catalyst-dot" style="background:var(--accent-purple)"></div>
-        <div class="catalyst-date text-purple">2026</div>
-        <div class="catalyst-text">Project Everest $250M savings run-rate achievement &mdash; confirms operational efficiency story</div>
-        <span class="catalyst-tag" style="background:rgba(139,92,246,.15);color:var(--accent-purple)">Efficiency</span>
-      </div>
-      <div class="catalyst-item">
-        <div class="catalyst-dot" style="background:var(--accent-green)"></div>
-        <div class="catalyst-date text-green">2026-2027</div>
-        <div class="catalyst-text">Ecuador &amp; Uruguay margins progressing toward 46.8% target from current 40%+ &mdash; proves integration flywheel</div>
-        <span class="catalyst-tag" style="background:rgba(16,185,129,.15);color:var(--accent-green)">Margins</span>
-      </div>
-      <div class="catalyst-item">
-        <div class="catalyst-dot" style="background:var(--accent-blue)"></div>
-        <div class="catalyst-date text-blue">2027</div>
-        <div class="catalyst-text">Leverage reaching 2.1x target &mdash; deleveraging visible, potentially triggering re-rating and credit upgrade</div>
-        <span class="catalyst-tag" style="background:rgba(59,130,246,.15);color:var(--accent-blue)">Balance Sheet</span>
-      </div>
-      <div class="catalyst-item">
-        <div class="catalyst-dot" style="background:var(--accent-cyan)"></div>
-        <div class="catalyst-date text-cyan">2027-2028</div>
-        <div class="catalyst-text">FCF reaching $1.3B+ supporting sustainable $3/share dividend &mdash; establishes TIGO as LatAm income play</div>
-        <span class="catalyst-tag" style="background:rgba(6,182,212,.15);color:var(--accent-cyan)">Shareholder Returns</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== INDUSTRY PRIMER ========== -->
-<section id="primer" class="section" style="background:var(--bg-secondary)">
-  <div class="container">
-    <div class="section-label animate-on-scroll">First Principles</div>
-    <h2 class="section-title animate-on-scroll">LatAm Telco Primer</h2>
-    <p class="section-subtitle animate-on-scroll">New to the space? Here's everything you need to understand Millicom's business from the ground up.</p>
-
-    <div class="primer-accordion animate-on-scroll">
-      <details>
-        <summary><i class="fas fa-signal text-blue"></i> What is ARPU and why does it matter?<span class="chevron"><i class="fas fa-chevron-right"></i></span></summary>
-        <div class="primer-body">ARPU (Average Revenue Per User) measures the average monthly revenue generated per subscriber. In LatAm, mobile ARPU typically ranges from $3-8/month for prepaid users versus $15-30/month for postpaid. Higher ARPU means better monetization of each customer. Millicom's strategy of migrating prepaid users to postpaid directly increases ARPU without needing new customers. Fixed-broadband ARPU is typically $20-40/month, and convergent bundles (mobile + broadband + TV) can reach $50+, which is why Millicom pushes fixed-mobile convergence.</div>
-      </details>
-      <details>
-        <summary><i class="fas fa-chart-line text-green"></i> Why do EBITDA margins matter so much for telcos?<span class="chevron"><i class="fas fa-chevron-right"></i></span></summary>
-        <div class="primer-body">Telecom is capital-intensive: you must build towers, lay fiber, buy spectrum licenses, and maintain networks before earning a dollar. EBITDA (Earnings Before Interest, Taxes, Depreciation, Amortization) strips out these large non-cash charges to show operating cash generation. A 45% EBITDA margin means $0.45 of every revenue dollar becomes operating cash. This cash funds CapEx, debt service, and dividends. Millicom's margin expansion from 37% to 48%+ is transformational because every 1 percentage point of margin on $8.4B revenue equals ~$84M of additional cash generation annually.</div>
-      </details>
-      <details>
-        <summary><i class="fas fa-scale-balanced text-amber"></i> Understanding leverage in telecom<span class="chevron"><i class="fas fa-chevron-right"></i></span></summary>
-        <div class="primer-body">Leverage (Net Debt / EBITDA) measures how many years of operating cash it would take to repay all debt. For telcos, 2-3x is considered normal because the business generates stable, recurring cash flows that support debt servicing. Below 2x is conservative; above 3x raises concerns. Millicom's leverage peaks at 2.5x in 2026E due to M&A spending, then declines to 1.8x by 2028E as EBITDA grows faster than debt. This deleveraging trajectory is a key part of the investment thesis, as lower leverage reduces interest costs and increases financial flexibility for dividends and buybacks.</div>
-      </details>
-      <details>
-        <summary><i class="fas fa-coins text-red"></i> FX impact on LatAm telcos<span class="chevron"><i class="fas fa-chevron-right"></i></span></summary>
-        <div class="primer-body">Millicom earns revenue in 10+ local currencies (Guatemalan quetzal, Colombian peso, Bolivian boliviano, etc.) but reports in USD and carries USD-denominated debt. When local currencies weaken against the dollar, reported revenue shrinks even if local business is growing. Debt burden also increases in local currency terms. Bolivia is the extreme case: the official exchange rate is BOB 6.91/USD, but the practical rate is BOB 11.59/USD &mdash; a 68% devaluation that severely impacts dollar-denominated cash flows. Ecuador's dollarized economy provides a natural hedge, which was part of the strategic rationale for that acquisition.</div>
-      </details>
-      <details>
-        <summary><i class="fas fa-tower-cell text-purple"></i> Tower economics: own vs. lease<span class="chevron"><i class="fas fa-chevron-right"></i></span></summary>
-        <div class="primer-body">Cell towers are the physical infrastructure that transmit wireless signals. Historically, telcos owned their towers, but the industry has shifted toward a sale-and-leaseback model. By selling 7,000+ towers to SBA Communications for $975M, Millicom converted a depreciating asset into immediate cash while signing long-term lease agreements. This reduces CapEx (no more tower maintenance) but adds an annual lease expense. The trade-off is worthwhile when the cash can be deployed at higher returns &mdash; in Millicom's case, funding M&A that generates 15%+ returns on invested capital. The tower-light model also makes the company more nimble and asset-efficient.</div>
-      </details>
-      <details>
-        <summary><i class="fas fa-house-signal text-cyan"></i> Mobile vs. fixed broadband economics<span class="chevron"><i class="fas fa-chevron-right"></i></span></summary>
-        <div class="primer-body">Mobile has higher margins (~50-60% at the EBITDA level in strong markets) because the network serves millions of users wirelessly with relatively low per-user cost. Fixed broadband requires physically connecting each home with cable or fiber, making it more capital-intensive per subscriber. However, fixed broadband has higher ARPU and much lower churn (customers rarely switch broadband providers). The convergence strategy &mdash; bundling mobile + broadband + TV &mdash; is powerful because it increases total ARPU while dramatically reducing churn, as canceling any one service means losing the bundle discount on all services.</div>
-      </details>
-      <details>
-        <summary><i class="fas fa-money-bill-trend-up text-green"></i> What is FCF yield and why do investors care?<span class="chevron"><i class="fas fa-chevron-right"></i></span></summary>
-        <div class="primer-body">Free Cash Flow (FCF) Yield is FCF divided by market capitalization. It represents the percentage return shareholders would receive if all free cash were distributed. An 8-11% FCF yield (Millicom's 2026-2028E range) is attractive because it means the company generates 8-11 cents of distributable cash per dollar of market value annually. This is significantly higher than bond yields or most equity alternatives. FCF yield matters more than earnings for telcos because large depreciation charges make reported earnings misleadingly low relative to actual cash generation. Millicom's growing FCF supports its new dividend policy ($3-4/share annually) while still funding debt reduction.</div>
-      </details>
-      <details>
-        <summary><i class="fas fa-chess text-amber"></i> LatAm telco competitive dynamics<span class="chevron"><i class="fas fa-chevron-right"></i></span></summary>
-        <div class="primer-body">LatAm telecom markets are typically oligopolies with 2-4 major players per country. Fewer players generally means more rational pricing and higher margins &mdash; Guatemala's 2-player market produces 56% margins, while Colombia's former 4-player market historically delivered sub-40%. Telefonica's exit from multiple LatAm markets in 2024-2025 created a once-in-a-generation consolidation opportunity. Millicom seized this, acquiring Telefonica's assets in Ecuador, Uruguay, Colombia, and Chile. In Colombia, the market is consolidating from 4 to 3 players (especially after WOM's bankruptcy), which should improve pricing discipline industry-wide. America Movil (Carlos Slim's company) remains the largest competitor across the region, but Millicom's operational efficiency gives it a margin advantage in several markets.</div>
-      </details>
-    </div>
+    <div class="section-label animate-on-scroll">Speak the Language</div>
+    <h2 class="section-title animate-on-scroll">Glossary — Every Term Defined</h2>
+    <p class="section-subtitle animate-on-scroll">Type to filter. These are the terms you need to discuss Tigo (or any LatAm telecom) with confidence.</p>
+    <input type="text" class="gloss-search animate-on-scroll" id="gloss-search" placeholder="Search terms… (e.g. EFCF, ARPU, leverage)">
+    <div class="gloss-grid animate-on-scroll" id="gloss-grid"></div>
   </div>
 </section>
 
 <!-- ========== FOOTER ========== -->
-<footer class="footer">
+<footer>
   <div class="container">
-    <p><strong>Disclaimer:</strong> For informational purposes only. Not investment advice. Past performance is not indicative of future results.</p>
-    <p>Data sourced from UBS, Morgan Stanley, HSBC, DNB Carnegie, Kepler Cheuvreux, and AlphaSense research reports (Jan-Apr 2026).</p>
-    <p>Built with Chart.js, Leaflet.js, and TradingView &bull; Last updated: April 2026</p>
+    <p style="color:var(--text-secondary);font-weight:600;margin-bottom:8px">Millicom (TIGO) — First-Principles Interactive Research Dashboard</p>
+    <div class="disclaimer">For research and educational purposes only. Not investment advice. All figures are sourced from the documents listed below (Q1-2026 earnings set, sell-side research, and financial models) and reflect information as of those dates (Q1-2026 reported 12-May-2026). Estimates are analyst projections, not guarantees. Verify against primary filings before any decision.</div>
+    <div class="src-tags" id="src-tags"></div>
+    <p style="margin-top:14px">Built with Chart.js, Leaflet.js &amp; TradingView &bull; Data current to Q1-2026 (May 2026)</p>
   </div>
 </footer>
 
 <!-- ========== JAVASCRIPT ========== -->
 <script>
-// ========== DATA CONSTANTS ==========
-const YEARS = ['2022','2023','2024','2025E','2026E','2027E','2028E','2029E'];
-const FINANCIAL = {
-  revenue:    [5625, 5661, 5804, 5608, 8408, 8639, 8888, 9142],
-  ebitdaMargin:[37.0, 35.0, 37.2, 42.0, 45.0, 47.8, 48.3, 49.0],
-  ebit:       [883, 784, 1288, 1505, 2094, 2395, 2617, 2789],
-  netDebt:    [6723, 6909, 6013, 7871, 9467, 8649, 7716, 6641],
-  leverage:   [2.8, 3.0, 2.4, 2.4, 2.5, 2.1, 1.8, 1.5],
-  eps:        [0.29, -0.50, 1.49, 7.88, 4.87, 6.00, 7.16, 8.09],
-  fcf:        [null, null, null, 916, 1030, 1334, 1448, null],
-  fcfYield:   [null, null, null, null, 8.2, 10.6, 11.5, 12.2],
-  dps:        [0, 0, 0, 5.42, 4.25, 3.00, 3.00, 3.00]
+/* ============================================================
+   DATA — sourced from the research dossier (see /Glossary & footer)
+   ============================================================ */
+const YEARS = ['2022','2023','2024','2025A','2026E','2027E','2028E','2029E','2030E'];
+const ACTUAL_THRU = 3; // index of last actual (2025A)
+const FIN = {
+  revenue:      [5625, 5661, 5804, 5819, 8408, 8639, 8888, 9142, 9401],
+  ebitda:       [2227, 2122, 2469, 2749, 3787, 4127, 4293, 4437, 4583],
+  ebitdaMargin: [39.6, 37.5, 42.5, 47.2, 45.0, 47.8, 48.3, 48.5, 48.8],
+  capex:        [956, 906, 801, 900, 1165, 1132, 1153, 1145, 1140],
+  capexSales:   [17.0, 16.0, 13.8, 15.5, 13.9, 13.1, 13.0, 12.5, 12.1],
+  efcf:         [null, null, 727, 916, 936, 1340, 1400, 1450, 1500],
+  fcfYield:     [null, null, null, 6.0, 8.0, 10.6, 11.5, 12.3, 13.0],
+  netDebt:      [6723, 6909, 6013, 5357, 9467, 8649, 7716, 6641, 5550],
+  leverage:     [2.8, 3.0, 2.46, 2.31, 2.6, 2.2, 1.9, 1.5, 1.2],
+  eps:          [0.29, -0.50, 1.49, 7.88, 3.82, 5.80, 7.20, 8.00, 8.50],
+  dps:          [0, 0, 0, 3.00, 4.25, 3.00, 3.00, 3.00, 3.00]
 };
 
+// Q1-2026 segment service revenue ($m, reported)
+const SEGMENTS = [
+  {name:'Mobile', rev:1133, growth:7.0, color:'#00aeef'},
+  {name:'Home/Fixed', rev:453, growth:0.0, color:'#06b6d4'},
+  {name:'B2B', rev:367, growth:18.9, color:'#8b5cf6'},
+  {name:'Digital', rev:104, growth:5.3, color:'#f59e0b'}
+];
+
+// FY25A cash bridge ($bn) — illustrative of EBITDA -> EFCF
+const BRIDGE = [
+  {label:'Revenue', v:5.82, type:'base'},
+  {label:'− Cash opex', v:-3.07, type:'neg'},
+  {label:'Adj. EBITDA', v:2.75, type:'sub'},
+  {label:'− Capex+spectrum', v:-0.90, type:'neg'},
+  {label:'− Net interest', v:-0.72, type:'neg'},
+  {label:'− Leases', v:-0.13, type:'neg'},
+  {label:'− Tax & other', v:-0.10, type:'neg'},
+  {label:'Equity FCF', v:0.92, type:'sub'}
+];
+
+// Countries (Q1-2026). consolidated=false => JV. ebitda used for circle size.
 const COUNTRIES = [
-  {name:'Guatemala',flag:'\u{1F1EC}\u{1F1F9}',lat:14.6,lng:-90.5,margin:55.8,revGrowth:5,ebitdaGrowth:11,groupPct:30,status:'Core',structure:'2-player oligopoly',note:'Crown jewel. Highest margins in portfolio. Rational 2-player structure with stable pricing.'},
-  {name:'Colombia',flag:'\u{1F1E8}\u{1F1F4}',lat:4.7,lng:-74.1,margin:44.1,revGrowth:5,ebitdaGrowth:25,groupPct:35,status:'Core',structure:'4\u21923 players (consolidating)',note:'Record 44.1% margin. ColTel consolidation creates #2 position. $330M incremental EFCF potential.'},
-  {name:'Bolivia',flag:'\u{1F1E7}\u{1F1F4}',lat:-16.5,lng:-68.1,margin:52.9,revGrowth:5,ebitdaGrowth:22,groupPct:8,status:'Core',structure:'3-player market',note:'Strong margins despite 68% FX devaluation risk. Dollar shortages remain key concern.'},
-  {name:'Paraguay',flag:'\u{1F1F5}\u{1F1FE}',lat:-25.3,lng:-57.6,margin:52.0,revGrowth:0,ebitdaGrowth:12,groupPct:7,status:'Core',structure:'3-player market',note:'Steady 52% margins with EBITDA growth from cost efficiencies despite flat revenue.'},
-  {name:'Panama',flag:'\u{1F1F5}\u{1F1E6}',lat:9.0,lng:-79.5,margin:49.8,revGrowth:5,ebitdaGrowth:5,groupPct:7,status:'Core',structure:'2-player market',note:'Dollarized economy. Rational 2-player market with growth runway.'},
-  {name:'Ecuador',flag:'\u{1F1EA}\u{1F1E8}',lat:-0.2,lng:-78.5,margin:40,revGrowth:null,ebitdaGrowth:null,groupPct:5,status:'New',structure:'3-player market',note:'Acquired Oct 2025 for $380M. Already at 40%+ margins vs 33% pre-acquisition. Dollarized economy.'},
-  {name:'Uruguay',flag:'\u{1F1FA}\u{1F1FE}',lat:-34.9,lng:-56.2,margin:40,revGrowth:null,ebitdaGrowth:null,groupPct:4,status:'New',structure:'3-player market',note:'Acquired Oct 2025 for $440M. Margins at 40%+ vs 38% pre-acquisition. Stable macro.'},
-  {name:'Chile',flag:'\u{1F1E8}\u{1F1F1}',lat:-33.4,lng:-70.6,margin:19,revGrowth:null,ebitdaGrowth:null,groupPct:2,status:'Turnaround',structure:'4-player market (strained)',note:'49% JV with NJJ. $50M upfront + $150M earnout. 12-18 month turnaround via 4-pillar strategy.'},
-  {name:'Other (ES/NI/CR)',flag:'\u{1F30E}',lat:12.5,lng:-86.5,margin:44.7,revGrowth:6,ebitdaGrowth:13,groupPct:13,status:'Core',structure:'Mixed',note:'El Salvador, Nicaragua, Costa Rica combined. Solid 44.7% margins with 13% EBITDA growth.'}
+  {name:'Guatemala', flag:'\u{1F1EC}\u{1F1F9}', lat:14.6, lng:-90.5, rev:370, ebitda:237, margin:55.4, groupPct:'~27%', status:'Crown Jewel', cons:true,
+   ownership:'100% owned', structure:'#1 — 2-player duopoly (vs Claro)',
+   note:'Highest-margin, most predictable market; the cash-flow bedrock funding the regional roll-up. Postpaid 1.5m (+20%). Leverage 2.03x.'},
+  {name:'Colombia', flag:'\u{1F1E8}\u{1F1F4}', lat:4.7, lng:-74.1, rev:653, ebitda:205, margin:30.0, groupPct:'~24%', status:'Value Play', cons:true,
+   ownership:'100% (Tigo-UNE + Coltel, 2026)', structure:'4→3 consolidation (Tigo+Movistar; WOM bankrupt)',
+   note:'Largest revenue market. Reported margin 30% (incl $65m restructuring); ~41% ex-Coltel. HSBC sees EBITDA $1.0bn→$1.6bn by 2030. The 2026 swing factor.'},
+  {name:'Panama', flag:'\u{1F1F5}\u{1F1E6}', lat:9.0, lng:-79.5, rev:172, ebitda:91, margin:50.7, groupPct:'~11%', status:'Soft Spot', cons:true,
+   ownership:'100% owned', structure:'#1/#2 — rational 2-player',
+   note:'Dollarized (USD legal tender). The group’s soft spot: revenue +0.1%, EBITDA -1.0% YoY. Strong B2B/government. Leverage 2.24x.'},
+  {name:'Paraguay', flag:'\u{1F1F5}\u{1F1FE}', lat:-25.3, lng:-57.6, rev:158, ebitda:92, margin:56.3, groupPct:'~11%', status:'Core', cons:true,
+   ownership:'100% owned', structure:'#1 — strong position',
+   note:'Highest margin in the group (56.3%). Strong Guaraní tailwind (+20% YoY). Lowest tax (10%). Tigo Sports holds exclusive soccer rights.'},
+  {name:'Bolivia', flag:'\u{1F1E7}\u{1F1F4}', lat:-16.5, lng:-68.1, rev:122, ebitda:65, margin:53.4, groupPct:'~8%', status:'FX Risk', cons:true,
+   ownership:'100% owned', structure:'Strong market',
+   note:'53.4% margin (+700bps). SEVERE FX distortion: practical ~BOB 11.6/USD vs 6.91 peg (~68% implied devaluation), dollar shortages. A top bear risk. Leverage 0.54x.'},
+  {name:'Ecuador', flag:'\u{1F1EA}\u{1F1E8}', lat:-0.2, lng:-78.5, rev:110, ebitda:56, margin:48.3, groupPct:'~6%', status:'New (2025)', cons:true,
+   ownership:'100% (Otecel, Oct-25, ~$380m)', structure:'Entrant via Telefónica buyout',
+   note:'Margin jumped to 48.3% (~33% pre-deal) — playbook working. Dollarized. $70m spectrum paid Q1-26. Lowest leverage 0.38x. Tigo rebrand end-2026.'},
+  {name:'Uruguay', flag:'\u{1F1FA}\u{1F1FE}', lat:-34.9, lng:-56.2, rev:57, ebitda:27, margin:46.0, groupPct:'~3%', status:'New (2025)', cons:true,
+   ownership:'100% (Telefónica, Oct-25, ~$440m)', structure:'Entrant; integration complete',
+   note:'Margin to 46.0% (38% pre-deal). Stable, investment-grade economy — portfolio diversification. Phase 2 (top-line growth) not yet started.'},
+  {name:'El Salvador', flag:'\u{1F1F8}\u{1F1FB}', lat:13.7, lng:-89.2, rev:null, ebitda:null, margin:47.7, groupPct:'in "Others"', status:'Core', cons:true,
+   ownership:'100% owned', structure:'Established',
+   note:'Grouped in "Others" (combined Others svc rev $402m, EBITDA $202m, 47.7% margin). USD official currency. Leverage 1.18x.'},
+  {name:'Nicaragua', flag:'\u{1F1F3}\u{1F1EE}', lat:12.1, lng:-86.3, rev:null, ebitda:null, margin:null, groupPct:'in "Others"', status:'Core', cons:true,
+   ownership:'100% owned', structure:'2-player market',
+   note:'Grouped in "Others". Effectively unlevered (net debt ~$(6)m, -0.05x). A driver of Others revenue growth.'},
+  {name:'Costa Rica', flag:'\u{1F1E8}\u{1F1F7}', lat:9.9, lng:-84.1, rev:null, ebitda:null, margin:null, groupPct:'in "Others"', status:'Regulatory', cons:true,
+   ownership:'100% owned', structure:'Liberty LatAm merger BLOCKED (Nov-25)',
+   note:'Grouped in "Others". Regulator SUTEL blocked the Liberty merger — a reminder of deal/regulatory risk. Highest market leverage 3.44x.'},
+  {name:'Honduras', flag:'\u{1F1ED}\u{1F1F3}', lat:14.1, lng:-87.2, rev:150, ebitda:82, margin:51.6, groupPct:'JV', status:'JV', cons:false,
+   ownership:'Equity-method JV (not consolidated)', structure:'Strong market',
+   note:'NOT in group EBITDA. Contributes only via cash repatriation (+$34m Q1-26). Profit share swung from +$63m (Q4-25) to -$13m (Q1-26). UBS values the JV ~$561m.'},
+  {name:'Chile', flag:'\u{1F1E8}\u{1F1F1}', lat:-33.4, lng:-70.6, rev:200, ebitda:38, margin:19.0, groupPct:'JV', status:'Turnaround', cons:false,
+   ownership:'49% JV with NJJ (Niel); Feb-26, ~$50m', structure:'Competitive 4-player (vs ENTEL)',
+   note:'NOT consolidated; debt ring-fenced, no recourse to Tigo. ~19% margin, was losing ~$0.5m/day. 12–18mo turnaround; positive EFCF in first 2 months.'}
 ];
 
 const MA_EVENTS = [
-  {date:'Oct 2025',name:'Ecuador (Otecel)',price:'$380M',desc:'Telefonica mobile ops. Dollarized economy.',status:'Completed',color:'var(--accent-green)'},
-  {date:'Oct 2025',name:'Uruguay',price:'$440M',desc:'Telefonica mobile + fixed ops.',status:'Completed',color:'var(--accent-green)'},
-  {date:'Jan 2026',name:'EPM TigoUne',price:'$571M',desc:'100% Colombia ownership via EPM buyout.',status:'Completed',color:'var(--accent-green)'},
-  {date:'Feb 2026',name:'ColTel (67.5%)',price:'$400M',desc:'Colombia consolidation. $2.2B ARR.',status:'Integrating',color:'var(--accent-cyan)'},
-  {date:'Feb 2026',name:'Chile JV (NJJ)',price:'$50M+$150M',desc:'49/51 JV. 12-18 month turnaround.',status:'Early Stage',color:'var(--accent-amber)'},
-  {date:'Ongoing',name:'Tower Sale (SBA)',price:'$975M',desc:'7,000+ towers. Asset-light model.',status:'Monetization',color:'var(--accent-purple)'}
+  {date:'Nov 2021', name:'Guatemala — last 45%', price:'$2.2B (6.2x)', desc:'Bought remaining JV stake; 100% of the crown jewel.', status:'Context', color:'#64748b'},
+  {date:'Oct 2025', name:'Ecuador (Otecel)', price:'~$380M (2.4x)', desc:'Telefónica mobile ops; dollarized. Margin 33%→48%.', status:'Completed', color:'#10b981'},
+  {date:'Oct 2025', name:'Uruguay (Telefónica)', price:'~$440M EV', desc:'Mobile + fixed; stable, investment-grade economy.', status:'Completed', color:'#10b981'},
+  {date:'Nov 2025', name:'Costa Rica — Liberty merger', price:'Blocked', desc:'Regulator SUTEL blocked the deal — regulatory risk.', status:'Blocked', color:'#ef4444'},
+  {date:'Jan 2026', name:'Colombia — EPM’s 50% of Tigo-UNE', price:'~$571M (2.18x)', desc:'Step toward 100% Colombia control.', status:'Completed', color:'#10b981'},
+  {date:'Feb 2026', name:'Colombia — Coltel (Movistar) 67.5%', price:'~$214–400M (4.6x)', desc:'Telefónica’s Colombia; consolidated from ~6-Feb. +$2.2bn revenue.', status:'Integrating', color:'#06b6d4'},
+  {date:'Feb 2026', name:'Chile JV (with NJJ)', price:'~$50M +$150M earnout', desc:'49% operating stake; ring-fenced, non-recourse.', status:'Turnaround', color:'#f59e0b'},
+  {date:'Apr 2026', name:'Colombia — Coltel last 32.5%', price:'(La Nación stake)', desc:'Completes Coltel ownership; adds debt, no EBITDA yet.', status:'Completed', color:'#10b981'},
+  {date:'2025–26', name:'Tower sale to SBA', price:'~$975M', desc:'&gt;7,000 towers sold-and-leased-back; asset-light, funds M&A.', status:'Monetization', color:'#8b5cf6'}
 ];
 
-const ANALYST_PTS = [
-  {firm:'Kepler Cheuvreux',rating:'Buy',price:40,color:'var(--accent-red)'},
-  {firm:'Morgan Stanley',rating:'EW',price:55,color:'var(--accent-red)'},
-  {firm:'DNB Carnegie',rating:'Hold',price:75,color:'var(--accent-amber)'},
-  {firm:'UBS',rating:'Buy',price:87.5,color:'var(--accent-green)'},
-  {firm:'HSBC',rating:'Buy',price:89,color:'var(--accent-green)'}
+const ANALYSTS = [
+  {firm:'Kepler Cheuvreux', rating:'Buy*', pt:40, color:'#ef4444'},
+  {firm:'Morgan Stanley', rating:'Equal-wt', pt:73, color:'#f59e0b'},
+  {firm:'DNB Carnegie', rating:'Hold', pt:75, color:'#f59e0b'},
+  {firm:'HSBC', rating:'Buy', pt:89, color:'#10b981'},
+  {firm:'UBS', rating:'Neutral', pt:90, color:'#f59e0b'}
 ];
 
 const RISKS = [
-  {name:'FX / Bolivia',prob:7,impact:8,r:16,color:'rgba(239,68,68,.7)'},
-  {name:'Integration',prob:6,impact:7,r:14,color:'rgba(239,68,68,.6)'},
-  {name:'Leverage Spike',prob:5,impact:5,r:11,color:'rgba(245,158,11,.6)'},
-  {name:'Regulatory/DOJ',prob:4,impact:6,r:11,color:'rgba(245,158,11,.6)'},
-  {name:'Guatemala Conc.',prob:3,impact:8,r:13,color:'rgba(245,158,11,.6)'},
-  {name:'CapEx Underinvest',prob:4,impact:5,r:10,color:'rgba(245,158,11,.5)'},
-  {name:'Chile Turnaround',prob:5,impact:3,r:8,color:'rgba(16,185,129,.5)'}
+  {name:'Colombia/Coltel integration', x:6.5, y:8.5, r:26, sev:'high',
+   detail:'The entire 2026 step-change hinges on consolidating Coltel and capturing synergies while ramping 5G capex. ~$100–165m more restructuring; overruns jeopardise the ≥$900m EFCF & 2.5x leverage goals.'},
+  {name:'FX / Bolivia', x:7, y:8, r:24, sev:'high',
+   detail:'USD-reporting telco with COP, GTQ, PYG, BOB exposure. Bolivia acute: ~68% practical devaluation vs peg, dollar shortages. A reversal of the COP/PYG tailwind would pressure reported cash flow.'},
+  {name:'Leverage not falling', x:5.5, y:8, r:23, sev:'high',
+   detail:'The single most-cited UBS risk. Net debt peaks ~$9.4–10.5bn in 2026E; deleveraging to ~2.5x relies on EFCF delivery, EBITDA growth and FX stability. Q2 transient uptick from La Nación + special dividend.'},
+  {name:'Valuation re-rating', x:5, y:7, r:20, sev:'high',
+   detail:'Re-rated >1 SD above history after a ~50% rally to ~6.6x (peers ~5x). Consensus EFCF (~$1bn) sits above guidance — little room for error; any miss could de-rate.'},
+  {name:'Regulatory / spectrum', x:4, y:6, r:17, sev:'med',
+   detail:'Colombia CRC/SIC concentration safeguards (roaming/MVNO, spectrum return); Costa Rica SUTEL blocked Liberty merger; lumpy spectrum payments. Access-pricing could constrain Colombia synergies.'},
+  {name:'US DOJ investigation', x:3.5, y:6, r:15, sev:'med',
+   detail:'A ~$118m DOJ-related provision was recorded in Q3-2025; nature, status and any further liability are undisclosed in the sources.'},
+  {name:'Capital allocation / M&A', x:4, y:5, r:15, sev:'med',
+   detail:'Could overextend on new markets (Peru, Venezuela on the "menu"); bears also flag capex under-investment risking long-term network quality vs FTTH rivals.'},
+  {name:'Governance / control', x:3.5, y:6.5, r:15, sev:'med',
+   detail:'Niel’s ~40–44% de-facto control + related-party Chile JV may diverge from minorities; an opportunistic low-ball tender (cf. prior $24/sh Atlas bid) is a control-discount risk.'},
+  {name:'Home/fixed competition', x:4.5, y:4.5, r:13, sev:'med',
+   detail:'Home organic revenue flat (+0.0%); legacy HFC/coax lags rivals’ FTTH; Chile is a loss-making 4-player turnaround.'},
+  {name:'Cash upstreaming', x:3, y:4, r:11, sev:'low',
+   detail:'Group EFCF relies partly on dividends from subsidiaries and non-consolidated Honduras ($34m Q1-26); Honduras swung to a -$13m loss share in Q1-26.'}
 ];
 
-// ========== CHART.JS DEFAULTS ==========
+const BULL = [
+  {t:'Record, inflecting equity free cash flow', d:'FY25A EFCF $916m beat the $750m target; Q1-26 $225m was a new Q1 record (+66.5% organic). FY26 guide ≥$900m; UBS/HSBC see ~$1.2bn by 2027.', s:'Q1-26; UBS; HSBC'},
+  {t:'Transformational, cheaply-priced M&A', d:'Captured Telefónica’s LatAm exit — Colombia, Ecuador (~2.4x), Uruguay, Chile JV. Combined Colombia bought <2.0x EBITDA; Coltel adds ~$2.2bn revenue → ~$330m potential EFCF.', s:'AlphaSense (HSBC/DNB); UBS'},
+  {t:'Colombia 4-to-3 consolidation', d:'SIC-approved Tigo-Movistar merger enables rational pricing; ABG models up to 7pp margin uplift / ~9% EFCF accretion; HSBC sees Colombia EBITDA $1.0bn→$1.6bn by 2030.', s:'AlphaSense (ABG/HSBC)'},
+  {t:'Proven cost playbook', d:'"Project Everest": ~27% headcount cuts, 21% programming & 18% IT savings → record ~48–49% organic margin BEFORE M&A synergies. Ecuador & Uruguay already above group average.', s:'AlphaSense; Q1-26'},
+  {t:'Postpaid migration + FMC engine', d:'Pre-to-post conversion 67% (from 55%), postpaid +24.6% organic; postpaid ARPU ~50% higher with only ~20–29% penetration. FMC penetration 36% group, convergent churn ~50% lower.', s:'Q1-26'},
+  {t:'Deleveraging + shareholder returns', d:'Leverage 2.76x → ~2.5x (YE26) → ~1.2x (2030E). $3.00 DPS maintained, $2.50 special paid, up to 10%-of-equity buyback authorized. Tower sale funds M&A.', s:'Q1-26; UBS'},
+  {t:'Attractive growth/cash profile', d:'UBS: FCF-CAGR + dividends of ~25% for 2025–27E is the highest in its LatAm coverage (peers ~19%). ABG cites a 15–18% FCF yield "too attractive to ignore".', s:'UBS; AlphaSense (ABG)'},
+  {t:'Disciplined Niel/Atlas control', d:'Xavier Niel’s ~40–44% stake drove the cost overhaul and decisive capital allocation; provides direction and potential tender-offer optionality (flagged, not modeled).', s:'UBS; AlphaSense'}
+];
+
+const BEAR = [
+  {t:'M&A upside now largely priced in', d:'After a ~50% rally, TIGO trades ~6.6x NTM (peers ~5x), >1 SD above history. UBS downgraded to Neutral (24-May); DNB to Hold ("splendid but reflected in valuation"); MS PT sits below the price.', s:'UBS May-26; DNB; MS'},
+  {t:'Reported growth is Coltel-inflated', d:'Headline +45% service revenue vs only +4.9% organic; +5.6m postpaid adds vs +250k ex-Coltel; +1.5m home adds vs +46k ex-Coltel. Underlying momentum is far more modest.', s:'Q1-26'},
+  {t:'Colombia margin/growth targets ambitious', d:'Company guides ~42% consolidated Colombia margin & ~8% organic growth; UBS models only ~37–40% and notes Coltel grew just ~2% in Q1-26. Coltel standalone margin ~12% vs legacy ~41%.', s:'UBS May-26; Q1-26'},
+  {t:'Leverage spike, peaking net debt', d:'Leverage jumped +0.58x to 2.76x in Q1-26; Coltel added ~$1.5bn net debt. Q2 creeps higher (La Nación stake, April special). Net debt peaks ~$9.4–10.5bn in 2026E.', s:'Q1-26; UBS; MS'},
+  {t:'FX dependence, acute in Bolivia', d:'Strong COP/PYG tailwinds are "unprecedented" and unpredictable; a reversal would pressure EBITDA/EFCF. Bolivia’s ~68% implied devaluation vs peg drastically cuts reported USD EBITDA.', s:'Q1-26 call; AlphaSense'},
+  {t:'Home/fixed stagnant; Panama soft', d:'Home organic service revenue +0.0% (RGUs ex-Coltel -80k on fixed-telephony churn). Panama flat: revenue +0.1%, EBITDA -1.0%, margin slipping to 50.7%.', s:'Q1-26'},
+  {t:'Earnings depressed by D&A, interest, restructuring', d:'Q1-26 net profit fell 43% to $109m on higher D&A (+57%), net financial expense (+48%), $83m one-offs and a -$13m Honduras share. FY25A EPS $7.88 was one-off inflated.', s:'Q1-26; MS; UBS'},
+  {t:'High cost of debt, integration complexity', d:'7.8% avg cost of debt; net interest ~$650–815m/yr cuts FCF margin ~12pp. Multiple deals closed in six months; Chile JV could need an equity infusion (HSBC).', s:'Q1-26; UBS; AlphaSense'},
+  {t:'Governance / capital-allocation concentration', d:'Niel’s de-facto control may diverge from minorities (Kepler flagged a $24/sh Atlas bid). Related-party Chile JV; some experts fear a short-term cash-extraction vision risking under-investment.', s:'AlphaSense (Kepler/experts)'}
+];
+
+const GLOSSARY = [
+  {t:'EFCF (Equity Free Cash Flow)', d:'Tigo’s headline metric: cash left for equity holders after opex, capex, spectrum, taxes, interest and leases — i.e. cash for dividends, buybacks and debt repayment. Q1-26 $225m; FY26 target ≥$900m. A non-IFRS measure.'},
+  {t:'Adjusted EBITDA', d:'Earnings Before Interest, Tax, Depreciation & Amortization, "adjusted" to strip one-offs. A proxy for core operating profit and the main basis for valuation multiples. Q1-26 group $857m at 43.2% (47.9% ex-Coltel).'},
+  {t:'Leverage (Net debt / EBITDA)', d:'How many years of EBITDA it would take to repay net debt — the key balance-sheet gauge. Tigo 2.76x in Q1-26 (target ~2.5x). Uses an "after-leases, proforma for LTM acquisitions" definition.'},
+  {t:'Net debt', d:'Gross borrowings minus cash. Q1-26: gross $8,624m − cash $1,177m ≈ $7,609m.'},
+  {t:'Coltel', d:'Colombia Telecomunicaciones — the Movistar/Telefónica Colombia operator Tigo acquired and began consolidating from ~Feb 2026. It inflates every reported group metric, so figures show "incl." and "ex-Coltel".'},
+  {t:'Organic vs reported growth', d:'"Reported" includes acquisitions (M&A) and currency moves; "organic" strips both out to show the underlying business. Q1-26 service revenue was +45.2% reported but +4.9% organic.'},
+  {t:'Prepaid vs postpaid', d:'Prepaid = pay-as-you-go, no contract, lower/lumpier revenue. Postpaid = monthly contract, ~50% higher ARPU, stickier. Converting prepaid users to postpaid is Tigo’s core mobile growth lever.'},
+  {t:'ARPU (Average Revenue Per User)', d:'Average monthly revenue per subscriber — a key pricing metric. Q1-26 mobile ARPU $6.7/mo; home ARPU $26.1/mo.'},
+  {t:'FMC (Fixed-Mobile Convergence)', d:'Selling a customer both home broadband AND a mobile line in one bundle, raising wallet share and cutting churn (~50% lower). Group FMC penetration reached 36% in Q1-26.'},
+  {t:'HFC / FTTH', d:'HFC = Hybrid Fiber-Coaxial (older cable-style broadband); FTTH = Fiber-To-The-Home (newer, faster pure fiber). The two technologies Tigo uses for home internet. Rivals’ all-FTTH networks are a competitive concern.'},
+  {t:'Homes passed vs RGUs vs customers', d:'Homes passed = homes the network can reach (21.85m); RGUs (Revenue Generating Units) = individual subscriptions sold; customer relationships = unique billed households (~6.1m). One customer can hold several RGUs (internet + TV + phone).'},
+  {t:'B2B / Digital', d:'Business-to-business: selling connectivity, cloud and cybersecurity to companies and governments (often the most profitable contracts). Digital (cloud + cyber) is growing >20% YoY.'},
+  {t:'EV/EBITDA', d:'Enterprise Value (market cap + net debt) ÷ EBITDA — the standard telecom valuation multiple. Tigo trades ~6.6x NTM vs LatAm peers ~5x; UBS’s target uses ~5.8x 2027E.'},
+  {t:'DCF / WACC / terminal growth', d:'Discounted Cash Flow: value a company as the present value of future cash flows. WACC (~10.0–10.6% here) is the discount rate; terminal growth g (2.0–3.0%) is assumed perpetual growth after the forecast.'},
+  {t:'FCF yield', d:'Free cash flow per share ÷ share price — cash return per dollar invested. Tigo ~13.5% vs peers ~9.5%; brokers target ~9–10%.'},
+  {t:'Spectrum', d:'The radio frequencies a mobile operator licenses from the government to carry signals. Buying/renewing spectrum is a lumpy capital outflow — e.g. Ecuador’s $70m payment in Q1-26 (700MHz + 3.5GHz, renewal 2038).'},
+  {t:'Atlas / NJJ / Xavier Niel', d:'Xavier Niel is the French billionaire founder of telecom Iliad. Atlas Investissement is his vehicle holding ~40–44% of Millicom (de-facto control). NJJ is his separate personal vehicle — Tigo’s 51% partner in the Chile JV.'},
+  {t:'Equity associate / JV (non-consolidated)', d:'A business Tigo part-owns but does not control, so it is NOT line-by-line consolidated into group revenue/EBITDA — only the share of profit and any dividends flow through. Honduras and Chile are treated this way.'},
+  {t:'Tower sale-and-leaseback', d:'Selling cell towers to a specialist (e.g. SBA, >7,000 towers for ~$975m) and renting them back. Raises cash and cuts net debt but adds recurring lease costs — an "asset-light" pivot.'},
+  {t:'Project Everest / Millicom Playbook', d:'Tigo’s cost-transformation program: zero-based cost reset, ~27% headcount cuts, supplier renegotiation, network optimization and commercial simplification, applied market-by-market to inflect margins and cash flow.'}
+];
+
+const SOURCES = [
+  'Millicom Q1-2026 Earnings Presentation (12-May-2026)','Q1-2026 Earnings Call Transcript','Q1-2026 Earnings Release',
+  'UBS — "A Cash Flow Story" PT $87.5 Buy (1-Apr-2026)','UBS — Q4 First Read PT $70 (26-Feb-2026)','UBS — Upgrade to Buy PT $70 (15-Jan-2026)','UBS — Downgrade to Neutral PT $90 (24-May-2026)',
+  'Morgan Stanley — "Acquiring An Option in Chile" EW $55 (10-Feb-2026)','Morgan Stanley — C-Level Meeting Takes (26-Mar-2026)','Morgan Stanley — 1Q26 EW $73 (12-May-2026)',
+  'AlphaSense — Bull vs Bear Debates (HSBC/Kepler/DNB/ABG/BTG/Jefferies/Credicorp)','AlphaSense — Company Primer (4-Apr-2026)',
+  'HSBC — Buy $89 SOTP (5-Mar-2026)','DNB Carnegie — Hold $75 (27-Feb-2026)','Financial models: UBS DCF (WACC 10.6%, g 3%) & Morgan Stanley models'
+];
+
+/* ============================================================
+   CHART.JS DEFAULTS
+   ============================================================ */
 Chart.defaults.color = '#94a3b8';
 Chart.defaults.borderColor = '#1e293b';
 Chart.defaults.font.family = "'Inter', sans-serif";
 Chart.defaults.font.size = 12;
 Chart.defaults.plugins.legend.labels.usePointStyle = true;
-Chart.defaults.plugins.legend.labels.padding = 16;
+Chart.defaults.plugins.legend.labels.padding = 14;
 Chart.register(ChartDataLabels);
-Chart.defaults.plugins.datalabels = {display: false};
+Chart.defaults.plugins.datalabels = {display:false};
+Chart.defaults.maintainAspectRatio = false;
+const GRID = {color:'rgba(30,41,59,.6)'};
+const fade = (base,i)=> i<=ACTUAL_THRU ? base : base.replace(/[\d.]+\)$/,'.45)');
 
-// ========== CHART INIT FUNCTIONS ==========
+/* ============================================================
+   CHART INITS
+   ============================================================ */
 const charts = {};
 
-function initRevenueChart() {
-  const ctx = document.getElementById('chart-revenue');
-  charts.revenue = new Chart(ctx, {
-    type:'bar',
-    data:{
-      labels: YEARS,
-      datasets:[
-        {label:'Revenue ($M)',data:FINANCIAL.revenue,backgroundColor:YEARS.map((_,i)=>i<3?'rgba(59,130,246,.7)':'rgba(59,130,246,.4)'),borderRadius:4,yAxisID:'y',order:2},
-        {label:'EBITDA Margin %',data:FINANCIAL.ebitdaMargin,type:'line',borderColor:'#06b6d4',backgroundColor:'rgba(6,182,212,.1)',pointBackgroundColor:'#06b6d4',pointRadius:5,tension:.3,yAxisID:'y1',fill:true,order:1}
-      ]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      interaction:{mode:'index',intersect:false},
-      scales:{
-        y:{position:'left',title:{display:true,text:'Revenue ($M)'},ticks:{callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(30,41,59,.5)'}},
-        y1:{position:'right',title:{display:true,text:'EBITDA Margin %'},min:30,max:55,ticks:{callback:v=>v+'%'},grid:{display:false}}
-      },
-      plugins:{datalabels:{display:false},tooltip:{callbacks:{label:function(c){return c.dataset.label.includes('%')?c.parsed.y+'%':'$'+c.parsed.y.toLocaleString()+'M'}}}}
-    }
+function revenueChart(){
+  charts.rev = new Chart(document.getElementById('chart-revenue'),{
+    data:{labels:YEARS,datasets:[
+      {type:'bar',label:'Revenue ($m)',data:FIN.revenue,backgroundColor:YEARS.map((_,i)=>i<=ACTUAL_THRU?'rgba(0,174,239,.8)':'rgba(0,174,239,.4)'),borderRadius:4,yAxisID:'y',order:2},
+      {type:'line',label:'EBITDA margin (%)',data:FIN.ebitdaMargin,borderColor:'#10b981',backgroundColor:'#10b981',tension:.3,yAxisID:'y1',order:1,pointRadius:3}
+    ]},
+    options:{plugins:{legend:{position:'top'}},scales:{
+      y:{grid:GRID,ticks:{callback:v=>'$'+(v/1000).toFixed(1)+'B'}},
+      y1:{position:'right',grid:{display:false},min:30,max:55,ticks:{callback:v=>v+'%'}},
+      x:{grid:{display:false}}}}
   });
 }
-
-function initEbitChart() {
-  const ctx = document.getElementById('chart-ebit');
-  const colors = FINANCIAL.ebit.map(v => {
-    if(v<1000) return 'rgba(245,158,11,.7)';
-    if(v<1500) return 'rgba(59,130,246,.7)';
-    if(v<2000) return 'rgba(6,182,212,.7)';
-    return 'rgba(16,185,129,.7)';
-  });
-  charts.ebit = new Chart(ctx, {
+function ebitdaChart(){
+  charts.ebitda = new Chart(document.getElementById('chart-ebitda'),{
     type:'bar',
-    data:{labels:YEARS.slice(0,7),datasets:[{label:'EBIT ($M)',data:FINANCIAL.ebit.slice(0,7),backgroundColor:colors.slice(0,7),borderRadius:4}]},
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      scales:{y:{ticks:{callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(30,41,59,.5)'}}},
-      plugins:{datalabels:{anchor:'end',align:'top',color:'#f1f5f9',font:{family:'JetBrains Mono',size:11,weight:'600'},formatter:v=>'$'+v.toLocaleString()}}
-    }
+    data:{labels:YEARS,datasets:[{label:'Adj. EBITDA ($m)',data:FIN.ebitda,backgroundColor:YEARS.map((_,i)=>i<=ACTUAL_THRU?'rgba(16,185,129,.8)':'rgba(16,185,129,.4)'),borderRadius:4}]},
+    options:{plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'top',color:'#94a3b8',font:{size:10,family:"'JetBrains Mono'"},formatter:v=>(v/1000).toFixed(1)}},
+      scales:{y:{grid:GRID,ticks:{callback:v=>'$'+(v/1000).toFixed(1)+'B'}},x:{grid:{display:false}}}}
   });
 }
-
-function initLeverageChart() {
-  const ctx = document.getElementById('chart-leverage');
-  charts.leverage = new Chart(ctx, {
-    type:'bar',
-    data:{
-      labels:YEARS.slice(0,7),
-      datasets:[
-        {label:'Net Debt ($M)',data:FINANCIAL.netDebt.slice(0,7),backgroundColor:FINANCIAL.leverage.slice(0,7).map(l=>l>2.5?'rgba(239,68,68,.5)':l>2?'rgba(245,158,11,.5)':'rgba(16,185,129,.5)'),borderRadius:4,yAxisID:'y',order:2},
-        {label:'Leverage (x)',data:FINANCIAL.leverage.slice(0,7),type:'line',borderColor:'#f59e0b',pointBackgroundColor:'#f59e0b',pointRadius:5,tension:.3,yAxisID:'y1',order:1}
-      ]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      interaction:{mode:'index',intersect:false},
-      scales:{
-        y:{position:'left',title:{display:true,text:'Net Debt ($M)'},ticks:{callback:v=>'$'+v.toLocaleString()},grid:{color:'rgba(30,41,59,.5)'}},
-        y1:{position:'right',title:{display:true,text:'Leverage (x)'},min:0,max:4,ticks:{callback:v=>v.toFixed(1)+'x'},grid:{display:false}}
-      },
-      plugins:{datalabels:{display:false},
-        annotation:{annotations:{line1:{type:'line',yMin:2.5,yMax:2.5,yScaleID:'y1',borderColor:'rgba(239,68,68,.5)',borderDash:[6,4],borderWidth:1,label:{display:true,content:'2.5x Target',position:'end',color:'var(--accent-red)',font:{size:10}}}}}}
-    }
+function fcfChart(){
+  charts.fcf = new Chart(document.getElementById('chart-fcf'),{
+    data:{labels:YEARS,datasets:[
+      {type:'bar',label:'Equity FCF ($m)',data:FIN.efcf,backgroundColor:YEARS.map((_,i)=>i<=ACTUAL_THRU?'rgba(139,92,246,.8)':'rgba(139,92,246,.45)'),borderRadius:4,yAxisID:'y',order:2},
+      {type:'line',label:'FCF yield (%)',data:FIN.fcfYield,borderColor:'#f59e0b',backgroundColor:'#f59e0b',tension:.3,yAxisID:'y1',order:1,spanGaps:true,pointRadius:3}
+    ]},
+    options:{plugins:{legend:{position:'top'}},scales:{
+      y:{grid:GRID,ticks:{callback:v=>'$'+v+'m'}},
+      y1:{position:'right',grid:{display:false},min:0,max:16,ticks:{callback:v=>v+'%'}},
+      x:{grid:{display:false}}}}
   });
 }
-
-function initFCFChart() {
-  const ctx = document.getElementById('chart-fcf');
-  charts.fcf = new Chart(ctx, {
-    type:'bar',
-    data:{
-      labels:YEARS.slice(0,7),
-      datasets:[
-        {label:'FCF ($M)',data:FINANCIAL.fcf.slice(0,7),backgroundColor:'rgba(16,185,129,.6)',borderRadius:4,yAxisID:'y',order:2},
-        {label:'DPS ($)',data:FINANCIAL.dps.slice(0,7),type:'line',borderColor:'#8b5cf6',pointBackgroundColor:'#8b5cf6',pointRadius:5,tension:.3,yAxisID:'y1',order:1}
-      ]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      interaction:{mode:'index',intersect:false},
-      scales:{
-        y:{position:'left',title:{display:true,text:'FCF ($M)'},ticks:{callback:v=>v?'$'+v.toLocaleString():''},grid:{color:'rgba(30,41,59,.5)'}},
-        y1:{position:'right',title:{display:true,text:'DPS ($)'},min:0,max:8,ticks:{callback:v=>'$'+v.toFixed(2)},grid:{display:false}}
-      },
-      plugins:{datalabels:{display:false}}
-    }
+function leverageChart(){
+  charts.lev = new Chart(document.getElementById('chart-leverage'),{
+    data:{labels:YEARS,datasets:[
+      {type:'bar',label:'Net debt ($m)',data:FIN.netDebt,backgroundColor:YEARS.map((_,i)=>i<=ACTUAL_THRU?'rgba(59,130,246,.7)':'rgba(59,130,246,.4)'),borderRadius:4,yAxisID:'y',order:2},
+      {type:'line',label:'Leverage (x)',data:FIN.leverage,borderColor:'#ef4444',backgroundColor:'#ef4444',tension:.3,yAxisID:'y1',order:1,pointRadius:3}
+    ]},
+    options:{plugins:{legend:{position:'top'}},scales:{
+      y:{grid:GRID,ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'B'}},
+      y1:{position:'right',grid:{display:false},min:0,max:3.5,ticks:{callback:v=>v+'x'}},
+      x:{grid:{display:false}}}}
   });
 }
-
-function initEPSChart() {
-  const ctx = document.getElementById('chart-eps');
-  charts.eps = new Chart(ctx, {
-    type:'bar',
-    data:{
-      labels:YEARS.slice(0,7),
-      datasets:[{label:'EPS ($)',data:FINANCIAL.eps.slice(0,7),backgroundColor:FINANCIAL.eps.slice(0,7).map(v=>v<0?'rgba(239,68,68,.7)':'rgba(16,185,129,.6)'),borderRadius:4}]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      scales:{y:{ticks:{callback:v=>'$'+v.toFixed(2)},grid:{color:'rgba(30,41,59,.5)'}}},
-      plugins:{datalabels:{anchor:'end',align:ctx=>ctx.dataset.data[ctx.dataIndex]<0?'bottom':'top',color:'#f1f5f9',font:{family:'JetBrains Mono',size:11,weight:'600'},formatter:v=>'$'+v.toFixed(2)}}
-    }
+function segmentChart(){
+  charts.seg = new Chart(document.getElementById('chart-segments'),{
+    type:'doughnut',
+    data:{labels:SEGMENTS.map(s=>s.name),datasets:[{data:SEGMENTS.map(s=>s.rev),backgroundColor:SEGMENTS.map(s=>s.color),borderColor:'#0a0e1a',borderWidth:3}]},
+    options:{cutout:'58%',plugins:{legend:{position:'right'},datalabels:{display:true,color:'#fff',font:{size:11,weight:'bold'},formatter:(v)=>'$'+v+'m'}}}
   });
 }
-
-function initMoatRadar() {
-  const ctx = document.getElementById('chart-moat-radar');
-  charts.moat = new Chart(ctx, {
+function segGrowthChart(){
+  charts.segG = new Chart(document.getElementById('chart-seg-growth'),{
+    type:'bar',
+    data:{labels:SEGMENTS.map(s=>s.name),datasets:[{label:'Organic YoY %',data:SEGMENTS.map(s=>s.growth),backgroundColor:SEGMENTS.map(s=>s.growth>10?'#10b981':s.growth>2?'#06b6d4':'#ef4444'),borderRadius:4}]},
+    options:{indexAxis:'y',plugins:{legend:{display:false},datalabels:{display:true,anchor:'end',align:'right',color:'#94a3b8',font:{size:11,family:"'JetBrains Mono'"},formatter:v=>'+'+v.toFixed(1)+'%'}},
+      scales:{x:{grid:GRID,ticks:{callback:v=>v+'%'},suggestedMax:22},y:{grid:{display:false}}}}
+  });
+}
+function bridgeChart(){
+  // floating-bar waterfall
+  let cum=0; const floats=[]; const colors=[];
+  BRIDGE.forEach(b=>{
+    if(b.type==='base'||b.type==='sub'){ floats.push([0,b.v]); colors.push(b.type==='base'?'#00aeef':'#10b981'); cum=b.v; }
+    else { floats.push([cum+b.v, cum]); colors.push('#ef4444'); cum=cum+b.v; }
+  });
+  charts.bridge = new Chart(document.getElementById('chart-bridge'),{
+    type:'bar',
+    data:{labels:BRIDGE.map(b=>b.label),datasets:[{data:floats,backgroundColor:colors,borderRadius:3}]},
+    options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>BRIDGE[c.dataIndex].label+': $'+BRIDGE[c.dataIndex].v.toFixed(2)+'B'}},
+      datalabels:{display:true,color:'#cbd5e1',anchor:'end',align:'top',font:{size:9,family:"'JetBrains Mono'"},formatter:(v,c)=>{const x=BRIDGE[c.dataIndex].v;return (x>0?'+':'')+x.toFixed(2)}}},
+      scales:{y:{grid:GRID,ticks:{callback:v=>'$'+v+'B'}},x:{grid:{display:false},ticks:{font:{size:9},maxRotation:40,minRotation:40}}}}
+  });
+}
+function capexChart(){
+  charts.capex = new Chart(document.getElementById('chart-capex'),{
+    data:{labels:YEARS,datasets:[
+      {type:'bar',label:'Capex ($m)',data:FIN.capex,backgroundColor:YEARS.map((_,i)=>i<=ACTUAL_THRU?'rgba(245,158,11,.7)':'rgba(245,158,11,.4)'),borderRadius:4,yAxisID:'y',order:2},
+      {type:'line',label:'Capex / sales (%)',data:FIN.capexSales,borderColor:'#06b6d4',backgroundColor:'#06b6d4',tension:.3,yAxisID:'y1',order:1,pointRadius:3}
+    ]},
+    options:{plugins:{legend:{position:'top'}},scales:{
+      y:{grid:GRID,ticks:{callback:v=>'$'+v+'m'}},
+      y1:{position:'right',grid:{display:false},min:10,max:18,ticks:{callback:v=>v+'%'}},
+      x:{grid:{display:false}}}}
+  });
+}
+function efcfTrajChart(){
+  charts.traj = new Chart(document.getElementById('chart-efcf-traj'),{
+    type:'line',
+    data:{labels:['2024A','2025A','2026E','2027E','2028E','2029E','2030E'],datasets:[{label:'Equity FCF ($m)',data:[727,916,936,1340,1400,1450,1500],borderColor:'#10b981',backgroundColor:'rgba(16,185,129,.12)',fill:true,tension:.35,pointRadius:4,pointBackgroundColor:'#10b981'}]},
+    options:{plugins:{legend:{display:false},datalabels:{display:true,color:'#94a3b8',anchor:'end',align:'top',font:{size:10,family:"'JetBrains Mono'"},formatter:v=>'$'+v}},
+      scales:{y:{grid:GRID,ticks:{callback:v=>'$'+v+'m'},suggestedMax:1650},x:{grid:{display:false}}}}
+  });
+}
+function moatRadar(){
+  charts.moat = new Chart(document.getElementById('chart-moat-radar'),{
     type:'radar',
-    data:{
-      labels:['Market\nPosition','Infrastructure\nScale','Cost\nEfficiency','Digital/\nFintech','Content\nRights','Regulatory\nDefense'],
-      datasets:[{
-        label:'Millicom Moat Score',
-        data:[9,8,8,6,7,7],
-        backgroundColor:'rgba(6,182,212,.15)',
-        borderColor:'#06b6d4',
-        pointBackgroundColor:'#06b6d4',
-        pointRadius:5,
-        borderWidth:2
-      }]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      scales:{r:{min:0,max:10,ticks:{stepSize:2,color:'#64748b',backdropColor:'transparent'},grid:{color:'rgba(30,41,59,.5)'},pointLabels:{color:'#94a3b8',font:{size:11}}}},
-      plugins:{datalabels:{display:false},legend:{display:false}}
-    }
+    data:{labels:['Market\nstructure','Cost\nexecution','Network\ninfrastructure','Brand &\ncontent','Cash\ngeneration','Fixed/Home\n(weak)'],
+      datasets:[{label:'Moat strength',data:[8.5,8.8,7.2,7,8,4.5],borderColor:'#00aeef',backgroundColor:'rgba(0,174,239,.18)',pointBackgroundColor:'#00aeef',borderWidth:2}]},
+    options:{plugins:{legend:{display:false}},scales:{r:{min:0,max:10,grid:{color:'rgba(30,41,59,.8)'},angleLines:{color:'rgba(30,41,59,.8)'},pointLabels:{color:'#94a3b8',font:{size:11}},ticks:{display:false}}}}
   });
 }
-
-function initAnalystPT() {
-  const ctx = document.getElementById('chart-analyst-pt');
-  charts.analystPT = new Chart(ctx, {
+function analystChart(){
+  const sorted=[...ANALYSTS].sort((a,b)=>a.pt-b.pt);
+  charts.an = new Chart(document.getElementById('chart-analyst'),{
     type:'bar',
-    data:{
-      labels:ANALYST_PTS.map(a=>a.firm),
-      datasets:[{
-        label:'Price Target ($)',
-        data:ANALYST_PTS.map(a=>a.price),
-        backgroundColor:ANALYST_PTS.map(a=>a.color),
-        borderRadius:4
-      }]
-    },
-    options:{
-      indexAxis:'y',responsive:true,maintainAspectRatio:false,
-      scales:{x:{min:0,max:100,ticks:{callback:v=>'$'+v},grid:{color:'rgba(30,41,59,.5)'}},y:{grid:{display:false}}},
-      plugins:{
-        datalabels:{anchor:'end',align:'right',color:'#f1f5f9',font:{family:'JetBrains Mono',size:12,weight:'700'},formatter:v=>'$'+v},
-        legend:{display:false},
-        annotation:{annotations:{currentPrice:{type:'line',xMin:74.94,xMax:74.94,borderColor:'rgba(241,245,249,.5)',borderDash:[6,4],borderWidth:2,label:{display:true,content:'Current $74.94',position:'start',color:'#f1f5f9',font:{size:10},backgroundColor:'rgba(10,14,26,.8)'}}}}
-      }
-    }
+    data:{labels:sorted.map(a=>a.firm),datasets:[{label:'Price target ($)',data:sorted.map(a=>a.pt),backgroundColor:sorted.map(a=>a.color),borderRadius:4}]},
+    options:{indexAxis:'y',plugins:{legend:{display:false},
+      datalabels:{display:true,anchor:'end',align:'right',color:'#cbd5e1',font:{size:11,weight:'bold',family:"'JetBrains Mono'"},formatter:(v,c)=>'$'+v+'  '+sorted[c.dataIndex].rating}},
+      scales:{x:{grid:GRID,suggestedMax:105,ticks:{callback:v=>'$'+v}},y:{grid:{display:false}}}}
   });
 }
-
-function initRiskBubble() {
-  const ctx = document.getElementById('chart-risk-bubble');
-  charts.risk = new Chart(ctx, {
+function riskChart(){
+  charts.risk = new Chart(document.getElementById('chart-risk'),{
     type:'bubble',
-    data:{
-      datasets: RISKS.map(r=>({
-        label:r.name,
-        data:[{x:r.prob,y:r.impact,r:r.r}],
-        backgroundColor:r.color,
-        borderColor:'transparent'
-      }))
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      scales:{
-        x:{title:{display:true,text:'Probability',color:'#94a3b8'},min:0,max:10,ticks:{stepSize:2},grid:{color:'rgba(30,41,59,.5)'}},
-        y:{title:{display:true,text:'Impact',color:'#94a3b8'},min:0,max:10,ticks:{stepSize:2},grid:{color:'rgba(30,41,59,.5)'}}
-      },
-      plugins:{datalabels:{display:true,color:'#f1f5f9',font:{size:10,weight:'600'},formatter:(_,ctx)=>ctx.dataset.label},legend:{display:false}}
-    }
+    data:{datasets:RISKS.map(r=>({label:r.name,data:[{x:r.x,y:r.y,r:r.r}],
+      backgroundColor:r.sev==='high'?'rgba(239,68,68,.55)':r.sev==='med'?'rgba(245,158,11,.5)':'rgba(16,185,129,.5)',
+      borderColor:r.sev==='high'?'#ef4444':r.sev==='med'?'#f59e0b':'#10b981',borderWidth:1.5}))},
+    options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label}},
+      datalabels:{display:true,color:'#e2e8f0',font:{size:9},formatter:(v,c)=>c.dataset.label.split(' ')[0]}},
+      scales:{x:{min:2,max:8,grid:GRID,title:{display:true,text:'Likelihood →',color:'#64748b'},ticks:{display:false}},
+        y:{min:3,max:10,grid:GRID,title:{display:true,text:'Impact →',color:'#64748b'},ticks:{display:false}}}}
   });
 }
 
-function initCountryBars() {
-  const ctx = document.getElementById('chart-country-bars');
-  const sorted = [...COUNTRIES].sort((a,b)=>b.margin-a.margin);
-  charts.countryBars = new Chart(ctx, {
-    type:'bar',
-    data:{
-      labels:sorted.map(c=>c.name),
-      datasets:[{
-        label:'EBITDA Margin %',
-        data:sorted.map(c=>c.margin),
-        backgroundColor:sorted.map(c=>c.margin>50?'rgba(16,185,129,.7)':c.margin>40?'rgba(6,182,212,.7)':c.margin>30?'rgba(245,158,11,.7)':'rgba(239,68,68,.7)'),
-        borderRadius:4
-      }]
-    },
-    options:{
-      indexAxis:'y',responsive:true,maintainAspectRatio:false,
-      scales:{x:{min:0,max:60,ticks:{callback:v=>v+'%'},grid:{color:'rgba(30,41,59,.5)'}},y:{grid:{display:false}}},
-      plugins:{datalabels:{anchor:'end',align:'right',color:'#f1f5f9',font:{family:'JetBrains Mono',size:11,weight:'600'},formatter:v=>v+'%'},legend:{display:false}}
-    }
+/* ============================================================
+   RENDER: drivers, timeline, bull/bear, risks, glossary, table
+   ============================================================ */
+const REV_DRIVERS = [
+  {n:'Prepaid → postpaid migration', m:'+24.6% organic', d:'The #1 mobile lever: conversion 67% (from 55%); postpaid ARPU ~50% higher with only ~20–29% penetration — a long runway. Migration is "two clicks", fully electronic.'},
+  {n:'M&A consolidation (inorganic)', m:'+45% rev', d:'The dominant 2026 driver: Coltel + Ecuador + Uruguay lift reported revenue ~45% to ~$8.4bn FY26E. Coltel adds ~$2.2bn annualized recurring revenue.'},
+  {n:'Fixed-Mobile Convergence (FMC)', m:'36% penetration', d:'Bundling home + mobile raises wallet share and cuts churn ~50%. Colombia FMC 37.1% (from 21.2%); Coltel ~doubles the Colombia cross-sell base.'},
+  {n:'Price increases ("more for more")', m:'ARPU +4.4% (Col)', d:'Structural price rises now embedded: Guatemala Feb/Mar increase; Colombia B2C/home increases. Rational/consolidating markets enable disciplined pricing.'},
+  {n:'B2B & Digital expansion', m:'+18.9% / +5.3%', d:'Government & large-corporate contracts (esp. Colombia, Panama); cybersecurity & cloud each >20% YoY — diversifying the revenue base.'},
+  {n:'FX translation', m:'COP +13%, PYG +20%', d:'"Unprecedented" appreciation of the Colombian peso & Paraguayan guaraní boosts reported USD revenue (a tailwind now — but volatile; Bolivia is a severe headwind).'}
+];
+const COST_DRIVERS = [
+  {n:'Finance charges / interest', m:'~$650–815m/yr', d:'The single biggest offset to the cash story: 7.8% avg cost of debt; Q1-26 net financial expense $238m (+$77m on acquisition financing). Cuts FCF margin ~12pp (UBS).'},
+  {n:'Capex & spectrum', m:'~$1.0–1.2bn/yr', d:'Capacity-driven capex (capex/sales ~13%, down from 17% in 2022). Q1-26 cash capex $221m + $99m spectrum (Ecuador $70m). Colombia 5G ramp is a refocusing, not an increase.'},
+  {n:'Network opex & leases', m:'leases ~$586m/yr', d:'Running the networks plus rising lease costs after the tower sale-leaseback. Q1-26 lease payments $140m (+$58m YoY) — nearly as large as finance charges.'},
+  {n:'Direct equipment & programming', m:'$479m (Q1-26)', d:'Handset cost-of-goods and pay-TV content/programming. Project Everest cut programming costs 21%.'},
+  {n:'SG&A & restructuring', m:'$650m opex (Q1-26)', d:'Includes $65m Colombia/Coltel severance; ~$83m one-offs above EBITDA; ~$100m further Colombia restructuring expected in 2026. ~27% headcount cut under Everest.'},
+  {n:'Taxes', m:'~$392m FY26E', d:'Country rates vary widely (Paraguay 10%, Guatemala/Panama/Bolivia 25%, Colombia 35%); UBS normalizes the forward rate to ~30%.'}
+];
+function renderDrivers(){
+  document.getElementById('rev-drivers').innerHTML = REV_DRIVERS.map(x=>
+    `<div class="driver-item rev"><div class="dh"><span class="dn">${x.n}</span><span class="dm text-green">${x.m}</span></div><div class="dd">${x.d}</div></div>`).join('');
+  document.getElementById('cost-drivers').innerHTML = COST_DRIVERS.map(x=>
+    `<div class="driver-item cost"><div class="dh"><span class="dn">${x.n}</span><span class="dm text-red">${x.m}</span></div><div class="dd">${x.d}</div></div>`).join('');
+}
+function renderTimeline(){
+  document.getElementById('ma-timeline').innerHTML = MA_EVENTS.map(e=>`
+    <div class="tl-item">
+      <div class="tl-dot" style="color:${e.color};background:${e.color}"></div>
+      <div class="tl-head"><span class="tl-date">${e.date}</span><span class="tl-name">${e.name}</span>
+        <span class="tl-price" style="color:${e.color}">${e.price}</span>
+        <span class="tl-status" style="background:${e.color}22;color:${e.color}">${e.status}</span></div>
+      <div class="tl-desc">${e.desc}</div>
+    </div>`).join('');
+}
+function renderBullBear(){
+  document.getElementById('bull-list').innerHTML = BULL.map(x=>
+    `<div class="bb-item"><div class="bt"><i class="fas fa-plus text-green" style="font-size:10px;margin-top:5px"></i>${x.t}</div><div class="bd">${x.d}</div><div class="bs">${x.s}</div></div>`).join('');
+  document.getElementById('bear-list').innerHTML = BEAR.map(x=>
+    `<div class="bb-item"><div class="bt"><i class="fas fa-minus text-red" style="font-size:10px;margin-top:5px"></i>${x.t}</div><div class="bd">${x.d}</div><div class="bs">${x.s}</div></div>`).join('');
+}
+function renderRisks(){
+  const sevColor={high:'rgba(239,68,68,.18)',med:'rgba(245,158,11,.18)',low:'rgba(16,185,129,.18)'};
+  const sevText={high:'#ef4444',med:'#f59e0b',low:'#10b981'};
+  document.getElementById('risk-list').innerHTML = RISKS.map(r=>
+    `<div class="risk-item ${r.sev}"><div class="rh"><span class="rn">${r.name}</span><span class="rsev" style="background:${sevColor[r.sev]};color:${sevText[r.sev]}">${r.sev}</span></div><div class="rd">${r.detail}</div></div>`).join('');
+}
+function renderGlossary(filter=''){
+  const f=filter.toLowerCase();
+  const items=GLOSSARY.filter(g=>g.t.toLowerCase().includes(f)||g.d.toLowerCase().includes(f));
+  document.getElementById('gloss-grid').innerHTML = items.map(g=>
+    `<div class="gloss-card"><div class="gt">${g.t}</div><div class="gd">${g.d}</div></div>`).join('') || '<div class="text-muted">No matching terms.</div>';
+}
+function renderSources(){
+  document.getElementById('src-tags').innerHTML = SOURCES.map(s=>`<span class="src-tag">${s}</span>`).join('');
+}
+
+/* ===== Country table + map ===== */
+const marginColor = m => m===null?'#64748b': m>52?'#10b981': m>=45?'#06b6d4': m>=30?'#f59e0b':'#ef4444';
+const statusColors = {'Crown Jewel':'#10b981','Value Play':'#06b6d4','Soft Spot':'#f59e0b','Core':'#3b82f6','FX Risk':'#ef4444','New (2025)':'#8b5cf6','Regulatory':'#f59e0b','JV':'#94a3b8','Turnaround':'#f59e0b'};
+let tableSort={k:'ebitda',dir:-1};
+function renderTable(){
+  const rows=[...COUNTRIES].sort((a,b)=>{
+    let av=a[tableSort.k],bv=b[tableSort.k];
+    if(av===null)av=-1; if(bv===null)bv=-1;
+    if(typeof av==='string')return tableSort.dir*av.localeCompare(bv);
+    return tableSort.dir*(av-bv);
   });
+  document.getElementById('country-tbody').innerHTML = rows.map(c=>{
+    const sc=statusColors[c.status]||'#64748b';
+    return `<tr>
+      <td>${c.flag} ${c.name} ${!c.cons?'<span class="pill" style="background:rgba(148,163,184,.15);color:#94a3b8">JV</span>':''}</td>
+      <td>${c.rev!==null?c.rev:'—'}</td>
+      <td>${c.ebitda!==null?c.ebitda:'—'}</td>
+      <td style="color:${marginColor(c.margin)}">${c.margin!==null?c.margin.toFixed(1)+'%':'—'}</td>
+      <td style="font-family:var(--font-body);font-size:11.5px">${c.ownership}</td>
+      <td style="font-family:var(--font-body);font-size:11.5px;color:var(--text-muted)">${c.structure}</td>
+    </tr>`;}).join('');
 }
-
-function initBMBreakdown() {
-  const ctx = document.getElementById('chart-bm-breakdown');
-  charts.bm = new Chart(ctx, {
-    type:'bar',
-    data:{
-      labels:['Revenue Composition'],
-      datasets:[
-        {label:'Mobile (~60%)',data:[60],backgroundColor:'rgba(59,130,246,.7)'},
-        {label:'Fixed/Broadband (~25%)',data:[25],backgroundColor:'rgba(6,182,212,.7)'},
-        {label:'B2B/Enterprise (~10%)',data:[10],backgroundColor:'rgba(139,92,246,.7)'},
-        {label:'Fintech (~5%)',data:[5],backgroundColor:'rgba(245,158,11,.7)'}
-      ]
-    },
-    options:{
-      indexAxis:'y',responsive:true,maintainAspectRatio:false,
-      scales:{x:{stacked:true,max:100,ticks:{callback:v=>v+'%'},grid:{display:false}},y:{stacked:true,display:false}},
-      plugins:{datalabels:{color:'#fff',font:{size:12,weight:'700'},formatter:(v,ctx)=>ctx.dataset.label.split('(')[0].trim()},legend:{position:'bottom',labels:{font:{size:11}}}}
-    }
-  });
-}
-
-// ========== MAP ==========
-function initMap() {
-  const map = L.map('map-container', {center:[-5,-75],zoom:3.2,zoomControl:true,scrollWheelZoom:false,attributionControl:false});
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(map);
-
-  function getColor(m) {
-    if(m>50) return '#10b981';
-    if(m>40) return '#06b6d4';
-    if(m>30) return '#f59e0b';
-    return '#ef4444';
-  }
-  function getRadius(pct) { return Math.max(6, Math.min(18, pct * 0.5)); }
-
-  COUNTRIES.forEach(c => {
-    if(c.name === 'Other (ES/NI/CR)') {
-      // Individual markers for these
-      [{n:'El Salvador',lt:13.7,ln:-89.2},{n:'Nicaragua',lt:12.1,ln:-86.3},{n:'Costa Rica',lt:9.9,ln:-84.1}].forEach(sub => {
-        L.circleMarker([sub.lt,sub.ln],{radius:7,fillColor:getColor(c.margin),color:'rgba(0,0,0,.3)',weight:1,fillOpacity:.8}).addTo(map).on('click',()=>updateDetail(c));
-      });
-    } else {
-      L.circleMarker([c.lat,c.lng],{radius:getRadius(c.groupPct),fillColor:getColor(c.margin),color:'rgba(0,0,0,.3)',weight:1,fillOpacity:.8}).addTo(map).on('click',()=>updateDetail(c));
-    }
-  });
-}
-
-function updateDetail(c) {
-  const marginColor = c.margin>50?'var(--accent-green)':c.margin>40?'var(--accent-cyan)':c.margin>30?'var(--accent-amber)':'var(--accent-red)';
-  const statusColors = {Core:'rgba(16,185,129,.15)',New:'rgba(59,130,246,.15)',Turnaround:'rgba(245,158,11,.15)'};
-  const statusTextColors = {Core:'var(--accent-green)',New:'var(--accent-blue)',Turnaround:'var(--accent-amber)'};
-
-  document.getElementById('detail-name').textContent = c.flag + ' ' + c.name;
-  const statusEl = document.getElementById('detail-status');
-  statusEl.textContent = c.status === 'New' ? 'New Acquisition' : c.status;
-  statusEl.style.background = statusColors[c.status] || statusColors.Core;
-  statusEl.style.color = statusTextColors[c.status] || statusTextColors.Core;
-  document.getElementById('detail-margin').textContent = c.margin + '%';
-  document.getElementById('detail-margin').style.color = marginColor;
-  document.getElementById('detail-rev').textContent = c.revGrowth !== null ? '+' + c.revGrowth + '% YoY' : 'N/A (new)';
-  document.getElementById('detail-ebitda').textContent = c.ebitdaGrowth !== null ? '+' + c.ebitdaGrowth + '% YoY' : 'N/A (new)';
-  document.getElementById('detail-pct').textContent = '~' + c.groupPct + '%';
-  document.getElementById('detail-structure').textContent = c.structure;
-  document.getElementById('detail-note').textContent = c.note;
-}
-
-// ========== M&A TIMELINE ==========
-function buildMATimeline() {
-  const container = document.getElementById('ma-timeline-inner');
-  MA_EVENTS.forEach((e,i) => {
-    const item = document.createElement('div');
-    item.className = 'timeline-item';
-    item.innerHTML = `
-      <div class="timeline-dot" style="background:${e.color}"></div>
-      <div class="timeline-card">
-        <div class="date" style="color:${e.color}">${e.date}</div>
-        <div class="deal-name">${e.name}</div>
-        <div class="deal-price" style="color:${e.color}">${e.price}</div>
-        <div class="deal-desc">${e.desc}</div>
-        <div class="status"><span class="status-dot" style="background:${e.color}"></span>${e.status}</div>
-      </div>
-    `;
-    container.appendChild(item);
-  });
-}
-
-// ========== COUNTRY CARDS ==========
-function buildCountryCards() {
-  const grid = document.getElementById('country-grid');
-  grid.innerHTML = '';
-  const sorted = getCurrentSort();
-  sorted.forEach(c => {
-    const marginColor = c.margin>50?'var(--accent-green)':c.margin>40?'var(--accent-cyan)':c.margin>30?'var(--accent-amber)':'var(--accent-red)';
-    const badgeColors = {Core:{bg:'rgba(16,185,129,.15)',c:'var(--accent-green)'},New:{bg:'rgba(59,130,246,.15)',c:'var(--accent-blue)'},Turnaround:{bg:'rgba(245,158,11,.15)',c:'var(--accent-amber)'}};
-    const bc = badgeColors[c.status] || badgeColors.Core;
-
-    const card = document.createElement('div');
-    card.className = 'country-card';
-    card.dataset.status = c.status;
-    card.dataset.margin = c.margin;
-    card.dataset.ebitdaGrowth = c.ebitdaGrowth || 0;
-    card.dataset.revGrowth = c.revGrowth || 0;
-    card.innerHTML = `
-      <div class="country-header">
-        <span class="country-name"><span class="country-flag">${c.flag}</span>${c.name}</span>
-        <span class="country-badge" style="background:${bc.bg};color:${bc.c}">${c.status === 'New' ? 'New Acq.' : c.status}</span>
-      </div>
-      <div class="country-margin" style="color:${marginColor}">${c.margin}%</div>
-      <div class="country-metric">
-        <div class="metric-head"><span>Revenue Growth</span><span style="color:${marginColor}">${c.revGrowth !== null ? '+'+c.revGrowth+'%' : 'N/A'}</span></div>
-        <div class="metric-bar"><div class="metric-bar-fill" style="width:${c.revGrowth ? Math.min(c.revGrowth*10,100)+'%' : '0%'};background:${marginColor}"></div></div>
-      </div>
-      <div class="country-metric">
-        <div class="metric-head"><span>EBITDA Growth</span><span style="color:${marginColor}">${c.ebitdaGrowth !== null ? '+'+c.ebitdaGrowth+'%' : 'N/A'}</span></div>
-        <div class="metric-bar"><div class="metric-bar-fill" style="width:${c.ebitdaGrowth ? Math.min(c.ebitdaGrowth*4,100)+'%' : '0%'};background:${marginColor}"></div></div>
-      </div>
-      <div class="country-footer"><span>Group EBITDA: ~${c.groupPct}%</span><span style="color:${marginColor}">${c.structure}</span></div>
-    `;
-    grid.appendChild(card);
-  });
-}
-
-function getCurrentSort() {
-  const sortBy = document.getElementById('sort-select')?.value || 'margin';
-  return [...COUNTRIES].sort((a,b) => (b[sortBy]||0) - (a[sortBy]||0));
-}
-
-function sortCountryCards(val) { buildCountryCards(); }
-
-function filterCountryCards(status, el) {
-  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.country-card').forEach(card => {
-    card.style.display = (status === 'all' || card.dataset.status === status) ? '' : 'none';
-  });
-}
-
-// ========== TABS ==========
-function setupTabs() {
-  const chartInits = {
-    revenue: initRevenueChart,
-    ebit: initEbitChart,
-    leverage: initLeverageChart,
-    fcf: initFCFChart,
-    eps: initEPSChart
-  };
-  const initialized = {revenue: true};
-
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tab = btn.dataset.tab;
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('tab-'+tab).classList.add('active');
-      if(!initialized[tab] && chartInits[tab]) {
-        chartInits[tab]();
-        initialized[tab] = true;
-      }
-      if(charts[tab]) charts[tab].resize();
+function setupTableSort(){
+  document.querySelectorAll('#country-table th').forEach(th=>{
+    th.addEventListener('click',()=>{
+      const k=th.dataset.k;
+      if(tableSort.k===k)tableSort.dir*=-1; else {tableSort.k=k;tableSort.dir=(k==='name'||k==='ownership'||k==='structure')?1:-1;}
+      renderTable();
     });
   });
 }
-
-// ========== ANIMATED COUNTERS ==========
-function animateCounter(el, target, decimals, prefix, suffix, duration=2000) {
-  let start = 0;
-  const startTime = performance.now();
-  function update(currentTime) {
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 4);
-    const current = start + (target - start) * eased;
-    el.textContent = (prefix||'') + current.toFixed(decimals) + (suffix||'');
-    if(progress < 1) requestAnimationFrame(update);
-  }
-  requestAnimationFrame(update);
+function showCountry(c){
+  const sc=statusColors[c.status]||'#64748b';
+  document.getElementById('detail-content').innerHTML = `
+    <h3 style="font-size:22px">${c.flag} ${c.name}</h3>
+    <span class="country-status" style="background:${sc}22;color:${sc}">${c.status}${!c.cons?' · JV (not consolidated)':''}</span>
+    <div class="big-metric" style="color:${marginColor(c.margin)}">${c.margin!==null?c.margin.toFixed(1)+'%':'—'}</div>
+    <div class="metric-label">Adj. EBITDA margin (Q1-26)</div>
+    <div class="map-metric-row"><span class="label">Service revenue (Q1-26)</span><span class="value">${c.rev!==null?'$'+c.rev+'m':'in "Others"'}</span></div>
+    <div class="map-metric-row"><span class="label">EBITDA (Q1-26)</span><span class="value">${c.ebitda!==null?'$'+c.ebitda+'m':'in "Others"'}</span></div>
+    <div class="map-metric-row"><span class="label">% of group EBITDA</span><span class="value">${c.groupPct}</span></div>
+    <div class="map-metric-row"><span class="label">Ownership</span><span class="value" style="font-size:11px">${c.ownership}</span></div>
+    <div class="map-metric-row"><span class="label">Market structure</span><span class="value" style="font-size:11px;text-align:right;max-width:55%">${c.structure}</span></div>
+    <div class="map-note">${c.note}</div>`;
+}
+let tigoMap;
+function initMap(){
+  tigoMap = L.map('map-container',{center:[-2,-77],zoom:3.2,zoomControl:true,scrollWheelZoom:false,attributionControl:false});
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:10}).addTo(tigoMap);
+  const maxE = Math.max(...COUNTRIES.filter(c=>c.ebitda).map(c=>c.ebitda));
+  COUNTRIES.forEach(c=>{
+    const e = c.ebitda || 25;
+    const radius = 10 + (e/maxE)*32;
+    const col = marginColor(c.margin);
+    const m = L.circleMarker([c.lat,c.lng],{
+      radius, color:'#fff', weight:c.cons?1:2, opacity:c.cons?.5:.95, dashArray:c.cons?null:'4',
+      fillColor:col, fillOpacity:c.cons?.6:.25
+    }).addTo(tigoMap);
+    m.bindPopup(`<div class="lp-name">${c.flag} ${c.name}</div>
+      <div class="lp-row">Margin: ${c.margin!==null?c.margin.toFixed(1)+'%':'—'}</div>
+      <div class="lp-row">EBITDA: ${c.ebitda!==null?'$'+c.ebitda+'m':'—'}${!c.cons?' (JV)':''}</div>`);
+    m.on('click',()=>showCountry(c));
+    m.on('mouseover',function(){this.openPopup();});
+  });
+  showCountry(COUNTRIES[0]);
 }
 
-function setupCounters() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting) {
-        const el = entry.target;
-        const target = parseFloat(el.dataset.counter);
-        const decimals = parseInt(el.dataset.decimals) || 0;
-        const prefix = el.dataset.prefix || '';
-        const suffix = el.dataset.suffix || '';
-        animateCounter(el, target, decimals, prefix, suffix);
-        observer.unobserve(el);
-      }
-    });
-  }, {threshold: 0.3});
-  document.querySelectorAll('[data-counter]').forEach(el => observer.observe(el));
+/* ============================================================
+   COUNTERS, SCROLL ANIM, NAV, TRADINGVIEW
+   ============================================================ */
+function animateCounters(){
+  document.querySelectorAll('[data-counter]').forEach(el=>{
+    if(el.dataset.done)return;
+    el.dataset.done=1;
+    const target=parseFloat(el.dataset.counter), dec=parseInt(el.dataset.decimals||0),
+      pre=el.dataset.prefix||'', suf=el.dataset.suffix||'';
+    const fmt=v=>pre+v.toFixed(dec)+suf;
+    const dur=1400, steps=40; let i=0;
+    const id=setInterval(()=>{
+      i++; const p=i/steps; const ease=1-Math.pow(1-p,3);
+      el.textContent=fmt(target*ease);
+      if(i>=steps){ clearInterval(id); el.textContent=fmt(target); }
+    },dur/steps);
+    // hard fallback: guarantee the final value even if timers are throttled
+    setTimeout(()=>{ el.textContent=fmt(target); },dur+400);
+  });
+}
+function setupObserver(){
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible');
+      if(e.target.querySelector&&e.target.querySelector('[data-counter]'))animateCounters();
+      if(e.target.classList.contains('counter-grid'))animateCounters();
+      e.target.querySelectorAll&&e.target.querySelectorAll('.strength-bar-fill').forEach(b=>b.style.width=b.dataset.width+'%');
+    }});
+  },{threshold:.12});
+  document.querySelectorAll('.animate-on-scroll').forEach(el=>io.observe(el));
+  // also observe strength bars container
+  const mo=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.strength-bar-fill').forEach(b=>b.style.width=b.dataset.width+'%');}});},{threshold:.3});
+  const moat=document.querySelector('.moat-cards'); if(moat)mo.observe(moat);
+}
+function setupNav(){
+  const links=[...document.querySelectorAll('.nav-links a')];
+  const sections=links.map(l=>document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ const id=e.target.id;
+      links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+id)); }});
+  },{rootMargin:'-45% 0px -50% 0px'});
+  sections.forEach(s=>io.observe(s));
+}
+function loadTradingView(){
+  const s=document.createElement('script');
+  s.src='https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
+  s.async=true;
+  s.innerHTML=JSON.stringify({
+    autosize:true, symbol:'NASDAQ:TIGO', interval:'D', timezone:'Etc/UTC', theme:'dark',
+    style:'3', locale:'en', backgroundColor:'rgba(17,24,39,1)', gridColor:'rgba(30,41,59,0.5)',
+    hide_top_toolbar:false, hide_legend:false, allow_symbol_change:false, save_image:false, calendar:false
+  });
+  document.getElementById('tradingview-widget').appendChild(s);
 }
 
-// ========== SCROLL ANIMATIONS ==========
-function setupScrollAnimations() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, {threshold: 0.1, rootMargin: '0px 0px -40px 0px'});
-  document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-}
-
-// ========== ACTIVE NAV TRACKING ==========
-function setupNavTracking() {
-  const sections = document.querySelectorAll('section[id]');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting) {
-        document.querySelectorAll('.nav-links a').forEach(a => {
-          a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
-        });
-      }
-    });
-  }, {threshold: 0.3});
-  sections.forEach(s => observer.observe(s));
-}
-
-// ========== TRADINGVIEW WIDGET ==========
-function initTradingView() {
-  try {
-    const container = document.getElementById('tradingview-widget');
-    container.style.height = '100%';
-    container.innerHTML = '';
-    const widgetDiv = document.createElement('div');
-    widgetDiv.className = 'tradingview-widget-container';
-    widgetDiv.style.cssText = 'height:100%;width:100%';
-    const innerDiv = document.createElement('div');
-    innerDiv.className = 'tradingview-widget-container__widget';
-    innerDiv.style.cssText = 'height:calc(100%);width:100%';
-    widgetDiv.appendChild(innerDiv);
-    container.appendChild(widgetDiv);
-
-    const script = document.createElement('script');
-    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
-    script.async = true;
-    script.textContent = JSON.stringify({
-      autosize: true,
-      width: "100%",
-      height: "100%",
-      symbol: "NASDAQ:TIGO",
-      interval: "D",
-      timezone: "Etc/UTC",
-      theme: "dark",
-      style: "1",
-      locale: "en",
-      backgroundColor: "rgba(17, 24, 39, 1)",
-      gridColor: "rgba(30, 41, 59, 0.5)",
-      allow_symbol_change: false,
-      hide_top_toolbar: false,
-      hide_legend: false,
-      save_image: false,
-      studies: ["STD;SMA"],
-      support_host: "https://www.tradingview.com"
-    });
-    widgetDiv.appendChild(script);
-  } catch(e) {
-    document.getElementById('tradingview-widget').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-muted);font-size:14px"><div style="text-align:center"><i class="fas fa-chart-candlestick" style="font-size:48px;margin-bottom:16px;opacity:.3"></i><br>TradingView chart &mdash; <a href="https://www.tradingview.com/symbols/NASDAQ-TIGO/" target="_blank">Open in TradingView</a></div></div>';
-  }
-}
-
-// ========== INIT ==========
-document.addEventListener('DOMContentLoaded', () => {
-  setupScrollAnimations();
-  setupCounters();
-  setupNavTracking();
-  setupTabs();
-  initTradingView();
-  initRevenueChart();
-  initMoatRadar();
-  initAnalystPT();
-  initRiskBubble();
-  initBMBreakdown();
-  initCountryBars();
+/* ============================================================
+   INIT
+   ============================================================ */
+window.addEventListener('DOMContentLoaded',()=>{
+  // render data-driven sections
+  renderDrivers(); renderTimeline(); renderBullBear(); renderRisks(); renderGlossary(); renderSources();
+  renderTable(); setupTableSort();
+  // charts
+  revenueChart(); ebitdaChart(); fcfChart(); leverageChart(); segmentChart(); segGrowthChart();
+  bridgeChart(); capexChart(); efcfTrajChart(); moatRadar(); analystChart(); riskChart();
+  // map
   initMap();
-  buildMATimeline();
-  buildCountryCards();
+  // UI
+  setupObserver(); setupNav(); loadTradingView();
+  document.getElementById('gloss-search').addEventListener('input',e=>renderGlossary(e.target.value));
+  // kick counters if already in view
+  setTimeout(animateCounters,300);
 });
 </script>
 </body>
