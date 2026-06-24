@@ -287,6 +287,24 @@ footer{border-top:1px solid var(--border);padding:36px 0;text-align:center;color
 .src-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:16px auto;max-width:1000px}
 .src-tag{font-size:10.5px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:5px;padding:3px 8px;color:var(--text-muted)}
 
+/* ========== CATALYSTS & BRIDGE ========== */
+.cal-item{display:flex;gap:14px;padding:12px 2px;border-bottom:1px solid var(--border)}
+.cal-item:last-child{border:none}
+.cal-date{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--text-primary);min-width:96px;flex-shrink:0}
+.cal-body .cn{font-size:13.5px;font-weight:600;color:var(--text-primary)}
+.cal-body .cw{font-size:12px;color:var(--text-muted);line-height:1.45}
+.cal-tag{font-size:9px;font-weight:700;letter-spacing:.5px;padding:1px 6px;border-radius:4px;margin-left:8px;vertical-align:middle}
+.brow{background:var(--bg-tertiary);border:1px solid var(--border);border-radius:9px;padding:12px 14px;margin-bottom:10px}
+.brow .bl{display:flex;justify-content:space-between;gap:10px;align-items:baseline;margin-bottom:4px;flex-wrap:wrap}
+.brow .bn{font-size:13.5px;font-weight:600;color:var(--text-primary)}
+.brow .bp{font-family:var(--font-mono);font-size:11px;color:var(--text-secondary)}
+.brow .bw{font-size:12px;color:var(--text-muted);line-height:1.45}
+.btag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:2px 7px;border-radius:5px;white-space:nowrap}
+.btag.inorg{background:rgba(59,130,246,.16);color:#3b82f6}
+.btag.oneoff{background:rgba(245,158,11,.16);color:#f59e0b}
+.btag.organic{background:rgba(16,185,129,.16);color:#10b981}
+.glance-table.cols4 td:nth-child(n+2),.glance-table.cols4 th:nth-child(n+2){text-align:right}
+
 /* ========== RESPONSIVE ========== */
 @media(max-width:980px){
   .hero-grid,.moat-grid,.map-grid,.control-grid,.thesis-grid,.bb-grid,.risk-grid,.grid-2{grid-template-columns:1fr}
@@ -315,6 +333,7 @@ footer{border-top:1px solid var(--border);padding:36px 0;text-align:center;color
       <a href="#map">Footprint</a>
       <a href="#financials">Financials</a>
       <a href="#cashflow">Cash Flow</a>
+      <a href="#catalysts">Catalysts</a>
       <a href="#manda">M&amp;A</a>
       <a href="#moat">Moat</a>
       <a href="#control">Control</a>
@@ -343,12 +362,12 @@ footer{border-top:1px solid var(--border);padding:36px 0;text-align:center;color
         </div>
         <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px">Sell-side ratings (latest)</div>
         <div class="analyst-row">
-          <span class="analyst-pill buy">HSBC Buy $89</span>
+          <span class="analyst-pill buy">HSBC Buy $95</span>
           <span class="analyst-pill hold">UBS Neutral $90</span>
+          <span class="analyst-pill hold">DNB Hold $85</span>
           <span class="analyst-pill hold">MS Equal-wt $73</span>
-          <span class="analyst-pill hold">DNB Hold $75</span>
         </div>
-        <div style="margin-top:12px;font-size:12px;color:var(--text-muted)">PT range: $40 (Kepler) &ndash; $90 (UBS) &bull; ~+50% YTD rally has pulled in the debate</div>
+        <div style="margin-top:12px;font-size:12px;color:var(--text-muted)">PT range: $40 (Kepler) &ndash; $95 (HSBC) &bull; post-Q1 revisions: HSBC &amp; DNB raised PTs; UBS cut to Neutral</div>
       </div>
       <div>
         <div class="tv-container" id="tv-widget-container">
@@ -620,6 +639,31 @@ footer{border-top:1px solid var(--border);padding:36px 0;text-align:center;color
       <span class="tag">Don't be fooled by EPS</span> FY25A reported EPS of <b>$7.88</b> was inflated by one-off gains (mostly the tower sale). Underlying/adjusted EPS is far lower (UBS models ~$3.82 for 2026E), depressed by heavy depreciation and ~$650&ndash;815m/yr of interest. For this company, <b>cash flow (EFCF), not EPS,</b> is the metric that matters.
     </div>
     <div class="src animate-on-scroll"><i class="fas fa-file-lines"></i> Sources: Millicom FY25/Q1-26 results; UBS DCF model (31-Mar-2026); Morgan Stanley models. Net debt 2026E+ rises on Coltel/La Nación consolidation then de-levers.</div>
+
+    <div class="animate-on-scroll" style="margin-top:40px">
+      <h3 style="font-size:23px;margin-bottom:6px">Why the numbers move (2024 &rarr; 2027)</h3>
+      <p style="font-size:14px;color:var(--text-muted);max-width:880px;margin-bottom:20px"><b style="color:var(--text-primary)">2026 is a "digestion year."</b> Almost every headline line swings for mechanical reasons — M&amp;A consolidation switching on, a large 2025 one-off gain, and front-loaded restructuring + acquisition financing — so the real earnings &amp; cash step is <b style="color:var(--text-primary)">2027</b>. Cause tags: <span class="btag inorg">M&amp;A</span> consolidation &nbsp; <span class="btag oneoff">one-off</span> non-recurring &nbsp; <span class="btag organic">organic</span> underlying</p>
+      <div class="grid-2" style="align-items:start">
+        <div class="bm-flow">
+          <h4 style="font-size:15px;margin-bottom:4px">Post-Q1 broker models &mdash; HSBC / DNB ($m)</h4>
+          <div style="font-size:11.5px;color:var(--text-muted);margin-bottom:10px">Each cell shows HSBC&nbsp;/&nbsp;DNB Carnegie estimates.</div>
+          <table class="glance-table cols4">
+            <thead><tr><th>Metric</th><th>2025A</th><th>2026E</th><th>2027E</th></tr></thead>
+            <tbody>
+              <tr><td>Revenue</td><td>5,819/5,804</td><td>8,360/8,538</td><td>8,630/8,833</td></tr>
+              <tr><td>Adj. EBITDA</td><td>2,749/2,736</td><td>3,883/3,915</td><td>4,300/4,177</td></tr>
+              <tr><td>Equity FCF</td><td>949/916</td><td>1,292/1,066</td><td>1,620/1,241</td></tr>
+              <tr><td>EPS ($)</td><td>7.83/6.29</td><td>3.77/6.25</td><td>5.46/7.20</td></tr>
+              <tr><td>Net debt</td><td>7,871/8,048</td><td>10,524/8,139</td><td>10,241/7,100</td></tr>
+              <tr><td>ND / EBITDA</td><td>2.9x/2.6x</td><td>2.7x/2.1x</td><td>2.4x/1.8x</td></tr>
+            </tbody>
+          </table>
+          <div class="src">HSBC raised PT to $95 (12-May); DNB to $85 (13-May). Both lifted 2026E EBITDA ~+7% but cut EPS on higher Coltel D&amp;A/interest. EPS gap = reported (HSBC) vs adjusted (DNB); net-debt gap = lease/definition basis.</div>
+        </div>
+        <div><div id="bridge-list"></div></div>
+      </div>
+      <div class="eli5" style="margin-top:18px"><span class="tag">The two traps</span> <b>(1)</b> 2025's $7.88 EPS was inflated by a <b>$741m gain-on-sale</b> from the Lati tower monetization (net proceeds $781m) — not repeatable. <b>(2)</b> 2026 EFCF looks ~flat vs 2025 <i>despite EBITDA +38%</i>, because it absorbs ~$100m+ Coltel restructuring, higher acquisition-financing interest, more capex/spectrum, and the La Nación cash-out. Consensus (~$1bn) already sits <b>above</b> the ≥$900m guide — the real cash step is 2027.</div>
+    </div>
   </div>
 </section>
 
@@ -646,6 +690,30 @@ footer{border-top:1px solid var(--border);padding:36px 0;text-align:center;color
       </div>
     </div>
     <div class="src animate-on-scroll"><i class="fas fa-file-lines"></i> Sources: UBS (1-Apr &amp; 24-May-2026); HSBC (5-Mar-2026); Q1-2026 earnings call.</div>
+  </div>
+</section>
+
+<!-- ========== CATALYSTS ========== -->
+<section id="catalysts" class="section" style="background:var(--bg-secondary)">
+  <div class="container">
+    <div class="section-label animate-on-scroll">What to Watch</div>
+    <h2 class="section-title animate-on-scroll">Catalyst Calendar &amp; Debt Wall</h2>
+    <p class="section-subtitle animate-on-scroll">The next big event is <b>Q2-26 earnings on 6-Aug-2026</b> — where management is expected to update guidance after Coltel integration (HSBC titled its note "FCFE guidance upgrade looks likely"). The capital-allocation trigger is leverage falling below 2.5x, targeted by year-end 2026.</p>
+
+    <div class="eli5 animate-on-scroll"><span class="tag">The trigger to watch</span> Capital returns are leverage-gated: the regular <b>$3.00</b> dividend (~$507m/yr) is held flat until net debt/EBITDA drops below <b>2.5x</b> (targeted YE26). Once it does, excess cash flips to <b>buybacks and/or special dividends</b> — HSBC models the regular dividend potentially jumping ~75% to <b>$6.20 in 2027</b>; DNB sees up to a ~22% remuneration yield at the 2.5x target.</div>
+
+    <div class="grid-2 animate-on-scroll" style="align-items:start">
+      <div class="bm-flow">
+        <h4 style="font-size:15px;margin-bottom:14px">Forward catalysts</h4>
+        <div id="catalyst-list"></div>
+      </div>
+      <div class="bm-flow">
+        <h4 style="font-size:15px;margin-bottom:4px">Debt-maturity wall &mdash; senior notes ($m)</h4>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px">~70% fixed (policy &ge;75% fixed/swapped); avg maturity ~3.6 yrs. Near-term maturities are easily covered by EFCF.</div>
+        <div class="chart-box tall"><canvas id="chart-debt"></canvas></div>
+      </div>
+    </div>
+    <div class="src animate-on-scroll" style="margin-top:18px"><i class="fas fa-file-lines"></i> Sources: AlphaSense GenSearch catalyst, M&amp;A &amp; modeling reports (24-Jun-2026); Millicom AGM (20-May-2026) &amp; FY2025 20-F; HSBC/DNB (12&ndash;13-May-2026).</div>
   </div>
 </section>
 
@@ -688,6 +756,25 @@ footer{border-top:1px solid var(--border);padding:36px 0;text-align:center;color
       </div>
     </div>
     <div class="src animate-on-scroll" style="margin-top:18px"><i class="fas fa-file-lines"></i> Sources: Morgan Stanley "Acquiring An Option in Chile" (10-Feb-2026); AlphaSense bull/bear synthesis (HSBC, BTG, Credicorp); Q1-2026 call.</div>
+
+    <div class="animate-on-scroll" style="margin-top:32px">
+      <h3 style="font-size:21px;margin-bottom:6px">Portfolio strategy: buys paused, sells active</h3>
+      <p style="font-size:14px;color:var(--text-muted);max-width:860px;margin-bottom:18px">Management's message is "<b style="color:var(--text-primary)">integration over expansion</b>." No new acquisitions are guided for now (Q2-25 call) — but divestitures are live, and a Niel corporate action is the wildcard.</p>
+      <div class="grid-3">
+        <div class="card">
+          <h4 style="font-size:15px;margin-bottom:8px"><i class="fas fa-cart-shopping text-amber"></i> &nbsp;Buying — paused / optional</h4>
+          <p style="font-size:12.5px;color:var(--text-muted);line-height:1.6"><b>Peru &amp; Venezuela</b> remain on the "menu" (CEO, Q1-26 call); <b>Mexico, Brazil &amp; Argentina structurally excluded</b>. Integration absorbs management bandwidth through 2026. DNB cautions a new deal would strain the balance sheet mid-integration.</p>
+        </div>
+        <div class="card">
+          <h4 style="font-size:15px;margin-bottom:8px"><i class="fas fa-tag text-green"></i> &nbsp;Selling — active</h4>
+          <p style="font-size:12.5px;color:var(--text-muted);line-height:1.6"><b>Tigo Money</b> pivoted to monetization — Paraguay MFS sold ($10m + up to $7m earn-out; held-for-sale Mar-26, pending regulators) and the unit restructured to attract growth capital. Tower monetization ~complete (SBA $975m, Atis, KKR/Towernex); only ~2,000 Bolivia towers remain.</p>
+        </div>
+        <div class="card">
+          <h4 style="font-size:15px;margin-bottom:8px"><i class="fas fa-user-tie text-purple"></i> &nbsp;The wildcard</h4>
+          <p style="font-size:12.5px;color:var(--text-muted);line-height:1.6">A <b>Niel / Atlas corporate action</b> (e.g. a take-private). Atlas has crept from the 40.4% tender close (2024) to <b>~44&ndash;46%</b>, with 4 of 8 board seats incl. the Chair. UBS flags a potential tender offer but does not model it.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -782,15 +869,15 @@ footer{border-top:1px solid var(--border);padding:36px 0;text-align:center;color
     <div class="scenario-grid animate-on-scroll">
       <div class="scenario-card bull">
         <div class="sc-label text-green">Bull</div>
-        <div class="sc-pt">$89&ndash;120</div>
-        <div class="sc-up text-green">HSBC SOTP $89 &bull; UBS upside $120</div>
+        <div class="sc-pt">$95&ndash;120</div>
+        <div class="sc-up text-green">HSBC $95 (raised 12-May) &bull; UBS upside $120</div>
         <div class="sc-method">SOTP (Guatemala 6.3x / Panama 5.8x / Colombia 2.5x) on a 6.5% target dividend yield; bull DCF 5.4x NTM EBITDA.</div>
         <div class="sc-assum">Rev CAGR ~4%, EBITDA CAGR ~7&ndash;8%, terminal margin ~52%. Coltel runs ahead of plan; Colombia EBITDA $1.6bn by 2030; EFCF $1.2bn by 2027; FX tailwinds persist; Niel tender optionality.</div>
       </div>
       <div class="scenario-card base">
         <div class="sc-label text-blue">Base</div>
         <div class="sc-pt">$70&ndash;90</div>
-        <div class="sc-up text-blue">UBS $90 &bull; MS $73 &bull; DNB $75</div>
+        <div class="sc-up text-blue">UBS $90 &bull; DNB $85 &bull; MS $73</div>
         <div class="sc-method">UBS 5.6&ndash;5.8x 2027E EV/EBITDA (~9% FCF yield); MS DCF at WACC 10.0%, g 2.0%; UBS DCF EV $23.6bn &rarr; $87.5.</div>
         <div class="sc-assum">Rev CAGR ~3%, EBITDA CAGR ~6&ndash;7%, capex/sales ~13%, WACC ~10.6%, g ~3%. FY26 EFCF ~$900&ndash;940m; leverage to ~2.5x then ~1.2x by 2030. Coltel reaches Tigo margins ex-restructuring.</div>
       </div>
@@ -961,15 +1048,15 @@ const MA_EVENTS = [
   {date:'Jan 2026', name:'Colombia — EPM’s 50% of Tigo-UNE', price:'~$571M (2.18x)', desc:'Step toward 100% Colombia control.', status:'Completed', color:'#10b981'},
   {date:'Feb 2026', name:'Colombia — Coltel (Movistar) 67.5%', price:'~$214–400M (4.6x)', desc:'Telefónica’s Colombia; consolidated from ~6-Feb. +$2.2bn revenue.', status:'Integrating', color:'#06b6d4'},
   {date:'Feb 2026', name:'Chile JV (with NJJ)', price:'~$50M +$150M earnout', desc:'49% operating stake; ring-fenced, non-recourse.', status:'Turnaround', color:'#f59e0b'},
-  {date:'Apr 2026', name:'Colombia — Coltel last 32.5%', price:'(La Nación stake)', desc:'Completes Coltel ownership; adds debt, no EBITDA yet.', status:'Completed', color:'#10b981'},
+  {date:'Apr 27 2026', name:'Colombia — Coltel last 32.5%', price:'~$220M', desc:'La Nación (govt) stake; completes 100% Coltel ownership.', status:'Completed', color:'#10b981'},
   {date:'2025–26', name:'Tower sale to SBA', price:'~$975M', desc:'&gt;7,000 towers sold-and-leased-back; asset-light, funds M&A.', status:'Monetization', color:'#8b5cf6'}
 ];
 
 const ANALYSTS = [
   {firm:'Kepler Cheuvreux', rating:'Buy*', pt:40, color:'#ef4444'},
   {firm:'Morgan Stanley', rating:'Equal-wt', pt:73, color:'#f59e0b'},
-  {firm:'DNB Carnegie', rating:'Hold', pt:75, color:'#f59e0b'},
-  {firm:'HSBC', rating:'Buy', pt:89, color:'#10b981'},
+  {firm:'DNB Carnegie', rating:'Hold', pt:85, color:'#f59e0b'},
+  {firm:'HSBC', rating:'Buy', pt:95, color:'#10b981'},
   {firm:'UBS', rating:'Neutral', pt:90, color:'#f59e0b'}
 ];
 
@@ -1047,8 +1134,63 @@ const SOURCES = [
   'UBS — "A Cash Flow Story" PT $87.5 Buy (1-Apr-2026)','UBS — Q4 First Read PT $70 (26-Feb-2026)','UBS — Upgrade to Buy PT $70 (15-Jan-2026)','UBS — Downgrade to Neutral PT $90 (24-May-2026)',
   'Morgan Stanley — "Acquiring An Option in Chile" EW $55 (10-Feb-2026)','Morgan Stanley — C-Level Meeting Takes (26-Mar-2026)','Morgan Stanley — 1Q26 EW $73 (12-May-2026)',
   'AlphaSense — Bull vs Bear Debates (HSBC/Kepler/DNB/ABG/BTG/Jefferies/Credicorp)','AlphaSense — Company Primer (4-Apr-2026)',
-  'HSBC — Buy $89 SOTP (5-Mar-2026)','DNB Carnegie — Hold $75 (27-Feb-2026)','Financial models: UBS DCF (WACC 10.6%, g 3%) & Morgan Stanley models'
+  'HSBC — Buy $95 (12-May-2026)','DNB Carnegie — Hold $85 (13-May-2026)','Jefferies / ABG / BTG / Credicorp / RBC / TD Cowen (via AlphaSense)','AlphaSense GenSearch — M&A & Portfolio, Catalyst Calendar, Modeling Bridge, Colombia & Tigo Money (24-Jun-2026)','Financial models: UBS DCF (WACC 10.6%, g 3%) & Morgan Stanley models'
 ];
+
+/* ===== Catalysts, debt wall & line-item bridge (added from AlphaSense Jun-2026) ===== */
+const CATALYSTS = [
+  {date:'Aug 6, 2026', tag:'KEY', name:'Q2-26 earnings', note:'Expected guidance update post-integration; HSBC: "FCFE guidance upgrade looks likely". Watch Colombia margin & the EFCF guide.'},
+  {date:'Jul 15, 2026', name:'Q2 dividend $0.75/sh', note:'Ex-dividend Jul 8. Held flat until leverage <2.5x.'},
+  {date:'Oct 15, 2026', name:'Q3 dividend $0.75/sh', note:'Ex-dividend Oct 8.'},
+  {date:'Nov 5, 2026', name:'Q3-26 earnings', note:'Colombia integration read-through; year-end leverage trajectory.'},
+  {date:'End-2026', tag:'TRIGGER', name:'Leverage ~2.5x target', note:'Unlocks buyback and/or special dividend. DNB: up to ~22% remuneration yield possible at 2.5x.'},
+  {date:'2027', name:'Potential DPS step-up', note:'HSBC models regular DPS ~$6.20 (+75%) once leverage <2.5x. Dividends Jan 15 & Apr 15, 2027.'},
+  {date:'Pending', name:'Tigo Money Paraguay close', note:'$10m + up to $7m earn-out; awaiting Central Bank of Paraguay + CONACOM clearance.'},
+  {date:'2026–28', name:'Spectrum renewals', note:'Paraguay 850MHz/AWS (2026); Guatemala 2600MHz (2026); Honduras 700/3500MHz 5G auction (delayed, pending legislation).'},
+  {date:'By Jun 30, 2026', name:'Atlas stake → ~45–46%', note:'3.35m shares via equity derivatives — feeds the Niel tender-offer optionality.'},
+  {date:'Undisclosed', name:'DOJ investigation', note:'~$118m provision (Q3-25); resolution timing not disclosed.'}
+];
+const DEBT_MATURITY = [
+  {yr:'2027', amt:384, lbl:'$140m 5.875% + $244m SEK'},
+  {yr:'2028', amt:359, lbl:'5.125% senior notes'},
+  {yr:'2029', amt:614, lbl:'6.25% senior notes'},
+  {yr:'2030', amt:550, lbl:'Panama 4.50%'},
+  {yr:'2031', amt:755, lbl:'4.50% senior notes'},
+  {yr:'2032', amt:1276, lbl:'Comcel 5.125% + 7.375%'}
+];
+const BRIDGE_DRIVERS = [
+  {line:'Revenue', path:'$5.8bn → ~$8.4bn (26E)', cause:'inorganic', why:'Coltel (consolidated Feb-26) + full-year Ecuador & Uruguay. Organic only ~4–5%.'},
+  {line:'EBITDA margin', path:'~47% → ~45% (26E) → ~48% (27E)', cause:'inorganic', why:'Coltel dilutes (12–31% margin) + restructuring; recovers as synergies land. HSBC: Colombia 31%→44%.'},
+  {line:'EPS', path:'$1.49 → $7.88 (25A) → ~$3.8 (26E)', cause:'one-off', why:'2025 inflated by a $741m tower gain-on-sale; 2026 hit by higher Coltel D&A and interest.'},
+  {line:'Net debt / leverage', path:'$5.4bn / 2.31x → peak ~$9.5–10.5bn / 2.76x', cause:'inorganic', why:'Coltel debt (~$1.5bn) + EPM ($571m) + La Nación ($220m) + $2.50 special dividend; then de-levers.'},
+  {line:'Capex', path:'$0.9bn → ~$1.2bn (26E)', cause:'inorganic', why:'Acquired capex + Colombia 5G (4x) + spectrum (~$250m). Capex/sales still falls (~14%→~13%).'},
+  {line:'Equity FCF', path:'$916m → ~$0.9–1.3bn (26E) → ~$1.2–1.6bn (27E)', cause:'one-off', why:'Looks flat 25→26 despite EBITDA +38% — absorbs ~$100m+ restructuring, financing & La Nación cash. Real step is 2027.'},
+  {line:'Dividend / share', path:'$5.42 (25A) → $3.00 regular', cause:'one-off', why:'Swing is the $2.50 special (tower proceeds). Regular $3.00 held until leverage <2.5x, then may step up.'}
+];
+function renderCatalysts(){
+  const tc={KEY:'#00aeef',TRIGGER:'#f59e0b'};
+  document.getElementById('catalyst-list').innerHTML = CATALYSTS.map(c=>{
+    const col=tc[c.tag]||'#64748b';
+    const tag=c.tag?`<span class="cal-tag" style="background:${col}22;color:${col}">${c.tag}</span>`:'';
+    return `<div class="cal-item"><div class="cal-date">${c.date}</div><div class="cal-body"><div class="cn">${c.name}${tag}</div><div class="cw">${c.note}</div></div></div>`;
+  }).join('');
+}
+function renderBridge(){
+  const cls={inorganic:'inorg','one-off':'oneoff',organic:'organic'};
+  const lbl={inorganic:'M&A','one-off':'one-off',organic:'organic'};
+  document.getElementById('bridge-list').innerHTML = BRIDGE_DRIVERS.map(b=>
+    `<div class="brow"><div class="bl"><span class="bn">${b.line}</span><span class="btag ${cls[b.cause]}">${lbl[b.cause]}</span></div><div class="bp">${b.path}</div><div class="bw">${b.why}</div></div>`).join('');
+}
+function debtChart(){
+  charts.debt = new Chart(document.getElementById('chart-debt'),{
+    type:'bar',
+    data:{labels:DEBT_MATURITY.map(d=>d.yr),datasets:[{label:'Maturing ($m)',data:DEBT_MATURITY.map(d=>d.amt),backgroundColor:'rgba(59,130,246,.6)',borderColor:'#3b82f6',borderWidth:1,borderRadius:4}]},
+    options:{plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>'$'+c.parsed.y+'m — '+DEBT_MATURITY[c.dataIndex].lbl}},
+      datalabels:{display:true,anchor:'end',align:'top',color:'#94a3b8',font:{size:10,family:"'JetBrains Mono'"},formatter:v=>'$'+v}},
+      scales:{y:{grid:GRID,ticks:{callback:v=>'$'+v+'m'},suggestedMax:1450},x:{grid:{display:false}}}}
+  });
+}
 
 /* ============================================================
    CHART.JS DEFAULTS
@@ -1379,10 +1521,10 @@ function loadTradingView(){
 window.addEventListener('DOMContentLoaded',()=>{
   // render data-driven sections
   renderDrivers(); renderTimeline(); renderBullBear(); renderRisks(); renderGlossary(); renderSources();
-  renderTable(); setupTableSort();
+  renderTable(); setupTableSort(); renderCatalysts(); renderBridge();
   // charts
   revenueChart(); ebitdaChart(); fcfChart(); leverageChart(); segmentChart(); segGrowthChart();
-  bridgeChart(); capexChart(); efcfTrajChart(); moatRadar(); analystChart(); riskChart();
+  bridgeChart(); capexChart(); efcfTrajChart(); moatRadar(); analystChart(); riskChart(); debtChart();
   // map
   initMap();
   // UI
